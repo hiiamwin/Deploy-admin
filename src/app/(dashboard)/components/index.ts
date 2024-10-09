@@ -8,6 +8,7 @@ import ReuseTable from "./ReuseTable";
 import ReuseAddDiaglog from "./ReuseAddDiaglog";
 import ReuseUpdateDialog from "./ReuseUpdateDialog";
 import ReuseAlerDialog from "./ReuseAlerDialog";
+import ReuseCombobox from "./ReuseCombobox";
 
 export {
   AdminSideBar,
@@ -20,4 +21,5 @@ export {
   ReuseAddDiaglog,
   ReuseUpdateDialog,
   ReuseAlerDialog,
+  ReuseCombobox,
 };

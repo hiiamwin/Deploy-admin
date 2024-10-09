@@ -1,3 +1,4 @@
+import MyError from "@/helper";
 import {
   CreateAndUpdateRestaurant,
   GetResponseType,
@@ -16,7 +17,7 @@ export async function getRestaurants(
     }
   );
   if (!res.ok) {
-    throw new Error("Something went wrong");
+    throw new MyError(500, "Something went wrong");
   }
   const data = await res.json();
 
@@ -24,12 +25,14 @@ export async function getRestaurants(
 }
 
 export async function createRestaurant(
-  restaurant: CreateAndUpdateRestaurant
+  restaurant: CreateAndUpdateRestaurant,
+  token: string
 ): Promise<string> {
   const res = await fetch(`${process.env.API_URL}/Restaurant`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(restaurant),
     cache: "no-store",
@@ -37,7 +40,7 @@ export async function createRestaurant(
 
   if (!res.ok) {
     const data = await res.json();
-    throw new Error(JSON.stringify(data.errors));
+    throw new MyError(data.statusCode, JSON.stringify(data.errors));
   }
   const data = await res.json();
   return data.message;
@@ -45,12 +48,14 @@ export async function createRestaurant(
 
 export async function updateRestaurant(
   id: string,
-  restaurant: CreateAndUpdateRestaurant
+  restaurant: CreateAndUpdateRestaurant,
+  token: string
 ): Promise<string> {
   const res = await fetch(`${process.env.API_URL}/Restaurant/${id}/update`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(restaurant),
     cache: "no-store",
@@ -58,15 +63,18 @@ export async function updateRestaurant(
 
   if (!res.ok) {
     const data = await res.json();
-    throw new Error(JSON.stringify(data.errors));
+    throw new MyError(data.statusCode, JSON.stringify(data.errors));
   }
 
   const data = await res.json();
   return data.message;
 }
 
-export async function activeRestaurant(id: string) {
+export async function activeRestaurant(id: string, token: string) {
   const res = await fetch(`${process.env.API_URL}/Restaurant/${id}/active`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     method: "POST",
     cache: "no-store",
   });
@@ -75,8 +83,11 @@ export async function activeRestaurant(id: string) {
   return data.message;
 }
 
-export async function inActiveRestaurant(id: string) {
+export async function inActiveRestaurant(id: string, token: string) {
   const res = await fetch(`${process.env.API_URL}/Restaurant/${id}/inactive`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     method: "POSt",
     cache: "no-store",
   });

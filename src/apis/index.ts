@@ -1,3 +1,5 @@
+import { login } from "./authApi";
+//
 import {
   getRestaurants,
   createRestaurant,
@@ -13,7 +15,30 @@ import {
   inactiveWaiter,
 } from "./waiterApi";
 
+import {
+  getDishCategory,
+  createDishCategory,
+  updateDishCategory,
+} from "./dishCategoryApi";
+
+import {
+  getIngredientTypes,
+  createIngredientType,
+  updateIngredientType,
+} from "./ingredientTypeApi";
+
+import {
+  getIngredientGenerals,
+  createIngredientGeneral,
+  updateIngredientGeneral,
+  getIngredientGeneralById,
+  activeIngredientGeneral,
+  inActiveIngredientGeneral,
+} from "./ingredientGeneralApi";
+
 export {
+  login,
+
   // restaurant
   getRestaurants,
   createRestaurant,
@@ -25,4 +50,19 @@ export {
   createWaiter,
   activeWaiter,
   inactiveWaiter,
+  //
+  getDishCategory,
+  createDishCategory,
+  updateDishCategory,
+  //
+  getIngredientTypes,
+  createIngredientType,
+  updateIngredientType,
+  //
+  getIngredientGenerals,
+  createIngredientGeneral,
+  updateIngredientGeneral,
+  getIngredientGeneralById,
+  activeIngredientGeneral,
+  inActiveIngredientGeneral,
 };

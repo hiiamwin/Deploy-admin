@@ -18,6 +18,7 @@ type ReuseActionBarProps = {
   filterBy?: string;
   placeholder?: string;
   addComponent?: React.ReactNode;
+  filterItem?: { title: string; value: string }[];
 };
 
 function ReuseActionBar({
@@ -27,6 +28,7 @@ function ReuseActionBar({
   filterBy,
   placeholder,
   addComponent,
+  filterItem, // Nhận filterItem
 }: ReuseActionBarProps) {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
@@ -59,6 +61,7 @@ function ReuseActionBar({
     }
     replace(`${pathname}?${params.toString()}`);
   };
+
   return (
     <div className="flex items-center space-x-4 justify-end">
       {isSearch && (
@@ -77,8 +80,18 @@ function ReuseActionBar({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Tất cả</SelectItem>
-            <SelectItem value="active">Đang hoạt động</SelectItem>
-            <SelectItem value="inactive">Không hoạt động</SelectItem>
+            {filterItem && filterItem.length > 0 ? (
+              filterItem.map((item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  {item.title}
+                </SelectItem>
+              ))
+            ) : (
+              <>
+                <SelectItem value="active">Đang hoạt động</SelectItem>
+                <SelectItem value="inactive">Không hoạt động</SelectItem>
+              </>
+            )}
           </SelectContent>
         </Select>
       )}

@@ -4,9 +4,9 @@ export type Employee = {
   email: string;
   employeeCode: string;
   hireDate: string;
-  roleName: "Manager" | "Waiter";
+  roleName: string;
   restaurantId: string;
-  status: 1 | 2;
+  status: number;
   creted: string;
 };
 

@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import {
   Home,
@@ -10,11 +9,9 @@ import {
   CalendarIcon,
   Soup,
 } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import SideBarItem from "./SideBarItem";
 
 function AdminSideBar() {
-  const pathName = usePathname();
   const sidebarItems = [
     {
       path: "/dashboard",
@@ -22,24 +19,54 @@ function AdminSideBar() {
       name: "Trang chủ",
     },
     {
-      path: "/branch?page=1",
+      path: "/restaurant?page=1",
       icon: <Home className="w-5 h-5" />,
       name: "Chi nhánh",
     },
     {
-      path: "/user?page=1",
+      path: "/customer?page=1",
       icon: <UsersIcon className="w-5 h-5" />,
-      name: "Người dùng",
+      name: "Khách hàng",
     },
     {
-      path: "/product?page=1",
+      path: "/adminDish?page=1",
       icon: <UtensilsIcon className="w-5 h-5" />,
-      name: "Món ăn",
+      name: "Món ăn (admin)",
     },
     {
-      path: "/ingredient?page=1",
+      path: "/managerDish?page=1",
+      icon: <UtensilsIcon className="w-5 h-5" />,
+      name: "Món ăn (manager)",
+    },
+    {
+      path: "/dishCategory?page=1",
+      icon: <UtensilsIcon className="w-5 h-5" />,
+      name: "Phân loại món ăn",
+    },
+    {
+      path: "/combo?page=1",
+      icon: <UtensilsIcon className="w-5 h-5" />,
+      name: "Combo món ăn",
+    },
+    {
+      path: "/ingredientGeneral?page=1",
       icon: <LeafIcon className="w-5 h-5" />,
-      name: "Nguyên liệu",
+      name: "Nguyên liệu (admin)",
+    },
+    {
+      path: "/managerIngredient?page=1",
+      icon: <LeafIcon className="w-5 h-5" />,
+      name: "Nguyên liệu (manager)",
+    },
+    {
+      path: "/ingredientType?page=1",
+      icon: <LeafIcon className="w-5 h-5" />,
+      name: "Phân loại nguyên liệu",
+    },
+    {
+      path: "/ingredientUnit?page=1",
+      icon: <LeafIcon className="w-5 h-5" />,
+      name: "Đơn vị nguyên liệu",
     },
     {
       path: "/staff?page=1",
@@ -47,7 +74,7 @@ function AdminSideBar() {
       name: "Nhân viên",
     },
     {
-      path: "/staffSchedule?page=1",
+      path: "/staffSchedule",
       icon: <CalendarIcon className="w-5 h-5" />,
       name: "Lịch làm việc",
     },
@@ -64,19 +91,12 @@ function AdminSideBar() {
       <nav className="mt-4">
         <ul className="space-y-2">
           {sidebarItems.map((item) => (
-            <li key={item.name}>
-              <Link
-                href={item.path}
-                className={`flex items-center gap-2 px-4 py-2 rounded transition-colors ${
-                  pathName === item.path.split("?")[0]
-                    ? "bg-gray-200"
-                    : "hover:bg-gray-100"
-                }`}
-              >
-                {item.icon}
-                {item.name}
-              </Link>
-            </li>
+            <SideBarItem
+              icon={item.icon}
+              name={item.name}
+              path={item.path}
+              key={item.name}
+            />
           ))}
         </ul>
       </nav>
