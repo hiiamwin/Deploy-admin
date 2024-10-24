@@ -2,36 +2,48 @@
 
 import {
   activeAndInactiveEmployeeSchema,
-  createEmployeeFormSchema,
+  createEmployeeSchema,
 } from "@/schemas";
 import { actionClient } from "./safe-action";
-import { activeWaiter, createWaiter, inactiveWaiter } from "@/apis";
+import {
+  activeEmployee,
+  createEmployee,
+  getRestaurants,
+  inactiveEmployee,
+} from "@/apis";
 import { revalidatePath } from "next/cache";
 
-export const createWaiterAction = actionClient
-  .schema(createEmployeeFormSchema)
+export const getRestaurantAction = actionClient.action(async () => {
+  const data = await getRestaurants("1", "", "", "8683");
+  return data;
+});
+
+export const createEmployeeAction = actionClient
+  .schema(createEmployeeSchema)
   .action(async ({ parsedInput }) => {
-    const message = await createWaiter({
-      ...parsedInput,
-      roleId: 2,
-      restaurantId: "d42cf3c6-cbe4-4431-ac91-9eae870fa007",
-    });
-    revalidatePath("/staff");
+    const message = await createEmployee(parsedInput);
+    if (parsedInput.roleId === 1) {
+      revalidatePath("/manager");
+    }
+    if (parsedInput.roleId === 2) {
+      revalidatePath("/staff");
+    }
     return message;
   });
 
-export const activeWaiterAction = actionClient
+export const activeEmployeeAction = actionClient
   .schema(activeAndInactiveEmployeeSchema)
   .action(async ({ parsedInput }) => {
-    const message = await activeWaiter(parsedInput.id);
-    revalidatePath("/staff");
+    const message = await activeEmployee(parsedInput.id);
+
+    revalidatePath(parsedInput.path);
     return message;
   });
 
-export const inactiveWaiterAction = actionClient
+export const inactiveEmployeeAction = actionClient
   .schema(activeAndInactiveEmployeeSchema)
   .action(async ({ parsedInput }) => {
-    const message = await inactiveWaiter(parsedInput.id);
-    revalidatePath("/staff");
+    const message = await inactiveEmployee(parsedInput.id);
+    revalidatePath(parsedInput.path);
     return message;
   });

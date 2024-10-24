@@ -2,13 +2,16 @@ import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import { AddWaiterDialog, WaiterTable } from "./components";
 import { ReuseActionBar, ReuseTableLoading } from "../components";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { decrypt } from "@/helper";
 
 export const metadata: Metadata = {
   title: "Quản lý nhân viên",
   description: "Quản lý nhân viên",
 };
 
-function ManageStaffPage({
+async function ManageStaffPage({
   searchParams,
 }: {
   searchParams?: {
@@ -17,6 +20,11 @@ function ManageStaffPage({
     status?: string;
   };
 }) {
+  const cookie = cookies().get("session")?.value;
+
+  if (!cookie) redirect("/login");
+  const session = await decrypt(cookie);
+  const restaurantId = session.restaurantId;
   const page = searchParams?.page || "1";
   const fullName = searchParams?.fullName || "";
   const status = searchParams?.status || "";
@@ -42,7 +50,7 @@ function ManageStaffPage({
         isSearch={true}
         searchBy="fullName"
         placeholder="Tìm theo tên nhân viên"
-        addComponent={<AddWaiterDialog />}
+        addComponent={<AddWaiterDialog restaurantId={restaurantId as string} />}
       />
 
       <Suspense
@@ -55,7 +63,12 @@ function ManageStaffPage({
           />
         }
       >
-        <WaiterTable page={page} fullName={fullName} />
+        <WaiterTable
+          page={page}
+          fullName={fullName}
+          restaurantId={restaurantId as string}
+          status={status}
+        />
       </Suspense>
     </div>
   );

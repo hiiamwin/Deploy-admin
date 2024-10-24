@@ -5,6 +5,7 @@ const protectedRoutes = ["/dashboard"];
 const publicRoutes = ["/login", "/forgotPassword"];
 export default function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
+
   const isprotectedRoute = protectedRoutes.includes(path);
   const isPublicRoute = publicRoutes.includes(path);
   const session = cookies().get("session")?.value;

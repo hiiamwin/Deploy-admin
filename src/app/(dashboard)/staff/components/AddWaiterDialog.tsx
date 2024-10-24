@@ -3,13 +3,13 @@ import React, { useCallback, useState } from "react";
 import { ReuseAddDiaglog } from "@/app/(dashboard)/components";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAction } from "next-safe-action/hooks";
-import { createWaiterAction } from "@/actions";
+import { createEmployeeAction } from "@/actions";
 import { toast } from "sonner";
 import { z } from "zod";
 import { createEmployeeFormSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-function AddWaiterDialog() {
+function AddWaiterDialog({ restaurantId }: { restaurantId: string }) {
   const [open, setOpen] = useState(false);
 
   const {
@@ -20,9 +20,12 @@ function AddWaiterDialog() {
     reset,
   } = useForm<z.infer<typeof createEmployeeFormSchema>>({
     resolver: zodResolver(createEmployeeFormSchema),
+    defaultValues: {
+      restaurantId: restaurantId,
+    },
   });
 
-  const { execute, isPending } = useAction(createWaiterAction, {
+  const { execute, isPending } = useAction(createEmployeeAction, {
     onSuccess: ({ data }) => {
       toast.success(data);
       reset();
@@ -43,7 +46,7 @@ function AddWaiterDialog() {
   const onSubmit: SubmitHandler<z.infer<typeof createEmployeeFormSchema>> = (
     data
   ) => {
-    execute(data);
+    execute({ ...data, roleId: 2 });
   };
 
   const handleOpen = useCallback(
@@ -56,6 +59,11 @@ function AddWaiterDialog() {
   );
   const inputs = [
     {
+      name: "restaurantId",
+      label: "Mã nhà hàng",
+      type: "hidden",
+    },
+    {
       name: "lastName",
       label: "Tên",
       type: "text",
@@ -66,14 +74,9 @@ function AddWaiterDialog() {
       type: "text",
     },
     {
-      name: "address",
-      label: "Địa chỉ",
+      name: "phoneNumber",
+      label: "Số điện thoại",
       type: "text",
-    },
-    {
-      name: "email",
-      label: "Email",
-      type: "email",
     },
   ];
   return (

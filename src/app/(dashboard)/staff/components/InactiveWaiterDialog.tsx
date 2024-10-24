@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useAction } from "next-safe-action/hooks";
-import { inactiveWaiterAction } from "@/actions";
+import { inactiveEmployeeAction } from "@/actions";
 import { toast } from "sonner";
 import { ReuseAlerDialog } from "@/app/(dashboard)/components";
 
@@ -15,14 +15,14 @@ function InactiveWaiterDialog({
   isOpenInactivateDialog,
   setIsOpenInactivateDialog,
 }: InactiveWaiterDialogProps) {
-  const { execute, isPending } = useAction(inactiveWaiterAction, {
+  const { execute, isPending } = useAction(inactiveEmployeeAction, {
     onSuccess: ({ data }) => {
       toast.success(data);
       setIsOpenInactivateDialog(false);
     },
   });
   const handleInactive = () => {
-    execute({ id });
+    execute({ id: id, path: "/staff" });
   };
   return (
     <ReuseAlerDialog

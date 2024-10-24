@@ -10,10 +10,11 @@ import {
 
 import {
   getWaiters,
-  createWaiter,
-  activeWaiter,
-  inactiveWaiter,
-} from "./waiterApi";
+  createEmployee,
+  activeEmployee,
+  inactiveEmployee,
+  getManagers,
+} from "./employeeApi";
 
 import {
   getDishCategory,
@@ -36,6 +37,43 @@ import {
   inActiveIngredientGeneral,
 } from "./ingredientGeneralApi";
 
+import {
+  getDishGeneral,
+  getDishGeneralById,
+  createDishGeneral,
+  deleteIngredientInDishGeneral,
+  addIngredientInDishGeneral,
+  updateIngredientQuantityInDishGeneral,
+  activeDishGeneral,
+  inactiveDishGeneral,
+} from "./dishgeneralApi";
+
+import {
+  getDishes,
+  getDishById,
+  addDish,
+  activeDish,
+  inactiveDish,
+} from "./dishApi";
+
+import { getCombo, createCombo, activeCombo, inactiveCombo } from "./comboApi";
+
+import {
+  getIngredients,
+  downloadIngredientFile,
+  uploadIngredientFile,
+  createIngredientUnit,
+  updateIngredientUnit,
+} from "./ingredientApi";
+
+import {
+  getRefundDish,
+  downloadRefundDishFile,
+  uploadRefundDishFile,
+} from "./refundDishApi";
+
+import { getTables, createTable } from "./tableApi";
+
 export {
   login,
 
@@ -47,9 +85,9 @@ export {
   inActiveRestaurant,
   // waiter
   getWaiters,
-  createWaiter,
-  activeWaiter,
-  inactiveWaiter,
+  createEmployee,
+  activeEmployee,
+  inactiveEmployee,
   //
   getDishCategory,
   createDishCategory,
@@ -65,4 +103,39 @@ export {
   getIngredientGeneralById,
   activeIngredientGeneral,
   inActiveIngredientGeneral,
+  //
+  getDishGeneral,
+  getDishGeneralById,
+  createDishGeneral,
+  deleteIngredientInDishGeneral,
+  addIngredientInDishGeneral,
+  updateIngredientQuantityInDishGeneral,
+  activeDishGeneral,
+  inactiveDishGeneral,
+  //
+  getManagers,
+  //
+  getDishes,
+  getDishById,
+  addDish,
+  activeDish,
+  inactiveDish,
+  //
+  getCombo,
+  createCombo,
+  activeCombo,
+  inactiveCombo,
+  //
+  getIngredients,
+  downloadIngredientFile,
+  uploadIngredientFile,
+  createIngredientUnit,
+  updateIngredientUnit,
+  //
+  getRefundDish,
+  downloadRefundDishFile,
+  uploadRefundDishFile,
+  //
+  getTables,
+  createTable,
 };

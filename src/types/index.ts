@@ -13,6 +13,15 @@ import type {
   UpdateIngredientGeneral,
   IngredientGeneralDetail,
 } from "./ingredientGeneralType";
+import type {
+  DishGeneral,
+  CreateDishGeneral,
+  DishGeneralDetail,
+} from "./dishGeneralType";
+import type { Dish, DishDetail } from "./dishType";
+import type { Combo, CreateCombo } from "./comboType";
+import type { Ingredient } from "./ingredientType";
+import type { Table } from "./tableType";
 
 export type {
   Restaurant,
@@ -30,4 +39,13 @@ export type {
   CreateIngredientGeneral,
   UpdateIngredientGeneral,
   IngredientGeneralDetail,
+  DishGeneral,
+  CreateDishGeneral,
+  DishGeneralDetail,
+  Dish,
+  DishDetail,
+  Combo,
+  CreateCombo,
+  Ingredient,
+  Table,
 };

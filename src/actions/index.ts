@@ -8,9 +8,10 @@ import {
 } from "./restaurant-actions";
 
 import {
-  createWaiterAction,
-  activeWaiterAction,
-  inactiveWaiterAction,
+  createEmployeeAction,
+  activeEmployeeAction,
+  inactiveEmployeeAction,
+  getRestaurantAction,
 } from "./employee-actions";
 
 import {
@@ -32,6 +33,47 @@ import {
   inActiveIngredientGeneralAction,
 } from "./ingredientGeneralActions";
 
+import {
+  getDishGeneralAction,
+  getDishByIdAction,
+  addDishAction,
+  activeDishAction,
+  inactiveDishAction,
+} from "./dishAction";
+
+import {
+  getIngredientGeneralAction,
+  getDishCategoriesAction,
+  createDishGeneralAction,
+  getDishGeneralByIdAction,
+  deleteIngredientInDishGeneralAction,
+  addIngredientInDishGeneralAction,
+  updateIngredientQuantityInDishGeneralAction,
+  activeDishGeneralAction,
+  inactiveDishGeneralAction,
+} from "./dishGeneralAction";
+
+import {
+  getDishesAction,
+  createComboAction,
+  activeComboAction,
+  inactiveComboAction,
+} from "./comboActions";
+
+import {
+  downloadIngredientFileAction,
+  uploadIngredientFileAction,
+  createIngredientUnitAction,
+  updateIngredientUnitAction,
+} from "./ingedientActions";
+
+import {
+  downloadRefundDishFileAction,
+  uploadRefundDishFileAction,
+} from "./refundDishActions";
+
+import { createTableAction } from "./tableAction";
+
 export {
   loginAction,
   logoutAction,
@@ -41,9 +83,10 @@ export {
   inactiveRestaurantAction,
   updateRestaurantAction,
   //
-  createWaiterAction,
-  activeWaiterAction,
-  inactiveWaiterAction,
+  createEmployeeAction,
+  activeEmployeeAction,
+  inactiveEmployeeAction,
+  getRestaurantAction,
   //
   createDishCategoryAction,
   updateDishCategoryAction,
@@ -57,4 +100,35 @@ export {
   updateIngredientGeneralAction,
   activeIngredientGeneralAction,
   inActiveIngredientGeneralAction,
+  //
+  getIngredientGeneralAction,
+  getDishCategoriesAction,
+  createDishGeneralAction,
+  getDishGeneralByIdAction,
+  deleteIngredientInDishGeneralAction,
+  addIngredientInDishGeneralAction,
+  updateIngredientQuantityInDishGeneralAction,
+  activeDishGeneralAction,
+  inactiveDishGeneralAction,
+  //
+  getDishGeneralAction,
+  getDishByIdAction,
+  addDishAction,
+  activeDishAction,
+  inactiveDishAction,
+  //
+  getDishesAction,
+  createComboAction,
+  activeComboAction,
+  inactiveComboAction,
+  //
+  downloadIngredientFileAction,
+  uploadIngredientFileAction,
+  createIngredientUnitAction,
+  updateIngredientUnitAction,
+  //
+  downloadRefundDishFileAction,
+  uploadRefundDishFileAction,
+  //
+  createTableAction,
 };

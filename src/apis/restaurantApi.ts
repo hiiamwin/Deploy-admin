@@ -8,10 +8,11 @@ import {
 export async function getRestaurants(
   page: string,
   address: string,
-  restaurantStatus: string
+  restaurantStatus: string,
+  pageSize = "5"
 ): Promise<GetResponseType<Restaurant>> {
   const res = await fetch(
-    `${process.env.API_URL}/Restaurant?PagingRequest.Page=${page}&PagingRequest.PageSize=5&PagingRequest.SortType=2&Address=${address}&RestaurantStatus=${restaurantStatus}`,
+    `${process.env.API_URL}/Restaurant?PagingRequest.Page=${page}&PagingRequest.PageSize=${pageSize}&PagingRequest.SortType=2&Address=${address}&RestaurantStatus=${restaurantStatus}`,
     {
       cache: "no-store",
     }

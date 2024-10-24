@@ -1,13 +1,13 @@
 export type Employee = {
   id: string;
   fullName: string;
-  email: string;
+  phoneNumber: string;
   employeeCode: string;
   hireDate: string;
   roleName: string;
-  restaurantId: string;
+  restaurantName: string;
   status: number;
-  creted: string;
+  createdDate: string;
 };
 
 export type CreateEmployee = Omit<
@@ -18,10 +18,11 @@ export type CreateEmployee = Omit<
   | "roleName"
   | "fullName"
   | "status"
-  | "creted"
+  | "createdDate"
+  | "restaurantName"
 > & {
   lastName: string;
   firstName: string;
-  address: string;
   roleId: number;
+  restaurantId: string;
 };

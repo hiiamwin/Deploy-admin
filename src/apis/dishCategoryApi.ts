@@ -3,10 +3,11 @@ import { DishCategory, GetResponseType } from "@/types";
 
 export async function getDishCategory(
   page: string,
-  CategoryName: string
+  CategoryName: string,
+  pageSize = "5"
 ): Promise<GetResponseType<DishCategory>> {
   const response = await fetch(
-    `${process.env.API_URL}/v1/Category?PagingRequest.Page=${page}&PagingRequest.PageSize=5&CategoryName=${CategoryName}`,
+    `${process.env.API_URL}/v1/Category?PagingRequest.Page=${page}&PagingRequest.PageSize=${pageSize}&CategoryName=${CategoryName}`,
     {
       cache: "no-store",
     }

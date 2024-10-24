@@ -1,3 +1,4 @@
+"use server";
 import { Button } from "@/components/ui/button";
 import { Bell, ChevronDown } from "lucide-react";
 import {
@@ -10,8 +11,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import React from "react";
 import LogoutButton from "./LogoutButton";
+import { cookies } from "next/headers";
+import { decrypt } from "@/helper";
 
-function AdminHeader() {
+async function AdminHeader() {
+  const cookie = cookies().get("session")?.value;
+
+  if (!cookie) return null;
+  const session = await decrypt(cookie);
+  const role = session.role;
+  const fullName = session.fullName;
   return (
     <header className="bg-white shadow-sm">
       <div className="flex items-center justify-between px-4 py-3">
@@ -24,7 +33,7 @@ function AdminHeader() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="ml-2">
-                Admin
+                {`${fullName} (${role})`}
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
