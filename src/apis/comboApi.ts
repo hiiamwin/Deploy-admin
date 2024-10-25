@@ -5,10 +5,11 @@ export async function getCombo(
   page: string,
   name: string,
   status: string,
-  token: string
+  token: string,
+  RestaurantId: string
 ): Promise<GetResponseType<Combo>> {
   const response = await fetch(
-    `${process.env.API_URL}/v1/Combo?PagingRequest.Page=${page}&PagingRequest.PageSize=5&ComboName=${name}&ComboStatus=${status}`,
+    `${process.env.API_URL}/v1/Combo?PagingRequest.Page=${page}&PagingRequest.PageSize=5&ComboName=${name}&ComboStatus=${status}&RestaurantId=${RestaurantId}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

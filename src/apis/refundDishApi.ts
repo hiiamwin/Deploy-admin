@@ -9,7 +9,7 @@ export async function getRefundDish(
   category: string = ""
 ): Promise<GetResponseType<Dish>> {
   const res = await fetch(
-    `${process.env.API_URL}/v1/Dish/menu?PagingRequest.Page=${page}&PagingRequest.PageSize=${pageSize}&RestaurantId=${restaurantId}&DishName=${name}&Status=${status}&CategoryName=${category}&IsRefundDish=true`,
+    `${process.env.API_URL}/v1/Dish/dish?PagingRequest.Page=${page}&PagingRequest.PageSize=${pageSize}&RestaurantId=${restaurantId}&DishName=${name}&Status=${status}&CategoryName=${category}&IsRefundDish=true`,
     {
       cache: "no-store",
     }

@@ -95,12 +95,7 @@ async function AdminSideBar() {
       name: "Phân loại nguyên liệu",
       role: "Administrator",
     },
-    {
-      path: "/ingredientUnit?page=1",
-      icon: <LeafIcon className="w-5 h-5" />,
-      name: "Đơn vị nguyên liệu",
-      role: "Manager",
-    },
+
     {
       path: "/staff?page=1",
       icon: <UserIcon className="w-5 h-5" />,

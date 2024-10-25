@@ -1,3 +1,3 @@
 import AddDishdialog from "./AddDishdialog";
-import DIshTable from "./DIshTable";
-export { AddDishdialog, DIshTable };
+import DishTable from "./DishTable";
+export { AddDishdialog, DishTable };

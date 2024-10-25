@@ -14,7 +14,7 @@ import {
 import Image from "next/image";
 import DishMenuActions from "./DishMenuActions";
 
-async function DIshTable({
+async function DishTable({
   page,
   name,
   restaurantId,
@@ -110,4 +110,4 @@ async function DIshTable({
   );
 }
 
-export default DIshTable;
+export default DishTable;

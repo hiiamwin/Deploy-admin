@@ -13,6 +13,8 @@ import {
 import Image from "next/image";
 import { getCombo } from "@/apis";
 import ComboMenuActions from "./ComboMenuActions";
+import { decrypt } from "@/helper";
+import { cookies } from "next/headers";
 
 async function ComboTable({
   page,
@@ -25,7 +27,17 @@ async function ComboTable({
   status: string;
   token: string;
 }) {
-  const data = await getCombo(page, name, status, token);
+  const cookie = cookies().get("session")?.value;
+  if (!cookie) return null;
+  const session = await decrypt(cookie);
+  const restaurantId = session.restaurantId;
+  const data = await getCombo(
+    page,
+    name,
+    status,
+    token,
+    restaurantId as string
+  );
   return (
     <>
       {data.results.length > 0 ? (

@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import { ReuseActionBar, ReuseTableLoading } from "../components";
-import { AddDishdialog, DIshTable } from "./components";
+import { AddDishdialog, DishTable } from "./components";
 import { cookies } from "next/headers";
 import { decrypt } from "@/helper";
 
@@ -59,7 +59,7 @@ async function ManagerDishManagementPage({
           />
         }
       >
-        <DIshTable
+        <DishTable
           page={page}
           name={dishName}
           restaurantId={restaurantId as string}
