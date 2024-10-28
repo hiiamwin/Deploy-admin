@@ -1,6 +1,6 @@
 "use server";
 import { Button } from "@/components/ui/button";
-import { Bell, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,

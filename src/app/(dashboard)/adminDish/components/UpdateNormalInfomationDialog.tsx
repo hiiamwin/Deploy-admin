@@ -4,27 +4,26 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
+  // DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  // DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
-import { useAction } from "next-safe-action/hooks";
+// import { Button } from "@/components/ui/button";
+// import { Label } from "@/components/ui/label";
+// import { Input } from "@/components/ui/input";
+// import { useForm } from "react-hook-form";
+// import { useAction } from "next-safe-action/hooks";
 
 type UpdateNormalInfomationDialogProps = {
   isOpenUpdateNormalInformationDialog: boolean;
   setIsOpenUpdateNormalInformationDialog: Dispatch<SetStateAction<boolean>>;
   data: DishGeneral;
 };
-function UpdateNormalInfomationDialog({
-  isOpenUpdateNormalInformationDialog,
-  setIsOpenUpdateNormalInformationDialog,
-  data,
-}: UpdateNormalInfomationDialogProps) {
+function UpdateNormalInfomationDialog({}: // isOpenUpdateNormalInformationDialog,
+// setIsOpenUpdateNormalInformationDialog,
+// data,
+UpdateNormalInfomationDialogProps) {
   // const {
   //   register,
   //   handleSubmit,

@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { X } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import Image from "next/image";
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface ImageWithUrl {

@@ -10,20 +10,20 @@ function ManageOrderPage({
   const page = searchParams?.page || "1";
   const phone = searchParams?.phone || "";
   const status = searchParams?.status || "";
-  const orderStatus = [
-    {
-      value: 1,
-      label: "Đã xác nhận",
-    },
-    {
-      value: 2,
-      label: "Đang chờ xác nhận",
-    },
-    {
-      value: 3,
-      label: "Đã hủy",
-    },
-  ];
+  // const orderStatus = [
+  //   {
+  //     value: 1,
+  //     label: "Đã xác nhận",
+  //   },
+  //   {
+  //     value: 2,
+  //     label: "Đang chờ xác nhận",
+  //   },
+  //   {
+  //     value: 3,
+  //     label: "Đã hủy",
+  //   },
+  // ];
 
   const columns = [
     {

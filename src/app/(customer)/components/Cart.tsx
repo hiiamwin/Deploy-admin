@@ -26,7 +26,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import Image from "next/image";
 
 function Cart() {
   const isDesktop = useMediaQuery("(min-width: 1024px)");

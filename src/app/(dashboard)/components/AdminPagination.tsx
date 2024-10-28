@@ -1,16 +1,16 @@
 "use client";
 import Link from "next/link";
-import { type ReactNode, useCallback } from "react";
+// import { type ReactNode, useCallback } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+// import {
+//   Pagination,
+//   PaginationContent,
+//   PaginationEllipsis,
+//   PaginationItem,
+//   PaginationLink,
+//   PaginationNext,
+//   PaginationPrevious,
+// } from "@/components/ui/pagination";
 import React from "react";
 
 function AdminPagination({ totalPage }: { totalPage: number }) {

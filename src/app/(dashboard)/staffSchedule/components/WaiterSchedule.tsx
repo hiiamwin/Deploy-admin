@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { format, startOfWeek, addDays, parseISO, isBefore } from "date-fns";
@@ -22,10 +22,10 @@ const initialSchedule = [
 ];
 
 function WaiterSchedule() {
-  const [schedule, setSchedule] = useState(initialSchedule);
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
-  const [currentScheduleItem, setCurrentScheduleItem] = useState(null);
+  const [schedule] = useState(initialSchedule);
+  // const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  // const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
+  // const [currentScheduleItem, setCurrentScheduleItem] = useState(null);
   const [currentWeekStart, setCurrentWeekStart] = useState(
     startOfWeek(new Date(), { weekStartsOn: 1 })
   );
@@ -34,35 +34,35 @@ function WaiterSchedule() {
     addDays(currentWeekStart, i)
   );
 
-  const addOrUpdateScheduleItem = (newItem) => {
-    const existingItemIndex = schedule.findIndex(
-      (item) => item.date === newItem.date && item.shiftId === newItem.shiftId
-    );
+  // const addOrUpdateScheduleItem = (newItem) => {
+  //   const existingItemIndex = schedule.findIndex(
+  //     (item) => item.date === newItem.date && item.shiftId === newItem.shiftId
+  //   );
 
-    if (existingItemIndex !== -1) {
-      const updatedSchedule = [...schedule];
-      updatedSchedule[existingItemIndex] = newItem;
-      setSchedule(updatedSchedule);
-    } else {
-      setSchedule([...schedule, { ...newItem, id: schedule.length + 1 }]);
-    }
-  };
+  //   if (existingItemIndex !== -1) {
+  //     const updatedSchedule = [...schedule];
+  //     updatedSchedule[existingItemIndex] = newItem;
+  //     setSchedule(updatedSchedule);
+  //   } else {
+  //     setSchedule([...schedule, { ...newItem, id: schedule.length + 1 }]);
+  //   }
+  // };
 
-  const openAddStaffDialog = (date, shiftId) => {
-    const existingItem = schedule.find(
-      (item) => item.date === date && item.shiftId === shiftId
-    );
-    setCurrentScheduleItem(existingItem || { date, shiftId, staffIds: [] });
-    setIsAddDialogOpen(true);
-  };
+  // const openAddStaffDialog = (date, shiftId) => {
+  //   const existingItem = schedule.find(
+  //     (item) => item.date === date && item.shiftId === shiftId
+  //   );
+  //   setCurrentScheduleItem(existingItem || { date, shiftId, staffIds: [] });
+  //   setIsAddDialogOpen(true);
+  // };
 
-  const openViewStaffDialog = (date, shiftId) => {
-    const existingItem = schedule.find(
-      (item) => item.date === date && item.shiftId === shiftId
-    );
-    setCurrentScheduleItem(existingItem || { date, shiftId, staffIds: [] });
-    setIsViewDialogOpen(true);
-  };
+  // const openViewStaffDialog = (date, shiftId) => {
+  //   const existingItem = schedule.find(
+  //     (item) => item.date === date && item.shiftId === shiftId
+  //   );
+  //   setCurrentScheduleItem(existingItem || { date, shiftId, staffIds: [] });
+  //   setIsViewDialogOpen(true);
+  // };
 
   const goToPreviousWeek = () => {
     setCurrentWeekStart(addDays(currentWeekStart, -7));

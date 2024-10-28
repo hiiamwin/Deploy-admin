@@ -1,13 +1,12 @@
 import React from "react";
 import { AdminPagination, ReuseTable } from "../../components";
 import { Column, Order } from "@/types";
-import OrderMenuActions from "./OrderMenuActions";
+// import OrderMenuActions from "./OrderMenuActions";
 
-function OrderTable({
-  page,
-  phone,
-  status,
-}: {
+function OrderTable({}: // page,
+// phone,
+// status,
+{
   page: string;
   phone: string;
   status: string;
@@ -89,7 +88,7 @@ function OrderTable({
           total={data.totalNumberOfRecords}
           tableName="Nhà hàng"
           tableCaption="Danh sách nhà hàng"
-          renderActions={(item) => <OrderMenuActions item={item} />}
+          // renderActions={(item) => <OrderMenuActions item={item} />}
         />
       ) : (
         <h2 className="text-center mt-10">Không tìm thấy nhà hàng nào</h2>
