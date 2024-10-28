@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import EarlyLeaveForm from "./EarlyLeaveForm";
 import { UserIcon } from "lucide-react";
 
 function StaffList() {
@@ -56,15 +55,6 @@ function StaffList() {
                       <DialogTitle>Đăng ký ra về sớm</DialogTitle>
                       <DialogDescription>Ngày:</DialogDescription>
                     </DialogHeader>
-                    <EarlyLeaveForm
-                    // staff={selectedStaff}
-                    // shift={shift}
-                    // onSave={(earlyLeaveData) => {
-                    //   console.log("Early leave data:", earlyLeaveData);
-                    //   // Implement the logic to save early leave data
-                    //   setIsEarlyLeaveDialogOpen(false);
-                    // }}
-                    />
                   </DialogContent>
                 </Dialog>
               </li>

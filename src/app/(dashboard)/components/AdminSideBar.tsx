@@ -115,7 +115,7 @@ async function AdminSideBar() {
       role: "Manager",
     },
     {
-      path: "/staffSchedule",
+      path: "/shift?page=1",
       icon: <CalendarIcon className="w-5 h-5" />,
       name: "Ca làm việc",
       role: "Manager",
