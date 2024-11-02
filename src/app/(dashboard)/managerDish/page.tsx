@@ -13,6 +13,7 @@ async function ManagerDishManagementPage({
   if (!cookie) return null;
   const session = await decrypt(cookie);
   const restaurantId = session.restaurantId;
+  const accessToken = session.accessToken;
 
   const page = searchParams?.page || "1";
   const dishName = searchParams?.dishName || "";
@@ -64,6 +65,7 @@ async function ManagerDishManagementPage({
           name={dishName}
           restaurantId={restaurantId as string}
           status={status}
+          accessToken={accessToken as string}
         />
       </Suspense>
     </div>

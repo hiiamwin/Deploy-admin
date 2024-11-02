@@ -19,13 +19,23 @@ async function DishTable({
   name,
   restaurantId,
   status,
+  accessToken,
 }: {
   page: string;
   name: string;
   restaurantId: string;
   status: string;
+  accessToken: string;
 }) {
-  const data = await getDishes(page, name, restaurantId, status);
+  const data = await getDishes(
+    page,
+    name,
+    restaurantId,
+    status,
+    "5",
+    accessToken
+  );
+  console.log(data);
 
   return (
     <>

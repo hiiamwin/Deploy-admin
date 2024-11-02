@@ -6,11 +6,14 @@ export async function getRefundDish(
   restaurantId: string,
   status: string,
   pageSize: string = "5",
-  category: string = ""
+  token: string
 ): Promise<GetResponseType<Dish>> {
   const res = await fetch(
-    `${process.env.API_URL}/v1/Dish/dish?PagingRequest.Page=${page}&PagingRequest.PageSize=${pageSize}&RestaurantId=${restaurantId}&DishName=${name}&Status=${status}&CategoryName=${category}&IsRefundDish=true`,
+    `${process.env.API_URL}/v1/Dish/dish?PagingRequest.Page=${page}&PagingRequest.PageSize=${pageSize}&RestaurantId=${restaurantId}&DishName=${name}&Status=${status}&IsRefundDish=true`,
     {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       cache: "no-store",
     }
   );

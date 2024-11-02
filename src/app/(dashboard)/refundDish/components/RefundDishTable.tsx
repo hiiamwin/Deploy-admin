@@ -28,7 +28,15 @@ async function RefundDishTable({
   if (!cookie) return null;
   const session = await decrypt(cookie);
   const restaurantId = session.restaurantId;
-  const data = await getRefundDish(page, name, restaurantId as string, status);
+  const accessToken = session.accessToken;
+  const data = await getRefundDish(
+    page,
+    name,
+    restaurantId as string,
+    status,
+    "5",
+    accessToken as string
+  );
   return (
     <>
       {data.results.length > 0 ? (
@@ -46,6 +54,8 @@ async function RefundDishTable({
               </TableHead>
               <TableHead className="text-center">Phân loại</TableHead>
               <TableHead className="text-center">Số lượng</TableHead>
+              <TableHead className="text-center">Trạng thái</TableHead>
+              <TableHead className="text-center"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -72,6 +82,23 @@ async function RefundDishTable({
                   {dish.categoryName}
                 </TableCell>
                 <TableCell>{dish.quantity}</TableCell>
+                <TableCell>
+                  {dish.status === 1 ? (
+                    <div className="text-center">
+                      Đang hoạt động
+                      <span
+                        className={`inline-block w-3 h-3 rounded-full bg-green-500 ml-2`}
+                      />
+                    </div>
+                  ) : (
+                    <div className="text-center">
+                      không hoạt động
+                      <span
+                        className={`inline-block w-3 h-3 rounded-full bg-red-500 ml-2`}
+                      />
+                    </div>
+                  )}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
