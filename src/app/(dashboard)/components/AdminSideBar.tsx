@@ -80,7 +80,7 @@ async function AdminSideBar() {
     {
       path: "/ingredientGeneral?page=1",
       icon: <LeafIcon className="w-5 h-5" />,
-      name: "Nguyên liệu (admin)",
+      name: "Nguyên liệu",
       role: "Administrator",
     },
     {

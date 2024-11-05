@@ -18,6 +18,9 @@ export async function getRestaurants(
     }
   );
   if (!res.ok) {
+    const data = await res.json();
+    console.log(data);
+
     throw new MyError(500, "Something went wrong");
   }
   const data = await res.json();
