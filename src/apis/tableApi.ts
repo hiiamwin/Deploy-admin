@@ -4,10 +4,11 @@ export async function getTables(
   page: string,
   tableNumber: string,
   tableStatus: string,
-  token: string
+  token: string,
+  restaurantId: string
 ): Promise<GetResponseType<Table>> {
   const response = await fetch(
-    `${process.env.API_URL}/Table?PagingRequest.Page=${page}&PagingRequest.PageSize=5&TableNumber=${tableNumber}&TableStatus=${tableStatus}`,
+    `${process.env.API_URL}/Table?PagingRequest.Page=${page}&PagingRequest.PageSize=5&TableNumber=${tableNumber}&TableStatus=${tableStatus}&RestaurantId=${restaurantId}`,
     {
       method: "GET",
       headers: {
@@ -40,4 +41,28 @@ export async function createTable(
   console.log(data);
 
   return data.message;
+}
+
+export async function inactiveTable(id: string, token: string) {
+  const response = await fetch(`${process.env.API_URL}/Table/${id}/inactive`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await response.json();
+  return data;
+}
+
+export async function activeTable(id: string, token: string) {
+  const response = await fetch(`${process.env.API_URL}/Table/${id}/active`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await response.json();
+  return data;
 }

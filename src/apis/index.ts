@@ -72,7 +72,7 @@ import {
   uploadRefundDishFile,
 } from "./refundDishApi";
 
-import { getTables, createTable } from "./tableApi";
+import { getTables, createTable, activeTable, inactiveTable } from "./tableApi";
 
 export {
   login,
@@ -138,4 +138,6 @@ export {
   //
   getTables,
   createTable,
+  activeTable,
+  inactiveTable,
 };

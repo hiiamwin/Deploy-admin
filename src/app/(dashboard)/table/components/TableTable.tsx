@@ -13,6 +13,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getTables } from "@/apis";
+import TableMenuActions from "./TableMenuActions";
 async function TableTable({
   page,
   tableNumber,
@@ -29,7 +30,8 @@ async function TableTable({
     page,
     tableNumber,
     tableStatus,
-    session.accessToken as string
+    session.accessToken as string,
+    session.restaurantId as string
   );
   return (
     <>
@@ -51,7 +53,7 @@ async function TableTable({
                   {table.tableNumber}
                 </TableCell>
                 <TableCell>
-                  {table.tableStatus === "Free" ? (
+                  {table.tableStatus === "Available" ? (
                     <span>
                       <span className="inline-block w-3 h-3 rounded-full bg-green-500 mr-2"></span>
                       Đang nhàn rỗi
@@ -66,6 +68,14 @@ async function TableTable({
                       <span className="inline-block w-3 h-3 rounded-full bg-red-500 mr-2"></span>
                       Vô hiệu hóa
                     </span>
+                  )}
+                </TableCell>
+                <TableCell>
+                  {table.tableStatus === "Disable" && (
+                    <TableMenuActions item={table} />
+                  )}
+                  {table.tableStatus === "Available" && (
+                    <TableMenuActions item={table} />
                   )}
                 </TableCell>
               </TableRow>

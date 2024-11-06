@@ -72,7 +72,11 @@ import {
   uploadRefundDishFileAction,
 } from "./refundDishActions";
 
-import { createTableAction } from "./tableAction";
+import {
+  createTableAction,
+  activeTableAction,
+  inactiveTableAction,
+} from "./tableAction";
 
 export {
   loginAction,
@@ -131,4 +135,6 @@ export {
   uploadRefundDishFileAction,
   //
   createTableAction,
+  activeTableAction,
+  inactiveTableAction,
 };
