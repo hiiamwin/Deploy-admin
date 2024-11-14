@@ -2,6 +2,7 @@ import { AdminPagination, ReuseTable } from "@/app/(dashboard)/components";
 import { getRestaurants } from "@/apis";
 import RestaurantMenuActions from "./RestaurantMenuActions";
 import { Column, Restaurant } from "@/types";
+import { format } from "date-fns";
 
 async function BranchTable({
   page,
@@ -28,6 +29,10 @@ async function BranchTable({
       accessorKey: "restaurantPhone",
     },
     {
+      header: "Ngày tạo",
+      accessorKey: "createdDate",
+    },
+    {
       header: "Trạng Thái",
       accessorKey: "restaurantStatus",
     },
@@ -37,7 +42,12 @@ async function BranchTable({
       {data.results.length > 0 ? (
         <ReuseTable<Restaurant>
           columns={columns}
-          data={data.results}
+          data={data.results.map((item) => {
+            return {
+              ...item,
+              createdDate: format(new Date(item.createdDate), "dd/MM/yyyy"),
+            };
+          })}
           total={data.totalNumberOfRecords}
           tableName="Nhà hàng"
           tableCaption="Danh sách nhà hàng"

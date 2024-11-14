@@ -2,6 +2,7 @@ import {
   createRestaurantFormSchema,
   activeAndInactiveRestaurantSchema,
   updateRestaurantFormSchema,
+  createRestaurantSchema,
 } from "./BranchSchema";
 
 import {
@@ -47,6 +48,7 @@ export {
   //
   updateRestaurantFormSchema,
   createRestaurantFormSchema,
+  createRestaurantSchema,
   activeAndInactiveRestaurantSchema,
   //
   createEmployeeFormSchema,

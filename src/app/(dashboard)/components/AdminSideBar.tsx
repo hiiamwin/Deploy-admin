@@ -36,6 +36,12 @@ async function AdminSideBar() {
       role: "Administrator",
     },
     {
+      path: "/manager?page=1",
+      icon: <UserIcon className="w-5 h-5" />,
+      name: "Quản lý",
+      role: "Administrator",
+    },
+    {
       path: "/table?page=1",
       icon: <UsersIcon className="w-5 h-5" />,
       name: "Bàn ăn",
@@ -45,7 +51,7 @@ async function AdminSideBar() {
       path: "/customer?page=1",
       icon: <UsersIcon className="w-5 h-5" />,
       name: "Khách hàng",
-      role: "All",
+      role: "Manager",
     },
     {
       path: "/adminDish?page=1",
@@ -100,31 +106,21 @@ async function AdminSideBar() {
       path: "/staff?page=1",
       icon: <UserIcon className="w-5 h-5" />,
       name: "Nhân viên",
-      role: "All",
+      role: "Manager",
     },
-    {
-      path: "/manager?page=1",
-      icon: <UserIcon className="w-5 h-5" />,
-      name: "Quản lý",
-      role: "Administrator",
-    },
+
     {
       path: "/staffSchedule",
       icon: <CalendarIcon className="w-5 h-5" />,
       name: "Lịch làm việc",
       role: "Manager",
     },
-    {
-      path: "/shift?page=1",
-      icon: <CalendarIcon className="w-5 h-5" />,
-      name: "Ca làm việc",
-      role: "Manager",
-    },
+
     {
       path: "/order?page=1",
       icon: <Soup className="w-5 h-5" />,
       name: "Đơn hàng",
-      role: "All",
+      role: "Manager",
     },
   ];
 

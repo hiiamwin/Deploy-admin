@@ -78,6 +78,8 @@ import {
   inactiveTableAction,
 } from "./tableAction";
 
+import { getLocationsAction } from "./locationActions";
+
 export {
   loginAction,
   logoutAction,
@@ -137,4 +139,6 @@ export {
   createTableAction,
   activeTableAction,
   inactiveTableAction,
+  //
+  getLocationsAction,
 };

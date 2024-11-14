@@ -46,8 +46,7 @@ function ActiveRestaurantDialog({
             Bạn có chắc nhà hàng này sẽ hoạt động lại không ?
           </AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            Nhà hàng sẽ hoạt động lại và có thể nhận đơn hàng từ khách hàng
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

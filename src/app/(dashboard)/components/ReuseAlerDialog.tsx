@@ -36,7 +36,7 @@ function ReuseAlerDialog({
           <AlertDialogDescription>{alertDescription}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Đóng</AlertDialogCancel>
+          <AlertDialogCancel disabled={isPending}>Đóng</AlertDialogCancel>
           {handleActive && (
             <Button
               disabled={isPending}

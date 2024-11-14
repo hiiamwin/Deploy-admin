@@ -1,11 +1,10 @@
 import { z } from "zod";
 
 export const createEmployeeFormSchema = z.object({
-  firstName: z
+  fullName: z
     .string()
     .trim()
-    .min(2, { message: "Tên phải có ít nhất 2 ký tự" }),
-  lastName: z.string().trim().min(2, { message: "Họ phải có ít nhất 2 ký tự" }),
+    .min(2, { message: "Họ và Tên phải có ít nhất 2 ký tự" }),
   phoneNumber: z
     .string()
     .trim()

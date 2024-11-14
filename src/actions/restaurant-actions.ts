@@ -1,7 +1,7 @@
 "use server";
 
 import {
-  createRestaurantFormSchema,
+  createRestaurantSchema,
   activeAndInactiveRestaurantSchema,
   updateRestaurantFormSchema,
 } from "@/schemas";
@@ -15,7 +15,7 @@ import {
 import { revalidatePath } from "next/cache";
 
 export const createRestaurantAction = authActionClient
-  .schema(createRestaurantFormSchema)
+  .schema(createRestaurantSchema)
   .action(async ({ parsedInput, ctx: { accesstoken } }) => {
     const mesage = await createRestaurant(parsedInput, accesstoken);
     revalidatePath("/restaurant");
@@ -42,13 +42,12 @@ export const updateRestaurantAction = authActionClient
   .schema(updateRestaurantFormSchema)
   .action(
     async ({
-      parsedInput: { address, id, restaurantName, restaurantPhone },
+      parsedInput: { id, restaurantName, restaurantPhone },
       ctx: { accesstoken },
     }) => {
       const mesage = await updateRestaurant(
         id,
         {
-          address,
           restaurantName,
           restaurantPhone,
         },

@@ -95,6 +95,8 @@ export async function deleteIngredientInDishGeneral(
     }
   );
   if (!response.ok) {
+    const data = await response.json();
+    console.log(data);
     throw new MyError(500, "Error");
   }
   const data = await response.json();

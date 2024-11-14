@@ -7,22 +7,12 @@ export type Employee = {
   roleName: string;
   restaurantName: string;
   status: number;
-  createdDate: string;
 };
 
 export type CreateEmployee = Omit<
   Employee,
-  | "id"
-  | "employeeCode"
-  | "hireDate"
-  | "roleName"
-  | "fullName"
-  | "status"
-  | "createdDate"
-  | "restaurantName"
+  "id" | "employeeCode" | "hireDate" | "roleName" | "status" | "restaurantName"
 > & {
-  lastName: string;
-  firstName: string;
   roleId: number;
   restaurantId: string;
 };

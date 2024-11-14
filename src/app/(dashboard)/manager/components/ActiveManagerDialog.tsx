@@ -38,10 +38,9 @@ function ActiveManagerDialog({
     <Dialog open={isOpenActivateDialog} onOpenChange={handleOpen}>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle>Kích hoạt quản lý này</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            Bạn có chắc chắn muốn kích hoạt quản lý này không?
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

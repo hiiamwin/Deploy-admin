@@ -5,10 +5,17 @@ export type Restaurant = {
   restaurantPhone: string;
   restaurantCode: string;
   restaurantStatus: number;
-  created: string;
+  createdDate: string;
 };
 
-export type CreateAndUpdateRestaurant = Omit<
+export type CreateRestaurant = Omit<
   Restaurant,
-  "id" | "restaurantCode" | "restaurantStatus" | "created"
+  "id" | "restaurantCode" | "restaurantStatus" | "createdDate"
+> & {
+  latitude: number;
+  longitude: number;
+};
+export type UpdateRestaurant = Omit<
+  Restaurant,
+  "id" | "restaurantCode" | "createdDate" | "address" | "restaurantStatus"
 >;

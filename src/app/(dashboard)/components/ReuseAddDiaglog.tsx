@@ -67,26 +67,35 @@ function ReuseAddDiaglog<T extends FieldValues>({
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4 py-4">
-            {Inputs.map((input) => (
-              <div className="flex flex-col" key={input.name}>
-                <Label htmlFor={input.name} className="mb-2">
-                  {input.label}
-                </Label>
+            {Inputs.map((input) =>
+              input.type === "hidden" ? (
                 <Input
-                  id={input.name}
-                  className="col-span-3"
+                  key={input.name}
                   type={input.type}
                   {...register(input.name as Path<T>)}
-                  placeholder={`Nhập ${input.label}`}
-                  disabled={isPending}
+                  hidden
                 />
-                {errors[input.name]?.message && (
-                  <p className="text-red-500 text-sm mt-1" role="alert">
-                    {errors[input.name]?.message as string}
-                  </p>
-                )}
-              </div>
-            ))}
+              ) : (
+                <div className="flex flex-col" key={input.name}>
+                  <Label htmlFor={input.name} className="mb-2">
+                    {input.label}
+                  </Label>
+                  <Input
+                    id={input.name}
+                    className="col-span-3"
+                    type={input.type}
+                    {...register(input.name as Path<T>)}
+                    placeholder={`Nhập ${input.label}`}
+                    disabled={isPending}
+                  />
+                  {errors[input.name]?.message && (
+                    <p className="text-red-500 text-sm mt-1" role="alert">
+                      {errors[input.name]?.message as string}
+                    </p>
+                  )}
+                </div>
+              )
+            )}
           </div>
           <DialogFooter>
             <Button type="submit" disabled={isPending}>

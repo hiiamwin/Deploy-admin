@@ -64,13 +64,8 @@ function AddWaiterDialog({ restaurantId }: { restaurantId: string }) {
       type: "hidden",
     },
     {
-      name: "lastName",
-      label: "Tên",
-      type: "text",
-    },
-    {
-      name: "firstName",
-      label: "Họ",
+      name: "fullName",
+      label: "Họ và tên",
       type: "text",
     },
     {

@@ -58,6 +58,8 @@ import {
 
 import { getCombo, createCombo, activeCombo, inactiveCombo } from "./comboApi";
 
+import { getLocations } from "./locationApi";
+
 import {
   getIngredients,
   downloadIngredientFile,
@@ -140,4 +142,6 @@ export {
   createTable,
   activeTable,
   inactiveTable,
+  //
+  getLocations,
 };

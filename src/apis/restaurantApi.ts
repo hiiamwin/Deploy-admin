@@ -1,8 +1,9 @@
 import MyError from "@/helper";
 import {
-  CreateAndUpdateRestaurant,
+  CreateRestaurant,
   GetResponseType,
   Restaurant,
+  UpdateRestaurant,
 } from "@/types";
 
 export async function getRestaurants(
@@ -29,7 +30,7 @@ export async function getRestaurants(
 }
 
 export async function createRestaurant(
-  restaurant: CreateAndUpdateRestaurant,
+  restaurant: CreateRestaurant,
   token: string
 ): Promise<string> {
   const res = await fetch(`${process.env.API_URL}/Restaurant`, {
@@ -52,7 +53,7 @@ export async function createRestaurant(
 
 export async function updateRestaurant(
   id: string,
-  restaurant: CreateAndUpdateRestaurant,
+  restaurant: UpdateRestaurant,
   token: string
 ): Promise<string> {
   const res = await fetch(`${process.env.API_URL}/Restaurant/${id}/update`, {

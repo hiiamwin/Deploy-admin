@@ -102,41 +102,24 @@ function AddManagerDialog() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="space-y-4 py-4">
               <div className="flex flex-col">
-                <Label htmlFor={"firstName"} className="mb-2">
-                  Họ
+                <Label htmlFor={"fullName"} className="mb-2">
+                  Họ và tên
                 </Label>
                 <Input
-                  id={"firstName"}
+                  id={"fullName"}
                   className="col-span-3"
                   type={"text"}
-                  {...register("firstName")}
-                  placeholder={`Nhập họ`}
+                  {...register("fullName")}
+                  placeholder={`Nhập họ và tên`}
                   disabled={isPending}
                 />
-                {errors.firstName && (
+                {errors.fullName && (
                   <p className="text-red-500 text-sm mt-1" role="alert">
-                    {errors.firstName.message as string}
+                    {errors.fullName.message as string}
                   </p>
                 )}
               </div>
-              <div className="flex flex-col">
-                <Label htmlFor={"lastName"} className="mb-2">
-                  Tên
-                </Label>
-                <Input
-                  id={"lastName"}
-                  className="col-span-3"
-                  type={"text"}
-                  {...register("lastName")}
-                  placeholder={`Nhập tên`}
-                  disabled={isPending}
-                />
-                {errors.lastName && (
-                  <p className="text-red-500 text-sm mt-1" role="alert">
-                    {errors.lastName.message as string}
-                  </p>
-                )}
-              </div>
+
               <div className="flex flex-col">
                 <Label htmlFor={"phoneNumber"} className="mb-2">
                   Số điện thoại
