@@ -10,12 +10,13 @@ export const autocomplete = async (input: string) => {
     const response = await client.placeAutocomplete({
       params: {
         input,
-        key: "AIzaSyBJiskC6eMx2GrY9c9k2ZKlldWLdnBFGzw",
+        key: "",
       },
     });
 
     return response.data.predictions;
-  } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     console.error("error", error.response.data);
   }
 };
