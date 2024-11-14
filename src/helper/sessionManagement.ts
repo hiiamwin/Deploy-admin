@@ -12,6 +12,8 @@ export async function encrypt(payload: loginType) {
 }
 
 export async function decrypt(session: string) {
-  const { payload } = await jwtVerify(session, key, { algorithms: ["HS256"] });
+  const { payload } = await jwtVerify(session, key, {
+    algorithms: ["HS256"],
+  });
   return payload;
 }
