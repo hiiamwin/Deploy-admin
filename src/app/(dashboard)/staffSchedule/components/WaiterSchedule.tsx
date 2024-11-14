@@ -2,7 +2,14 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import { format, startOfWeek, addDays, parseISO, isBefore } from "date-fns";
+import {
+  format,
+  startOfWeek,
+  addDays,
+  parseISO,
+  endOfWeek,
+  isAfter,
+} from "date-fns";
 import { vi } from "date-fns/locale";
 import AddWaiterForm from "./AddWaiterForm";
 import StaffList from "./StaffList";
@@ -18,14 +25,11 @@ const shifts = [
 const initialSchedule = [
   { id: 1, date: "2023-05-15", shiftId: 1, staffIds: [1, 2, 3, 4, 5] },
   { id: 2, date: "2023-05-15", shiftId: 2, staffIds: [2, 3, 4, 5, 1] },
-  // Add more initial schedule data as needed
 ];
 
 function WaiterSchedule() {
   const [schedule] = useState(initialSchedule);
-  // const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  // const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
-  // const [currentScheduleItem, setCurrentScheduleItem] = useState(null);
+
   const [currentWeekStart, setCurrentWeekStart] = useState(
     startOfWeek(new Date(), { weekStartsOn: 1 })
   );
@@ -33,36 +37,6 @@ function WaiterSchedule() {
   const weekDays = Array.from({ length: 7 }, (_, i) =>
     addDays(currentWeekStart, i)
   );
-
-  // const addOrUpdateScheduleItem = (newItem) => {
-  //   const existingItemIndex = schedule.findIndex(
-  //     (item) => item.date === newItem.date && item.shiftId === newItem.shiftId
-  //   );
-
-  //   if (existingItemIndex !== -1) {
-  //     const updatedSchedule = [...schedule];
-  //     updatedSchedule[existingItemIndex] = newItem;
-  //     setSchedule(updatedSchedule);
-  //   } else {
-  //     setSchedule([...schedule, { ...newItem, id: schedule.length + 1 }]);
-  //   }
-  // };
-
-  // const openAddStaffDialog = (date, shiftId) => {
-  //   const existingItem = schedule.find(
-  //     (item) => item.date === date && item.shiftId === shiftId
-  //   );
-  //   setCurrentScheduleItem(existingItem || { date, shiftId, staffIds: [] });
-  //   setIsAddDialogOpen(true);
-  // };
-
-  // const openViewStaffDialog = (date, shiftId) => {
-  //   const existingItem = schedule.find(
-  //     (item) => item.date === date && item.shiftId === shiftId
-  //   );
-  //   setCurrentScheduleItem(existingItem || { date, shiftId, staffIds: [] });
-  //   setIsViewDialogOpen(true);
-  // };
 
   const goToPreviousWeek = () => {
     setCurrentWeekStart(addDays(currentWeekStart, -7));
@@ -72,8 +46,14 @@ function WaiterSchedule() {
     setCurrentWeekStart(addDays(currentWeekStart, 7));
   };
 
-  const isPastDate = (date: string) => {
-    return isBefore(parseISO(date), new Date());
+  const isEditable = (dateString: string) => {
+    const date = parseISO(dateString);
+    const today = new Date();
+    const endOfCurrentWeek = endOfWeek(today, { weekStartsOn: 1 });
+
+    const isFutureWeek = isAfter(date, endOfCurrentWeek);
+
+    return isFutureWeek;
   };
   return (
     <>
@@ -132,27 +112,28 @@ function WaiterSchedule() {
                   const staffCount = scheduleItem
                     ? scheduleItem.staffIds.length
                     : 0;
-                  const isUnderStaffed = staffCount < 5;
-                  const isFullyStaffed = staffCount === 15;
-                  const isPast = isPastDate(date);
+
+                  const isEditableDate = isEditable(date);
 
                   return (
                     <td
                       key={day.toISOString()}
-                      className={`border p-2 ${
-                        isUnderStaffed
-                          ? "bg-red-100"
-                          : isFullyStaffed
-                          ? "bg-green-100"
-                          : "bg-yellow-100"
-                      }`}
+                      className={`border p-2 bg-red-100`}
                     >
                       <div className="text-sm font-semibold mb-2">
                         Nhân viên: {staffCount}
                       </div>
                       <div className="flex flex-col space-y-2">
-                        <AddWaiterForm isPast={isPast} />
-                        <StaffList />
+                        <AddWaiterForm
+                          isEditableDate={isEditableDate}
+                          date={format(day, "dd/MM/yyy")}
+                          shiftTime={`${shift.startTime} - ${shift.endTime}`}
+                        />
+                        <StaffList
+                          isEditableDate={isEditableDate}
+                          date={format(day, "dd/MM/yyy")}
+                          shiftTime={`${shift.startTime} - ${shift.endTime}`}
+                        />
                       </div>
                     </td>
                   );
@@ -162,17 +143,6 @@ function WaiterSchedule() {
           </tbody>
         </table>
       </div>
-
-      {/* <AddStaffForm
-            scheduleItem={currentScheduleItem}
-            onSave={(updatedItem) => {
-              addOrUpdateScheduleItem(updatedItem);
-              setIsAddDialogOpen(false);
-            }}
-            staffMembers={staffMembers}
-            shifts={shifts}
-            schedule={schedule}
-          /> */}
     </>
   );
 }

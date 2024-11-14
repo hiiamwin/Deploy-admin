@@ -10,10 +10,20 @@ import {
 } from "@/components/ui/dialog";
 import React from "react";
 import { PlusIcon } from "lucide-react";
-function AddWaiterForm({ isPast }: { isPast: boolean }) {
+
+type AddWaiterFormProps = {
+  isEditableDate: boolean;
+  date: string;
+  shiftTime: string;
+};
+function AddWaiterForm({
+  isEditableDate,
+  date,
+  shiftTime,
+}: AddWaiterFormProps) {
   return (
     <>
-      {isPast ? (
+      {!isEditableDate ? (
         <Button variant="outline" size="sm" className="bg-white" disabled>
           <PlusIcon className="h-4 w-4 mr-2" />
           Thêm
@@ -37,12 +47,12 @@ function AddWaiterForm({ isPast }: { isPast: boolean }) {
               <DialogTitle>Thêm Nhân Viên Cho Ca Làm Việc</DialogTitle>
               <DialogDescription>
                 {/* {format(parseISO(formData.date), "dd/MM/yyyy", { locale: vi })} */}
-                Ngày: 16/09/2024
+                Ngày: {date}
               </DialogDescription>
             </DialogHeader>
             <form className="space-y-4">
               <Label>
-                Ca làm việc: 08:00 - 12:00
+                Ca làm việc: {shiftTime}
                 {/* {shift
         ? `${shift.name} (${shift.startTime} - ${shift.endTime})`
         : "Không xác định"} */}
