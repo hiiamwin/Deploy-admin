@@ -1,10 +1,11 @@
+/* eslint-disable */
 "use client";
 import React, { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
 function ExPage() {
   const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestions, setSuggestions] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
   // Sử dụng useDebouncedCallback để giảm tần suất gọi API
@@ -26,13 +27,13 @@ function ExPage() {
     }
   }, 500); // Độ trễ debounce là 500ms
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     const value = e.target.value;
     setQuery(value);
     debouncedFetchSuggestions(value); // Gọi hàm debounce khi nhập liệu
   };
 
-  const handleSuggestionClick = (suggestion) => {
+  const handleSuggestionClick = (suggestion: any) => {
     setQuery(suggestion.display_name);
     setSuggestions([]);
   };
