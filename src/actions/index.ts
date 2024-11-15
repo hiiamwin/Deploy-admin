@@ -80,6 +80,14 @@ import {
 
 import { getLocationsAction } from "./locationActions";
 
+import {
+  getWeeklyShiftCountAction,
+  getUnassignedEmployeesAction,
+  registerScheduleAction,
+  getEmployeeInShiftAtDateAction,
+  unregisterScheduleAction,
+} from "./scheduleActions";
+
 export {
   loginAction,
   logoutAction,
@@ -141,4 +149,10 @@ export {
   inactiveTableAction,
   //
   getLocationsAction,
+  //
+  getWeeklyShiftCountAction,
+  getUnassignedEmployeesAction,
+  registerScheduleAction,
+  getEmployeeInShiftAtDateAction,
+  unregisterScheduleAction,
 };

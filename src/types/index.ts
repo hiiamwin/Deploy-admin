@@ -26,6 +26,11 @@ import type { Dish, DishDetail } from "./dishType";
 import type { Combo, CreateCombo } from "./comboType";
 import type { Ingredient } from "./ingredientType";
 import type { Table } from "./tableType";
+import type {
+  WeeklyShiftCount,
+  AssignedEmployeeInfo,
+  UnassignedEmployeeInfo,
+} from "./scheduleType";
 
 export type {
   Restaurant,
@@ -53,4 +58,7 @@ export type {
   CreateCombo,
   Ingredient,
   Table,
+  AssignedEmployeeInfo,
+  UnassignedEmployeeInfo,
+  WeeklyShiftCount,
 };

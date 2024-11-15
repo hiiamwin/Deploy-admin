@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -6,65 +7,115 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import React from "react";
-import { PlusIcon } from "lucide-react";
+import React, { Dispatch, SetStateAction, useState } from "react";
+import { Loader2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useQuery } from "@tanstack/react-query";
+import {
+  getUnassignedEmployeesAction,
+  registerScheduleAction,
+} from "@/actions";
+import { useAction } from "next-safe-action/hooks";
+import { toast } from "sonner";
 
 type AddWaiterFormProps = {
-  isEditableDate: boolean;
   date: string;
   shiftTime: string;
+  shiftId: string;
+  refetchCount: () => void;
+  openAdd: boolean;
+  setOpenAdd: Dispatch<SetStateAction<boolean>>;
 };
 function AddWaiterForm({
-  isEditableDate,
   date,
   shiftTime,
+  shiftId,
+  openAdd,
+  setOpenAdd,
+  refetchCount,
 }: AddWaiterFormProps) {
+  const [registerList, setRegisterList] = useState<string[]>([]);
+  const { data, isFetching, refetch } = useQuery({
+    queryKey: ["unassigned-employees", date, shiftId],
+    queryFn: () => getUnassignedEmployeesAction({ shiftId, date }),
+    enabled: openAdd,
+  });
+
+  const handleOpen = (value: boolean) => {
+    if (isFetching) return;
+    setOpenAdd(value);
+  };
+
+  const handleCheckboxRegister = (employeeId: string) => {
+    if (registerList.includes(employeeId)) {
+      setRegisterList((prevList) => prevList.filter((id) => id !== employeeId));
+    } else {
+      setRegisterList((prevList) => [...prevList, employeeId]);
+    }
+  };
+
+  const { execute, isPending } = useAction(registerScheduleAction, {
+    onSuccess: () => {
+      refetch();
+      refetchCount();
+      toast.success("Đăng ký nhân viên thành công");
+    },
+    onError: () => {
+      toast.error("Có lỗi xảy ra");
+    },
+  });
+  const handleRegister = () => {
+    execute({ date, shiftId, employeeIds: registerList });
+  };
+
   return (
-    <>
-      {!isEditableDate ? (
-        <Button variant="outline" size="sm" className="bg-white" disabled>
-          <PlusIcon className="h-4 w-4 mr-2" />
-          Thêm
-        </Button>
-      ) : (
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button
-              variant="outline"
-              size="sm"
-              // onClick={() => openAddStaffDialog(date, shift.id)}
-              // disabled={isFullyStaffed}
-              className="bg-white"
-            >
-              <PlusIcon className="h-4 w-4 mr-2" />
-              Thêm
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="bg-white">
-            <DialogHeader>
-              <DialogTitle>Thêm Nhân Viên Cho Ca Làm Việc</DialogTitle>
-              <DialogDescription>Ngày: {date}</DialogDescription>
-            </DialogHeader>
-            <form className="space-y-4">
-              <Label>Ca làm việc: {shiftTime}</Label>
-              <div>
-                <Label>Chọn Nhân Viên</Label>
-                <div className="mt-2 space-y-2 max-h-60 overflow-y-auto">
-                  <div className="flex items-center gap-2">
-                    <Checkbox id="staff-1" />
-                    <Label htmlFor={`staff-1`}>thang</Label>
+    <Dialog open={openAdd} onOpenChange={handleOpen}>
+      <DialogContent className="bg-white">
+        <DialogHeader>
+          <DialogTitle>Thêm Nhân Viên Cho Ca Làm Việc</DialogTitle>
+          <DialogDescription>{date}</DialogDescription>
+        </DialogHeader>
+        <Label>Ca làm việc: {shiftTime}</Label>
+        {isFetching ? (
+          <div className="flex justify-center items-center">
+            <Loader2 className="w-8 h-8 animate-spin" />
+          </div>
+        ) : (
+          <form className="space-y-4">
+            <div>
+              <Label>Chọn Nhân Viên</Label>
+              <div className="mt-2 space-y-2 max-h-60 overflow-y-auto grid grid-cols-2">
+                {data?.data?.map((employee) => (
+                  <div
+                    className="flex items-center gap-2"
+                    key={employee.employeeId}
+                  >
+                    <Checkbox
+                      id={employee.employeeId}
+                      checked={registerList.includes(employee.employeeId)}
+                      onCheckedChange={() =>
+                        handleCheckboxRegister(employee.employeeId)
+                      }
+                    />
+                    <Label htmlFor={employee.employeeId}>
+                      {employee.employeeName}
+                    </Label>
                   </div>
-                </div>
+                ))}
               </div>
-              <Button type="submit">Lưu Lịch</Button>
-            </form>
-          </DialogContent>
-        </Dialog>
-      )}
-    </>
+            </div>
+            <Button
+              type="submit"
+              disabled={registerList.length === 0 || isFetching || isPending}
+              onClick={handleRegister}
+            >
+              Xác nhận
+            </Button>
+          </form>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }
 export default AddWaiterForm;

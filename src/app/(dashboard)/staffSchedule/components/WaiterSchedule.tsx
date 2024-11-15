@@ -1,7 +1,12 @@
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  PlusIcon,
+  UserIcon,
+} from "lucide-react";
 import {
   format,
   startOfWeek,
@@ -13,26 +18,50 @@ import {
 import { vi } from "date-fns/locale";
 import AddWaiterForm from "./AddWaiterForm";
 import StaffList from "./StaffList";
+import { useQuery } from "@tanstack/react-query";
+import { getWeeklyShiftCountAction } from "@/actions";
+import ScheduleSkeleton from "./ScheduleSkeleton";
 
 const shifts = [
-  { id: 1, name: "Ca Sáng", startTime: "08:00", endTime: "12:00" },
-  { id: 2, name: "Ca Trưa", startTime: "12:00", endTime: "16:00" },
-  { id: 3, name: "Ca Chiều", startTime: "16:00", endTime: "20:00" },
-  { id: 4, name: "Ca Tối", startTime: "20:00", endTime: "24:00" },
-];
-
-// Mock data for initial schedule
-const initialSchedule = [
-  { id: 1, date: "2023-05-15", shiftId: 1, staffIds: [1, 2, 3, 4, 5] },
-  { id: 2, date: "2023-05-15", shiftId: 2, staffIds: [2, 3, 4, 5, 1] },
+  {
+    id: "8918424e-62c6-4d06-b35a-481ad0ccfb9e",
+    name: "Ca sáng",
+    startTime: "08:00:00",
+    endTime: "12:00:00",
+  },
+  {
+    id: "a2c28140-85bb-48e9-8725-c381b610556f",
+    name: "Ca chiều",
+    startTime: "13:00:00",
+    endTime: "17:00:00",
+  },
+  {
+    id: "ccabc8b6-480d-4e83-99da-246cceeb714c",
+    name: "Ca tối",
+    startTime: "18:00:00",
+    endTime: "22:00:00",
+  },
 ];
 
 function WaiterSchedule() {
-  const [schedule] = useState(initialSchedule);
-
+  const [openAdd, setOpenAdd] = useState(false);
+  const [openList, setOpenList] = useState(false);
+  const [scheduleInfo, setScheduleInfo] = useState({
+    date: "",
+    shiftTime: "",
+    shiftId: "",
+  });
   const [currentWeekStart, setCurrentWeekStart] = useState(
     startOfWeek(new Date(), { weekStartsOn: 1 })
   );
+  const { data, isFetching, refetch } = useQuery({
+    queryKey: ["weekly-shift-count", currentWeekStart.toISOString()],
+    queryFn: () =>
+      getWeeklyShiftCountAction({
+        date: format(currentWeekStart, "yyyy-MM-dd"),
+      }),
+    refetchOnWindowFocus: false,
+  });
 
   const weekDays = Array.from({ length: 7 }, (_, i) =>
     addDays(currentWeekStart, i)
@@ -79,70 +108,145 @@ function WaiterSchedule() {
         </Button>
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full border-collapse">
-          <thead>
-            <tr>
-              <th className="border p-2 bg-gray-100">Ca làm việc</th>
-              {weekDays.map((day) => (
-                <th
-                  key={day.toISOString()}
-                  className="border p-2 bg-gray-100 text-center"
-                >
-                  <div>{format(day, "EEE", { locale: vi })}</div>
-                  <div>{format(day, "dd/MM", { locale: vi })}</div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {shifts.map((shift) => (
-              <tr key={shift.id}>
-                <td className="border p-2 font-medium">
-                  {shift.name}
-                  <br />
-                  <span className="text-sm text-gray-500">
-                    {shift.startTime} - {shift.endTime}
-                  </span>
-                </td>
-                {weekDays.map((day) => {
-                  const date = format(day, "yyyy-MM-dd");
-                  const scheduleItem = schedule.find(
-                    (item) => item.date === date && item.shiftId === shift.id
-                  );
-                  const staffCount = scheduleItem
-                    ? scheduleItem.staffIds.length
-                    : 0;
-
-                  const isEditableDate = isEditable(date);
-
-                  return (
-                    <td
-                      key={day.toISOString()}
-                      className={`border p-2 bg-red-100`}
-                    >
-                      <div className="text-sm font-semibold mb-2">
-                        Nhân viên: {staffCount}
-                      </div>
-                      <div className="flex flex-col space-y-2">
-                        <AddWaiterForm
-                          isEditableDate={isEditableDate}
-                          date={format(day, "dd/MM/yyy")}
-                          shiftTime={`${shift.startTime} - ${shift.endTime}`}
-                        />
-                        <StaffList
-                          isEditableDate={isEditableDate}
-                          date={format(day, "dd/MM/yyy")}
-                          shiftTime={`${shift.startTime} - ${shift.endTime}`}
-                        />
-                      </div>
-                    </td>
-                  );
-                })}
+        {isFetching ? (
+          <ScheduleSkeleton />
+        ) : (
+          <table className="w-full border-collapse">
+            <thead>
+              <tr>
+                <th className="border p-2 bg-gray-100">Ca làm việc</th>
+                {weekDays.map((day) => (
+                  <th
+                    key={day.toISOString()}
+                    className="border p-2 bg-gray-100 text-center"
+                  >
+                    <div>{format(day, "EEE", { locale: vi })}</div>
+                    <div>{format(day, "dd/MM", { locale: vi })}</div>
+                  </th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {shifts.map((shift) => (
+                <tr key={shift.id}>
+                  <td className="border p-2 font-medium">
+                    {shift.name}
+                    <br />
+                    <span className="text-sm text-gray-500">
+                      {shift.startTime} - {shift.endTime}
+                    </span>
+                  </td>
+                  {weekDays.map((day) => {
+                    const date = format(day, "yyyy-MM-dd");
+
+                    const isEditableDate = isEditable(date);
+                    const shiftCount = data?.data?.find(
+                      (item) => item.date === date && item.shiftId === shift.id
+                    );
+
+                    return (
+                      <td
+                        key={day.toISOString()}
+                        className={`border p-2 bg-red-100`}
+                      >
+                        <div className="text-sm font-semibold mb-2">
+                          Nhân viên: {shiftCount?.employeeCount}
+                        </div>
+                        <div className="flex flex-col space-y-2">
+                          {!isEditableDate ? (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="bg-white"
+                              disabled
+                            >
+                              <PlusIcon className="h-4 w-4 mr-2" />
+                              Thêm
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="bg-white"
+                              onClick={() => {
+                                setScheduleInfo({
+                                  date: format(day, "EEEE,dd/MM/yyyy", {
+                                    locale: vi,
+                                  }),
+                                  shiftTime: `${shift.startTime} - ${shift.endTime}`,
+                                  shiftId: shift.id,
+                                });
+                                setOpenAdd(true);
+                              }}
+                            >
+                              <PlusIcon className="h-4 w-4 mr-2" />
+                              Thêm
+                            </Button>
+                          )}
+
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="bg-white"
+                            onClick={() => {
+                              setScheduleInfo({
+                                date: format(day, "EEEE,dd/MM/yyyy", {
+                                  locale: vi,
+                                }),
+                                shiftTime: `${shift.startTime} - ${shift.endTime}`,
+                                shiftId: shift.id,
+                              });
+                              setOpenList(true);
+                            }}
+                          >
+                            <UserIcon className="h-4 w-4 mr-2" />
+                            Xem
+                          </Button>
+                          {/* <AddWaiterForm
+                            isEditableDate={isEditableDate}
+                            date={format(day, "EEEE,dd/MM/yyyy", {
+                              locale: vi,
+                            })}
+                            shiftTime={`${shift.startTime} - ${shift.endTime}`}
+                            shiftId={shift.id}
+                          />
+                          <StaffList
+                            isEditableDate={isEditableDate}
+                            date={format(day, "EEEE,dd/MM/yyyy", {
+                              locale: vi,
+                            })}
+                            shiftTime={`${shift.startTime} - ${shift.endTime}`}
+                            shiftId={shift.id}
+                            refetchCount={refetch}
+                          /> */}
+                        </div>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
+
+      <AddWaiterForm
+        date={scheduleInfo.date}
+        shiftTime={scheduleInfo.shiftTime}
+        shiftId={scheduleInfo.shiftId}
+        refetchCount={refetch}
+        openAdd={openAdd}
+        setOpenAdd={setOpenAdd}
+      />
+      <StaffList
+        isEditableDate={true}
+        date={scheduleInfo.date}
+        shiftTime={scheduleInfo.shiftTime}
+        shiftId={scheduleInfo.shiftId}
+        refetchCount={refetch}
+        openList={openList}
+        setOpenList={setOpenList}
+      />
     </>
   );
 }

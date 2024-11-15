@@ -76,6 +76,14 @@ import {
 
 import { getTables, createTable, activeTable, inactiveTable } from "./tableApi";
 
+import {
+  getWeeklyShiftCount,
+  getUnassignedEmployees,
+  registerSchedule,
+  getEmployeeInShiftAtDate,
+  unregisterSchedule,
+} from "./scheduleApi";
+
 export {
   login,
 
@@ -144,4 +152,10 @@ export {
   inactiveTable,
   //
   getLocations,
+  //
+  getWeeklyShiftCount,
+  getUnassignedEmployees,
+  registerSchedule,
+  getEmployeeInShiftAtDate,
+  unregisterSchedule,
 };
