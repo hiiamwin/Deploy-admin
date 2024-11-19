@@ -58,7 +58,7 @@ function SelectIngredient({
     hasNextPage,
     isFetchingNextPage,
     refetch,
-    isPending,
+    isFetching: isPending,
   } = useInfiniteQuery({
     queryKey: ["ingredient", search],
     queryFn: fetchIngredient,
@@ -139,7 +139,9 @@ function SelectIngredient({
           </div>
 
           {isPending ? (
-            <p className="text-center text-gray-500 text-sm py-2">Loading...</p>
+            <div className="w-full flex items-center justify-center p-80">
+              <Loader2 className="animate-spin h-8 w-8" />
+            </div>
           ) : (
             <ul className="max-h-60 overflow-auto py-1 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
               {allOptions.map((option, index) => (

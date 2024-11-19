@@ -97,10 +97,14 @@ function ReuseCombobox({
 
   const allOptions =
     data?.pages.flatMap((page) =>
-      page?.data.map((result) => ({
-        label: result[labelKey],
-        value: result[valueKey],
-      }))
+      page?.data
+        .filter((result) => result[labelKey] !== updateLabel)
+        .map((result) => {
+          return {
+            label: result[labelKey],
+            value: result[valueKey],
+          };
+        })
     ) || [];
 
   return (
@@ -152,8 +156,9 @@ function ReuseCombobox({
                     setOpen(false);
                     setValue(option?.value ?? "");
                     if (setUpdateLabel) {
-                      setUpdateLabel(undefined);
+                      setUpdateLabel(option?.label ?? "");
                     }
+                    setSearch("");
                   }}
                   ref={index === allOptions.length - 2 ? inViewRef : null}
                 >

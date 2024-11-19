@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { logoutAction } from "@/actions";
+import Link from "next/link";
 
 function HeaderDropdownMenu({
   fullName,
@@ -46,8 +47,13 @@ function HeaderDropdownMenu({
           <DropdownMenuLabel>Tài khoản</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="cursor-pointer">
-            Thông tin cá nhân
+            <Link href={"/dashboardProfile"}>Thông tin cá nhân</Link>
           </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem className="cursor-pointer">
+            <Link href={"/changePassword"}>Thay đổi mật khẩu</Link>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={() => handleOpen(true)}

@@ -2,7 +2,9 @@
 import {
   activeIngredientGeneral,
   createIngredientGeneral,
+  createIngredientGeneralMeasure,
   getIngredientGeneralById,
+  getIngredientGeneralMeasure,
   getIngredientTypes,
   inActiveIngredientGeneral,
   updateIngredientGeneral,
@@ -42,7 +44,13 @@ export const getIngredientGeneralByIdAction = authActionClient
 export const createIngredientGeneralAction = authActionClient
   .schema(CreateIngredientGeneralSchema)
   .action(async ({ parsedInput, ctx: { accesstoken } }) => {
-    const message = await createIngredientGeneral(parsedInput, accesstoken);
+    const message = await createIngredientGeneral(
+      {
+        ...parsedInput,
+        ingredientMeasureId: parsedInput.ingredientMeasureType,
+      },
+      accesstoken
+    );
     revalidatePath("/ingredientGeneral");
     return message;
   });
@@ -50,7 +58,6 @@ export const createIngredientGeneralAction = authActionClient
 export const updateIngredientGeneralAction = authActionClient
   .schema(UpdateIngredientGeneralSchema)
   .action(async ({ parsedInput, ctx: { accesstoken } }) => {
-    // Call API
     const message = await updateIngredientGeneral(parsedInput, accesstoken);
     revalidatePath("/ingredientGeneral");
     return message;
@@ -73,4 +80,21 @@ export const inActiveIngredientGeneralAction = authActionClient
     );
     revalidatePath("/ingredientGeneral");
     return message;
+  });
+
+export const getIngredientGeneralMeasureAction = authActionClient.action(
+  async ({ ctx: { accesstoken } }) => {
+    const data = await getIngredientGeneralMeasure(accesstoken);
+    return data;
+  }
+);
+
+export const createIngredientGeneralMeasureAction = authActionClient
+  .schema(z.object({ ingredientMeasureName: z.string() }))
+  .action(async ({ parsedInput, ctx: { accesstoken } }) => {
+    const data = await createIngredientGeneralMeasure(
+      parsedInput.ingredientMeasureName,
+      accesstoken
+    );
+    return data;
   });

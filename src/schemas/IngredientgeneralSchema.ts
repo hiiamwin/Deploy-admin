@@ -25,7 +25,7 @@ export const CreateIngredientGeneralSchema = z.object({
     .string()
     .min(2, { message: "Mô tả nguyên liệu phải có ít nhất 2 ký tự" }),
   ingredientType: z.string(),
-  ingredientMeasureType: z.number(),
+  ingredientMeasureType: z.string(),
 });
 
 export const UpdateIngredientGeneralSchema = z.object({

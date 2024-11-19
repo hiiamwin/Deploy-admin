@@ -58,9 +58,11 @@ export async function createIngredientGeneral(
 
   if (!response.ok) {
     const data = await response.json();
+
     throw new MyError(data.statusCode, JSON.stringify(data.errors));
   }
   const data = await response.json();
+  console.log(data);
 
   return data.message;
 }
@@ -83,6 +85,8 @@ export async function updateIngredientGeneral(
 
   if (!response.ok) {
     const data = await response.json();
+    console.log(data);
+
     throw new MyError(data.statusCode, JSON.stringify(data.errors));
   }
   const data = await response.json();
@@ -123,6 +127,44 @@ export async function inActiveIngredientGeneral(
     }
   );
 
+  const data = await response.json();
+  if (data.statusCode === 400) {
+    throw new MyError(data.statusCode, JSON.stringify(data.errors));
+  }
+
+  return data.message;
+}
+
+export async function getIngredientGeneralMeasure(token: string) {
+  const response = await fetch(`${process.env.API_URL}/IngredientMeasure`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    cache: "no-store",
+  });
+  const data = await response.json();
+
+  return data;
+}
+
+export async function createIngredientGeneralMeasure(
+  ingredientMeasureName: string,
+  token: string
+) {
+  const response = await fetch(`${process.env.API_URL}/IngredientMeasure`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ ingredientMeasureName }),
+  });
+
+  if (!response.ok) {
+    const data = await response.json();
+
+    throw new MyError(data.statusCode, JSON.stringify(data.errors));
+  }
   const data = await response.json();
 
   return data.message;

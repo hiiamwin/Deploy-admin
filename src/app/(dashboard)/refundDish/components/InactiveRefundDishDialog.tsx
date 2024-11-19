@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { toast } from "sonner";
 import {
@@ -13,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { useAction } from "next-safe-action/hooks";
 import { inactiveDishAction } from "@/actions";
 
-function InactiveDishDialog({
+function InactiveRefundDishDialog({
   id,
   isOpenInactivateDialog,
   setIsOpenInactivateDialog,
@@ -66,4 +67,4 @@ function InactiveDishDialog({
   );
 }
 
-export default InactiveDishDialog;
+export default InactiveRefundDishDialog;

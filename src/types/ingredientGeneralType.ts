@@ -4,6 +4,7 @@ export type IngredientGeneral = {
   ingredientGeneralType: string;
   ingredientMeasureType: string;
   ingredientGeneralDescription: string;
+  ingredientTypeId: string;
   status: 1;
   createdDate: string;
 };
@@ -20,12 +21,13 @@ export type IngredientGeneralDetail = {
 
 export type CreateIngredientGeneral = Omit<
   IngredientGeneral,
+  | "ingredientTypeId"
   | "id"
   | "ingredientMeasureType"
   | "status"
   | "createdDate"
   | "ingredientGeneralType"
-> & { ingredientMeasureType: number; ingredientType: string };
+> & { ingredientMeasureId: string; ingredientType: string };
 
 export type UpdateIngredientGeneral = Omit<
   IngredientGeneral,

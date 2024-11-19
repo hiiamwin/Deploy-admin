@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { toast } from "sonner";
 import {
@@ -11,39 +12,43 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { useAction } from "next-safe-action/hooks";
-import { inactiveDishAction } from "@/actions";
+import { activeDishAction } from "@/actions";
 
-function InactiveDishDialog({
+function ActiveRefundDishDialog({
   id,
-  isOpenInactivateDialog,
-  setIsOpenInactivateDialog,
+  isOpenActivateDialog,
+  setIsOpenActivateDialog,
 }: {
   id: string;
-  isOpenInactivateDialog: boolean;
-  setIsOpenInactivateDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  isOpenActivateDialog: boolean;
+  setIsOpenActivateDialog: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const { execute, isPending } = useAction(inactiveDishAction, {
+  const { execute, isPending } = useAction(activeDishAction, {
     onSuccess: ({ data }) => {
       toast.success(data);
       handleOpen(false);
     },
-    onError: () => {
-      toast.error("Có lỗi xảy ra ");
+    onError: ({ error }) => {
+      toast.error(error.serverError);
+      handleOpen(false);
     },
   });
-  const handleInactive = () => {
+
+  const handleActive = () => {
     execute({ id });
   };
   const handleOpen = (value: boolean) => {
     if (isPending) return;
-    setIsOpenInactivateDialog(value);
+    setIsOpenActivateDialog(value);
   };
   return (
-    <Dialog open={isOpenInactivateDialog} onOpenChange={handleOpen}>
+    <Dialog open={isOpenActivateDialog} onOpenChange={handleOpen}>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle>Bạn có chắc sẽ dừng hoạt động món ăn này?</DialogTitle>
-          <DialogDescription>Món ăn này sẽ bị dừng hoạt động</DialogDescription>
+          <DialogTitle>Bạn có chắc muốn kích hoạt món ăn này?</DialogTitle>
+          <DialogDescription>
+            Món ăn sẽ được hoạt động trở lại
+          </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button
@@ -56,7 +61,7 @@ function InactiveDishDialog({
           <Button
             type="button"
             disabled={isPending}
-            onClick={() => handleInactive()}
+            onClick={() => handleActive()}
           >
             Xác nhận
           </Button>
@@ -66,4 +71,4 @@ function InactiveDishDialog({
   );
 }
 
-export default InactiveDishDialog;
+export default ActiveRefundDishDialog;

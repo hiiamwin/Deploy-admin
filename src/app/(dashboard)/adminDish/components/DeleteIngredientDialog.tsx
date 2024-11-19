@@ -49,14 +49,6 @@ function DeleteIngredientDialog({
         refetch();
         handleOpen(false);
         setSelectedIngredients([]);
-        // setExcludedIngredients((prev) => {
-        //   return prev.filter((item) => {
-        //     return !selectedIngredients.some(
-        //       (selectedIngredient) =>
-        //         selectedIngredient.ingredientGeneralId === item.id
-        //     );
-        //   });
-        // });
         toast.success("Xóa nguyên liệu thành công");
       },
       onError: () => {
@@ -84,10 +76,11 @@ function DeleteIngredientDialog({
       </DialogTrigger>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle>
+            Bạn có chắc muốn xóa nguyên liệu này ra khỏi món ăn?
+          </DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            Nguyên liệu sẽ bị xóa khỏi món ăn
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

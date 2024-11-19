@@ -4,190 +4,283 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  // DialogFooter,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  // DialogTrigger,
 } from "@/components/ui/dialog";
-// import { Button } from "@/components/ui/button";
-// import { Label } from "@/components/ui/label";
-// import { Input } from "@/components/ui/input";
-// import { useForm } from "react-hook-form";
-// import { useAction } from "next-safe-action/hooks";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { useAction } from "next-safe-action/hooks";
+import { z } from "zod";
+import { updateDishGeneralNormalInformationFormSchema } from "@/schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Textarea } from "@/components/ui/textarea";
+import { useQuery } from "@tanstack/react-query";
+import {
+  getDishCategoriesAction,
+  updateDishGeneralNormalInformationAction,
+} from "@/actions";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Loader2 } from "lucide-react";
+import UpdateImage from "./UpdateImage";
+import { toast } from "sonner";
 
 type UpdateNormalInfomationDialogProps = {
   isOpenUpdateNormalInformationDialog: boolean;
   setIsOpenUpdateNormalInformationDialog: Dispatch<SetStateAction<boolean>>;
   data: DishGeneral;
 };
-function UpdateNormalInfomationDialog({}: // isOpenUpdateNormalInformationDialog,
-// setIsOpenUpdateNormalInformationDialog,
-// data,
-UpdateNormalInfomationDialogProps) {
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  //   setError,
-  //   reset,
-  // } = useForm();
-  // const { execute, isPending } = useAction();
-  // const handleOpen = (value: boolean) => {
-  //   setIsOpenUpdateNormalInformationDialog(value);
-  // };
+function UpdateNormalInfomationDialog({
+  data,
+  isOpenUpdateNormalInformationDialog,
+  setIsOpenUpdateNormalInformationDialog,
+}: UpdateNormalInfomationDialogProps) {
+  const [images, setImages] = React.useState<
+    { file: File | null; url: string }[]
+  >(data.images.map((img) => ({ file: null, url: img.url })));
+
+  const { data: category, isPending: isGetting } = useQuery({
+    queryKey: ["dishCategories"],
+    queryFn: () => getDishCategoriesAction(),
+    enabled: isOpenUpdateNormalInformationDialog,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    control,
+    setError,
+  } = useForm<z.infer<typeof updateDishGeneralNormalInformationFormSchema>>({
+    resolver: zodResolver(updateDishGeneralNormalInformationFormSchema),
+    defaultValues: {
+      dishGeneralName: data.dishGeneralName,
+      dishGeneralDescription: data.dishGeneralDescription,
+      price: data.dishGeneralPrice,
+      percentagePriceDifference: data.percentagePriceDifference,
+      categoryId: data.categoryId,
+    },
+  });
+
+  const { execute, isPending } = useAction(
+    updateDishGeneralNormalInformationAction,
+    {
+      onSuccess: ({ data }) => {
+        console.log(data);
+        toast.success("Cập nhật thông tin món ăn thành công");
+        handleOpen(false);
+      },
+      onError: ({ error }) => {
+        if (error.serverError) {
+          const errorArray = JSON.parse(error.serverError);
+          errorArray.forEach((error: { field: string; message: string }) => {
+            setError(error.field as keyof typeof errors, {
+              message: error.message,
+            });
+          });
+        } else {
+          toast.error("Cập nhật thông tin món ăn thất bại");
+        }
+      },
+    }
+  );
+
+  const handleOpen = (value: boolean) => {
+    if (isPending) return;
+    setIsOpenUpdateNormalInformationDialog(value);
+  };
+
+  const onSubmit: SubmitHandler<
+    z.infer<typeof updateDishGeneralNormalInformationFormSchema>
+  > = async (dataForm) => {
+    console.log(dataForm);
+    if (images.length === 0) {
+      setError("root", {
+        message: "Vui lòng chọn ít nhất 1 hình ảnh",
+      });
+      return;
+    }
+    const formData = new FormData();
+    images.forEach((image, index) => {
+      if (image.file) {
+        formData.append(`image${index}`, image.file);
+        URL.revokeObjectURL(image.url);
+      }
+    });
+
+    execute({
+      id: data.id,
+      dishGeneralName: dataForm.dishGeneralName,
+      dishGeneralDescription: dataForm.dishGeneralDescription,
+      price: dataForm.price,
+      categoryId: dataForm.categoryId,
+      percentPriceDifference: dataForm.percentagePriceDifference,
+      imageUrl: images.filter((img) => img.file === null).map((img) => img.url),
+      images: formData,
+    });
+  };
 
   return (
-    // <Dialog
-    //   open={isOpenUpdateNormalInformationDialog}
-    //   onOpenChange={handleOpen}
-    // >
-    //   <DialogContent className="sm:max-w-[425px] bg-white">
-    //     <DialogHeader>
-    //       <DialogTitle>Chỉnh sửa thông tin món ăn</DialogTitle>
-    //       <DialogDescription>Nhập thông tin cần chỉnh sửa</DialogDescription>
-    //     </DialogHeader>
-    //     <form>
-    //       <div className="space-y-4 py-4">
-    //         <div className="flex w-full gap-4">
-    //           <div className="flex flex-col w-1/2">
-    //             <Label htmlFor="adminDishName" className="mb-2">
-    //               Tên món ăn
-    //             </Label>
-    //             <Input
-    //               id="adminDishName"
-    //               className="col-span-3"
-    //               type="text"
-    //               placeholder="Nhập tên món ăn"
-    //               {...register("dishGeneralName")}
-    //               disabled={isPending}
-    //             />
-    //             {errors.dishGeneralName && (
-    //               <p className="text-red-500">
-    //                 {errors.dishGeneralName.message}
-    //               </p>
-    //             )}
-    //           </div>
-    //           <div className="flex flex-col w-1/2">
-    //             <Label htmlFor="adminDishName" className="mb-2">
-    //               Giá
-    //             </Label>
-    //             <Input
-    //               id="adminDishName"
-    //               className="col-span-3"
-    //               type="number"
-    //               placeholder="Nhập tên món ăn"
-    //               defaultValue={0}
-    //               {...register("dishGeneralPrice", { valueAsNumber: true })}
-    //               disabled={isPending}
-    //             />
-    //             {errors.dishGeneralPrice && (
-    //               <p className="text-red-500">
-    //                 {errors.dishGeneralPrice.message}
-    //               </p>
-    //             )}
-    //           </div>
-    //         </div>
-    //         <div className="flex w-full gap-4">
-    //           <div className="flex flex-col w-1/2">
-    //             <Label htmlFor="adminDishName" className="mb-2">
-    //               Độ lệch Giá
-    //             </Label>
-    //             <Input
-    //               defaultValue={0}
-    //               id="adminDishName"
-    //               className="col-span-3"
-    //               type="number"
-    //               placeholder="Nhập tên món ăn"
-    //               {...register("percentPriceDifference", {
-    //                 valueAsNumber: true,
-    //               })}
-    //               disabled={isPending}
-    //             />
-    //             {errors.percentPriceDifference && (
-    //               <p className="text-red-500">
-    //                 {errors.percentPriceDifference.message}
-    //               </p>
-    //             )}
-    //           </div>
-    //           <div className="flex flex-col w-1/2">
-    //             <Label htmlFor="adminDishDescription" className="mb-2">
-    //               Danh mục
-    //             </Label>
-    //             <Controller
-    //               name="categoryId"
-    //               control={control}
-    //               defaultValue=""
-    //               disabled={isPending}
-    //               render={({ field }) => (
-    //                 <>
-    //                   <Select
-    //                     disabled={isPending}
-    //                     onValueChange={field.onChange}
-    //                     value={field.value}
-    //                   >
-    //                     <SelectTrigger className="w-full">
-    //                       <SelectValue placeholder="Danh mục" />
-    //                     </SelectTrigger>
-    //                     <SelectContent>
-    //                       {data?.data?.results.map((item) => (
-    //                         <SelectItem key={item.id} value={item.id}>
-    //                           {item.categoryName}
-    //                         </SelectItem>
-    //                       ))}
-    //                     </SelectContent>
-    //                   </Select>
-    //                   {errors.categoryId && (
-    //                     <p className="text-red-500">
-    //                       {errors.categoryId.message}
-    //                     </p>
-    //                   )}
-    //                 </>
-    //               )}
-    //             />
-    //           </div>
-    //         </div>
-    //         <div className="flex flex-col">
-    //           <Label htmlFor="adminDishDescription" className="mb-2">
-    //             Mô tả món ăn
-    //           </Label>
-    //           <Textarea
-    //             id="adminDishDescription"
-    //             className="col-span-3"
-    //             placeholder="Nhập mô tả món ăn"
-    //             {...register("dishGeneralDescription")}
-    //             disabled={isPending}
-    //           />
-    //           {errors.dishGeneralDescription && (
-    //             <p className="text-red-500">
-    //               {errors.dishGeneralDescription.message}
-    //             </p>
-    //           )}
-    //         </div>
-
-    //         {/* <ImagePreview
-    //           images={images}
-    //           setImages={setImages}
-    //           isPending={isPending}
-    //         /> */}
-    //       </div>
-    //       <DialogFooter>
-    //         <Button type="submit">
-    //           {/* {isPending ? "Đang xử lý..." : updateButtonTitle} */}
-    //           Cập nhật thông tin món ăn
-    //         </Button>
-    //       </DialogFooter>
-    //     </form>
-    //   </DialogContent>
-    // </Dialog>
-    <Dialog>
-      <DialogContent>
+    <Dialog
+      open={isOpenUpdateNormalInformationDialog}
+      onOpenChange={handleOpen}
+    >
+      <DialogContent className="bg-white max-w-4xl">
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </DialogDescription>
+          <DialogTitle>Thay đổi thông tin cơ bản của món ăn</DialogTitle>
+          <DialogDescription></DialogDescription>
         </DialogHeader>
+        {isGetting ? (
+          <div className="w-full flex items-center justify-center ">
+            <Loader2 className="animate-spin h-8 w-8" />
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="space-y-4 py-4">
+              <div className="flex flex-col">
+                <Label htmlFor={"dishGeneralName"} className="mb-2">
+                  Tên món ăn
+                </Label>
+                <Input
+                  id={"dishGeneralName"}
+                  className="col-span-3"
+                  type={"text"}
+                  placeholder={`Nhập tên món ăn`}
+                  disabled={isPending}
+                  {...register("dishGeneralName")}
+                />
+                {errors.dishGeneralName?.message && (
+                  <p className="text-red-500 text-sm mt-1" role="alert">
+                    {errors.dishGeneralName?.message as string}
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col">
+                <Label htmlFor={"dishGeneralDescription"} className="mb-2">
+                  Mô tả
+                </Label>
+                <Textarea
+                  id="dishGeneralDescription"
+                  className="col-span-3"
+                  placeholder="Nhập mô tả món ăn"
+                  disabled={isPending}
+                  {...register("dishGeneralDescription")}
+                />
+                {errors.dishGeneralDescription?.message && (
+                  <p className="text-red-500 text-sm mt-1" role="alert">
+                    {errors.dishGeneralDescription?.message as string}
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col">
+                <Label htmlFor={"price"} className="mb-2">
+                  Giá
+                </Label>
+                <Input
+                  id={"price"}
+                  className="col-span-3"
+                  type={"text"}
+                  placeholder={`Nhập giá món ăn`}
+                  disabled={isPending}
+                  {...register("price", { valueAsNumber: true })}
+                />
+                {errors.price?.message && (
+                  <p className="text-red-500 text-sm mt-1" role="alert">
+                    {errors.price?.message as string}
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col">
+                <Label htmlFor={"percentagePriceDifference"} className="mb-2">
+                  Chênh lệch giá
+                </Label>
+                <Input
+                  id={"percentagePriceDifference"}
+                  className="col-span-3"
+                  type={"text"}
+                  placeholder={`Nhập chênh lệch giá món ăn`}
+                  disabled={isPending}
+                  {...register("percentagePriceDifference", {
+                    valueAsNumber: true,
+                  })}
+                />
+                {errors.percentagePriceDifference?.message && (
+                  <p className="text-red-500 text-sm mt-1" role="alert">
+                    {errors.percentagePriceDifference?.message as string}
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col">
+                <Label htmlFor="adminDishDescription" className="mb-2">
+                  Danh mục
+                </Label>
+                <Controller
+                  name="categoryId"
+                  control={control}
+                  disabled={isPending}
+                  render={({ field }) => {
+                    return (
+                      <>
+                        <Select
+                          disabled={isPending}
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Danh mục" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {category?.data?.results.map((item) => (
+                              <SelectItem key={item.id} value={item.id}>
+                                {item.categoryName}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        {errors.categoryId && (
+                          <p className="text-red-500">
+                            {errors.categoryId.message}
+                          </p>
+                        )}
+                      </>
+                    );
+                  }}
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <Label htmlFor={"percentagePriceDifference"} className="mb-2">
+                  Hình ảnh
+                </Label>
+                <UpdateImage
+                  images={images}
+                  setImages={setImages}
+                  isPending={isPending}
+                />
+                {errors.root?.message && (
+                  <p className="text-red-500 text-sm mt-1" role="alert">
+                    {errors.root?.message as string}
+                  </p>
+                )}
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="submit" disabled={isPending}>
+                {isPending ? "Đang xử lý..." : "xác nhận"}
+              </Button>
+            </DialogFooter>
+          </form>
+        )}
       </DialogContent>
     </Dialog>
   );

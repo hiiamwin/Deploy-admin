@@ -27,6 +27,12 @@ function InactiveIngredientGeneralDialog({
       toast.success(data);
       setIsOpenInactivateDialog(false);
     },
+    onError: ({ error }) => {
+      if (error.serverError) {
+        toast.error(JSON.parse(error.serverError)[0].message);
+        setIsOpenInactivateDialog(false);
+      }
+    },
   });
 
   const handleInactive = () => {
@@ -40,11 +46,10 @@ function InactiveIngredientGeneralDialog({
       <AlertDialogContent className="bg-white">
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Bạn có chắc sẽ dừng hoạt động nhà hàng này không?
+            Bạn có chắc sẽ dừng hoạt động nguyên liệu này không?
           </AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            Nguyên liệu sẽ bị dừng hoạt động
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

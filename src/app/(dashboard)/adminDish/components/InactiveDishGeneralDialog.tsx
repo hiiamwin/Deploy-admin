@@ -1,6 +1,6 @@
 "use client";
 import { useAction } from "next-safe-action/hooks";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
 import {
   Dialog,
@@ -21,14 +21,18 @@ function InactiveDishGeneralDialog({
 }: {
   id: string;
   isOpenInactivateDialog: boolean;
-  setIsOpenInactivateDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenInactivateDialog: Dispatch<SetStateAction<boolean>>;
 }) {
   const { execute, isPending } = useAction(inactiveDishGeneralAction, {
-    onSuccess: ({ data }) => {
-      console.log(data);
-
+    onSuccess: () => {
       toast.success("Món ăn đã được dừng hoạt động");
       handleOpen(false);
+    },
+    onError: ({ error }) => {
+      if (error.serverError) {
+        toast.error(JSON.parse(error.serverError)[0].message);
+        handleOpen(false);
+      }
     },
   });
   const handleInactive = () => {
@@ -43,11 +47,8 @@ function InactiveDishGeneralDialog({
     <Dialog open={isOpenInactivateDialog} onOpenChange={handleOpen}>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </DialogDescription>
+          <DialogTitle>Bạn có muốn dừng hoạt động món ăn này?</DialogTitle>
+          <DialogDescription>Món ăn sẽ bị dừng hoạt động</DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button

@@ -25,9 +25,6 @@ export async function getDishGeneral(
     }
   );
   if (!response.ok) {
-    const data = await response.json();
-    console.log(data);
-
     throw Error("Error");
   }
   const data = await response.json();
@@ -95,8 +92,6 @@ export async function deleteIngredientInDishGeneral(
     }
   );
   if (!response.ok) {
-    const data = await response.json();
-    console.log(data);
     throw new MyError(500, "Error");
   }
   const data = await response.json();
@@ -122,9 +117,6 @@ export async function addIngredientInDishGeneral(
     }
   );
   if (!response.ok) {
-    const data = await response.json();
-    console.log(data);
-
     throw new MyError(500, "Error");
   }
   const data = await response.json();
@@ -150,9 +142,6 @@ export async function updateIngredientQuantityInDishGeneral(
     }
   );
   if (!response.ok) {
-    const data = await response.json();
-    console.log(data);
-
     throw new MyError(500, "Error");
   }
   const data = await response.json();
@@ -173,6 +162,11 @@ export async function inactiveDishGeneral(id: string, token: string) {
     }
   );
   if (!response.ok) {
+    const data = await response.json();
+    if (data.statusCode === 400) {
+      throw new MyError(400, JSON.stringify(data.errors));
+    }
+
     throw new MyError(500, "Error");
   }
   const data = await response.json();
@@ -198,4 +192,58 @@ export async function activeDishGeneral(id: string, token: string) {
   const data = await response.json();
 
   return data.message;
+}
+
+export async function createVariant(id: string, token: string) {
+  const response = await fetch(
+    `${process.env.API_URL}/v1/DishGeneral/${id}/create-variant`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+  if (!response.ok) {
+    throw new MyError(500, "Error");
+  }
+  const data = await response.json();
+
+  return data.message;
+}
+
+export async function updateDishGeneralNormalInformation(
+  id: string,
+  data: {
+    price: number;
+    percentagePriceDifference: number;
+    dishGeneralName: string;
+    dishGeneralDescription: string;
+    imageUrl: string[];
+    categoryId: string;
+  },
+  token: string
+) {
+  const response = await fetch(`${process.env.API_URL}/v1/DishGeneral/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+    cache: "no-store",
+  });
+  if (!response.ok) {
+    const responseData = await response.json();
+
+    throw new MyError(
+      responseData.statusCode,
+      JSON.stringify(responseData.errors)
+    );
+  }
+  const responseData = await response.json();
+
+  return responseData.message;
 }

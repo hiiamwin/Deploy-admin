@@ -11,12 +11,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { CircleDollarSign, Edit, MoreHorizontal, PowerOff } from "lucide-react";
 import { Dish } from "@/types";
-import DishDetailSheet from "./DishDetailSheet";
-import InactiveDishDialog from "./InactiveDishDialog";
-import ActiveDishDialog from "./ActiveDishDialog";
+import InactiveRefundDishDialog from "./InactiveRefundDishDialog";
+import ActiveRefundDishDialog from "./ActiveRefundDishDialog";
+import RefundDishDetailSheet from "./RefundDishDetailSheet";
 import ChangePriceDialog from "./ChangePriceDialog";
 
-function DishMenuActions({ item }: { item: Dish }) {
+function RefundDishMenuActions({ item }: { item: Dish }) {
   const [isOpenInactivateDialog, setIsOpenInactivateDialog] = useState(false);
   const [isOpenActivateDialog, setIsOpenActivateDialog] = useState(false);
   const [isOpenDetailSheet, setIsOpenDetailSheet] = useState(false);
@@ -88,7 +88,7 @@ function DishMenuActions({ item }: { item: Dish }) {
       </DropdownMenu>
 
       {isOpenInactivateDialog && (
-        <InactiveDishDialog
+        <InactiveRefundDishDialog
           id={item.id}
           isOpenInactivateDialog={isOpenInactivateDialog}
           setIsOpenInactivateDialog={setIsOpenInactivateDialog}
@@ -96,7 +96,7 @@ function DishMenuActions({ item }: { item: Dish }) {
       )}
 
       {isOpenActivateDialog && (
-        <ActiveDishDialog
+        <ActiveRefundDishDialog
           id={item.id}
           isOpenActivateDialog={isOpenActivateDialog}
           setIsOpenActivateDialog={setIsOpenActivateDialog}
@@ -104,7 +104,7 @@ function DishMenuActions({ item }: { item: Dish }) {
       )}
 
       {isOpenDetailSheet && (
-        <DishDetailSheet
+        <RefundDishDetailSheet
           id={item.id}
           isOpenDetailSheet={isOpenDetailSheet}
           setIsOpenDetailSheet={setIsOpenDetailSheet}
@@ -124,4 +124,4 @@ function DishMenuActions({ item }: { item: Dish }) {
   );
 }
 
-export default DishMenuActions;
+export default RefundDishMenuActions;

@@ -1,3 +1,4 @@
+import MyError from "@/helper";
 import { Dish, DishDetail, GetResponseType } from "@/types";
 
 export async function getDishes(
@@ -8,7 +9,6 @@ export async function getDishes(
   pageSize: string = "5",
   token: string
 ): Promise<GetResponseType<Dish>> {
-  // &Status=${status}
   const res = await fetch(
     `${process.env.API_URL}/v1/Dish/dish?PagingRequest.Page=${page}&PagingRequest.PageSize=${pageSize}&Status${status}&RestaurantId=${restaurantId}&DishName=${name}&IsRefundDish=false`,
     {
@@ -23,6 +23,7 @@ export async function getDishes(
   }
 
   const data = await res.json();
+
   return data;
 }
 
@@ -90,8 +91,36 @@ export async function activeDish(id: string, token: string) {
     cache: "no-store",
   });
   if (!res.ok) {
-    throw new Error("Something went wrong");
+    const data = await res.json();
+    throw new MyError(data.statusCode, data.message);
   }
   const data = await res.json();
+
+  return data.message;
+}
+
+export async function changeDishPrice(
+  id: string,
+  price: number,
+  token: string
+) {
+  console.log(id, price);
+
+  const res = await fetch(`${process.env.API_URL}/v1/Dish/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    cache: "no-store",
+    body: JSON.stringify({ price }),
+  });
+  if (!res.ok) {
+    const data = await res.json();
+    throw new MyError(data.statusCode, data.message);
+  }
+  const data = await res.json();
+  console.log(data);
+
   return data.message;
 }

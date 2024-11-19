@@ -1,5 +1,6 @@
 export type DishGeneral = {
   id: string;
+  categoryId: string;
   dishGeneralName: string;
   dishGeneralPrice: number;
   dishGeneralDescription: string;
@@ -7,6 +8,7 @@ export type DishGeneral = {
   categoryName: string;
   createdDate: string;
   updateTime: string;
+  isRefund: boolean;
   percentagePriceDifference: number;
   images: [
     {

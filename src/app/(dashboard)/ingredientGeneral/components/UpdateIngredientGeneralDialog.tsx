@@ -1,11 +1,5 @@
 "use client";
-import React, {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { Dispatch, SetStateAction, useCallback, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -19,7 +13,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
   updateIngredientGeneralAction,
-  getIngredientGeneralByIdAction,
   getIngredientTypesAction,
 } from "@/actions";
 import { ReuseCombobox } from "../../components";
@@ -30,7 +23,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useAction } from "next-safe-action/hooks";
 import { IngredientGeneral } from "@/types";
-import { useQuery } from "@tanstack/react-query";
 
 function UpdateIngredientGeneralDialog({
   isOpenUpdateDialog,
@@ -41,15 +33,10 @@ function UpdateIngredientGeneralDialog({
   setIsOpenUpdateDialog: Dispatch<SetStateAction<boolean>>;
   data: IngredientGeneral;
 }) {
-  const [updateLabel, setUpdateLabel] = useState<string | undefined>(undefined);
-
-  const { data: ingredientGeneralDetail, isPending: isGetting } = useQuery({
-    queryKey: ["ingredientGeneral", data.id],
-    queryFn: () => getIngredientGeneralByIdAction({ id: data.id }),
-    refetchOnWindowFocus: false,
-    staleTime: 0,
-    gcTime: 0,
-  });
+  const [updateLabel, setUpdateLabel] = useState<string | undefined>(
+    data.ingredientGeneralType
+  );
+  console.log(data);
 
   const {
     register,
@@ -61,25 +48,12 @@ function UpdateIngredientGeneralDialog({
   } = useForm<z.infer<typeof UpdateIngredientGeneralSchema>>({
     resolver: zodResolver(UpdateIngredientGeneralSchema),
     defaultValues: {
-      ingredientGeneralName: "",
-      ingredientGeneralDescription: "",
-      ingredientTypeId: "",
+      id: data.id,
+      ingredientGeneralName: data.ingredientGeneralName,
+      ingredientGeneralDescription: data.ingredientGeneralDescription,
+      ingredientTypeId: data.ingredientTypeId,
     },
   });
-
-  useEffect(() => {
-    if (ingredientGeneralDetail?.data) {
-      reset({
-        id: ingredientGeneralDetail?.data?.id,
-        ingredientGeneralName:
-          ingredientGeneralDetail?.data?.ingredientGeneralName,
-        ingredientGeneralDescription:
-          ingredientGeneralDetail?.data?.ingredientGeneralDescription,
-        ingredientTypeId: ingredientGeneralDetail?.data?.ingredientGeneralType,
-      });
-      setUpdateLabel(ingredientGeneralDetail?.data?.ingredientGeneralTypeName);
-    }
-  }, [ingredientGeneralDetail, reset]);
 
   const { execute, isPending } = useAction(updateIngredientGeneralAction, {
     onSuccess: ({ data }) => {
@@ -101,13 +75,8 @@ function UpdateIngredientGeneralDialog({
   const onSubmit: SubmitHandler<z.infer<typeof UpdateIngredientGeneralSchema>> =
     useCallback(
       (data) => {
-        // console.log(data);
+        console.log(data);
 
-        // const newIngredientGeneral = {
-        //   ...data,
-        //   ingredientType,
-        //   ingredientMeasureType: +unit,
-        // };
         execute(data);
       },
       [execute]
@@ -141,7 +110,7 @@ function UpdateIngredientGeneralDialog({
             Cập nhật thông tin nguyên liệu vào biểu mẫu dưới đây.
           </DialogDescription>
         </DialogHeader>
-        {isGetting ? (
+        {false ? (
           <p>Loading...</p>
         ) : (
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -187,6 +156,7 @@ function UpdateIngredientGeneralDialog({
                 <Controller
                   name="ingredientTypeId"
                   control={control}
+                  // defaultValue={data.ingredientGeneralType}
                   render={({ field }) => {
                     return (
                       <>

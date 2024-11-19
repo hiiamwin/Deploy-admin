@@ -6,11 +6,13 @@ import {
   activeDishGeneral,
   addIngredientInDishGeneral,
   createDishGeneral,
+  createVariant,
   deleteIngredientInDishGeneral,
   getDishCategory,
   getDishGeneralById,
   getIngredientGenerals,
   inactiveDishGeneral,
+  updateDishGeneralNormalInformation,
   updateIngredientQuantityInDishGeneral,
 } from "@/apis";
 import {
@@ -147,4 +149,63 @@ export const inactiveDishGeneralAction = authActionClient
     const message = await inactiveDishGeneral(parsedInput.id, accesstoken);
     revalidatePath("/adminDish");
     return message;
+  });
+
+export const createVariantAction = authActionClient
+  .schema(z.object({ id: z.string() }))
+  .action(async ({ parsedInput, ctx: { accesstoken } }) => {
+    const message = await createVariant(parsedInput.id, accesstoken);
+    revalidatePath("/adminDish");
+    return message;
+  });
+
+export const updateDishGeneralNormalInformationAction = authActionClient
+  .schema(
+    z.object({
+      id: z.string(),
+      price: z.number(),
+      percentPriceDifference: z.number(),
+      dishGeneralName: z.string(),
+      dishGeneralDescription: z.string(),
+      imageUrl: z.array(z.string()),
+      categoryId: z.string(),
+      images: z.any(),
+    })
+  )
+  .action(async ({ parsedInput, ctx: { accesstoken } }) => {
+    if ([...parsedInput.images.entries()].length === 0) {
+      const message = await updateDishGeneralNormalInformation(
+        parsedInput.id,
+        {
+          price: parsedInput.price,
+          percentagePriceDifference: parsedInput.percentPriceDifference,
+          dishGeneralName: parsedInput.dishGeneralName,
+          dishGeneralDescription: parsedInput.dishGeneralDescription,
+          imageUrl: parsedInput.imageUrl,
+          categoryId: parsedInput.categoryId,
+        },
+        accesstoken
+      );
+      revalidatePath("/adminDish");
+
+      return message;
+    } else {
+      const imageUrls = await uploadImage(parsedInput.images);
+
+      const message = await updateDishGeneralNormalInformation(
+        parsedInput.id,
+        {
+          price: parsedInput.price,
+          percentagePriceDifference: parsedInput.percentPriceDifference,
+          dishGeneralName: parsedInput.dishGeneralName,
+          dishGeneralDescription: parsedInput.dishGeneralDescription,
+          imageUrl: [...parsedInput.imageUrl, ...imageUrls],
+          categoryId: parsedInput.categoryId,
+        },
+        accesstoken
+      );
+      revalidatePath("/adminDish");
+
+      return message;
+    }
   });

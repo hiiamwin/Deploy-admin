@@ -40,11 +40,10 @@ function ActiveIngredientGeneral({
       <AlertDialogContent className="bg-white">
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Bạn có chắc sẽ dừng hoạt động nhà hàng này không?
+            Bạn có chắc sẽ hoạt động lại nguyên liệu này không?
           </AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            Nguyên liệu sẽ được hoạt động lại
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

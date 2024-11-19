@@ -35,7 +35,6 @@ async function DishTable({
     "5",
     accessToken
   );
-  console.log(data);
 
   return (
     <>
@@ -60,7 +59,7 @@ async function DishTable({
           <TableBody>
             {data.results.map((dish) => (
               <TableRow key={dish.id} className="text-center">
-                <TableCell className="flex items-center gap-4 w-32 text-center">
+                <TableCell className="flex items-center gap-2 w-32 text-center">
                   {dish.images.map((image, index) => (
                     <Image
                       key={index}
@@ -88,11 +87,18 @@ async function DishTable({
                         className={`inline-block w-3 h-3 rounded-full bg-green-500 ml-2`}
                       />
                     </div>
-                  ) : (
+                  ) : dish.status === 2 ? (
                     <div className="text-center">
-                      không hoạt động
+                      Không hoạt động
                       <span
                         className={`inline-block w-3 h-3 rounded-full bg-red-500 ml-2`}
+                      />
+                    </div>
+                  ) : (
+                    <div className="text-center">
+                      Mới tạo
+                      <span
+                        className={`inline-block w-3 h-3 rounded-full bg-yellow-500 ml-2`}
                       />
                     </div>
                   )}

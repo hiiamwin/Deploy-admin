@@ -42,10 +42,9 @@ function ActiveDishGeneralDialog({
     <Dialog open={isOpenActivateDialog} onOpenChange={handleOpen}>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle>Bạn có muốn món ăn này hoạt động?</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            Các món ăn cùng tên (nếu có) sẽ bị dừng hoạt động
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

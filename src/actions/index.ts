@@ -1,4 +1,4 @@
-import { loginAction, logoutAction } from "./auth-actions";
+import { loginAction, logoutAction, changeProfileAction } from "./auth-actions";
 
 import {
   createRestaurantAction,
@@ -31,6 +31,8 @@ import {
   updateIngredientGeneralAction,
   activeIngredientGeneralAction,
   inActiveIngredientGeneralAction,
+  getIngredientGeneralMeasureAction,
+  createIngredientGeneralMeasureAction,
 } from "./ingredientGeneralActions";
 
 import {
@@ -39,6 +41,7 @@ import {
   addDishAction,
   activeDishAction,
   inactiveDishAction,
+  changeDishPriceAction,
 } from "./dishAction";
 
 import {
@@ -51,6 +54,8 @@ import {
   updateIngredientQuantityInDishGeneralAction,
   activeDishGeneralAction,
   inactiveDishGeneralAction,
+  createVariantAction,
+  updateDishGeneralNormalInformationAction,
 } from "./dishGeneralAction";
 
 import {
@@ -91,6 +96,7 @@ import {
 export {
   loginAction,
   logoutAction,
+  changeProfileAction,
   //
   createRestaurantAction,
   activeRestaurantAction,
@@ -114,6 +120,8 @@ export {
   updateIngredientGeneralAction,
   activeIngredientGeneralAction,
   inActiveIngredientGeneralAction,
+  getIngredientGeneralMeasureAction,
+  createIngredientGeneralMeasureAction,
   //
   getIngredientGeneralAction,
   getDishCategoriesAction,
@@ -124,12 +132,15 @@ export {
   updateIngredientQuantityInDishGeneralAction,
   activeDishGeneralAction,
   inactiveDishGeneralAction,
+  createVariantAction,
+  updateDishGeneralNormalInformationAction,
   //
   getDishGeneralAction,
   getDishByIdAction,
   addDishAction,
   activeDishAction,
   inactiveDishAction,
+  changeDishPriceAction,
   //
   getDishesAction,
   createComboAction,

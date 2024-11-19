@@ -14,6 +14,7 @@ import Image from "next/image";
 import { cookies } from "next/headers";
 import { decrypt } from "@/helper";
 import { getRefundDish } from "@/apis";
+import RefundDishMenuActions from "./RefundDishMenuActions";
 
 async function RefundDishTable({
   page,
@@ -61,7 +62,7 @@ async function RefundDishTable({
           <TableBody>
             {data.results.map((dish) => (
               <TableRow key={dish.id} className="text-center">
-                <TableCell className="flex items-center gap-4 w-32 text-center">
+                <TableCell className="flex items-center gap-2 w-32 text-center">
                   {dish.images.map((image, index) => (
                     <Image
                       key={index}
@@ -90,21 +91,31 @@ async function RefundDishTable({
                         className={`inline-block w-3 h-3 rounded-full bg-green-500 ml-2`}
                       />
                     </div>
-                  ) : (
+                  ) : dish.status === 2 ? (
                     <div className="text-center">
-                      không hoạt động
+                      Không hoạt động
                       <span
                         className={`inline-block w-3 h-3 rounded-full bg-red-500 ml-2`}
                       />
                     </div>
+                  ) : (
+                    <div className="text-center">
+                      Mới tạo
+                      <span
+                        className={`inline-block w-3 h-3 rounded-full bg-yellow-500 ml-2`}
+                      />
+                    </div>
                   )}
+                </TableCell>
+                <TableCell>
+                  <RefundDishMenuActions item={dish} />
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TableCell colSpan={5}>Tổng cộng</TableCell>
+              <TableCell colSpan={7}>Tổng cộng</TableCell>
               <TableCell>{data.totalNumberOfRecords} món ăn</TableCell>
             </TableRow>
           </TableFooter>

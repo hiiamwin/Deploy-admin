@@ -36,6 +36,7 @@ import {
   deleteIngredientInDishGeneralSchema,
   addIngredientInDishGeneralSchema,
   updateIngredientQuantityInDishGeneralSchema,
+  updateDishGeneralNormalInformationFormSchema,
 } from "./DishGeneralSchema";
 
 import { createComboFormSchema, createComboSchema } from "./ComboSchema";
@@ -72,6 +73,7 @@ export {
   deleteIngredientInDishGeneralSchema,
   addIngredientInDishGeneralSchema,
   updateIngredientQuantityInDishGeneralSchema,
+  updateDishGeneralNormalInformationFormSchema,
   //
   createComboFormSchema,
   createComboSchema,

@@ -1,4 +1,4 @@
-import { login } from "./authApi";
+import { login, changeProfile, changePassword } from "./authApi";
 //
 import {
   getRestaurants,
@@ -35,6 +35,8 @@ import {
   getIngredientGeneralById,
   activeIngredientGeneral,
   inActiveIngredientGeneral,
+  getIngredientGeneralMeasure,
+  createIngredientGeneralMeasure,
 } from "./ingredientGeneralApi";
 
 import {
@@ -46,6 +48,8 @@ import {
   updateIngredientQuantityInDishGeneral,
   activeDishGeneral,
   inactiveDishGeneral,
+  createVariant,
+  updateDishGeneralNormalInformation,
 } from "./dishgeneralApi";
 
 import {
@@ -54,6 +58,7 @@ import {
   addDish,
   activeDish,
   inactiveDish,
+  changeDishPrice,
 } from "./dishApi";
 
 import { getCombo, createCombo, activeCombo, inactiveCombo } from "./comboApi";
@@ -86,6 +91,8 @@ import {
 
 export {
   login,
+  changeProfile,
+  changePassword,
 
   // restaurant
   getRestaurants,
@@ -113,6 +120,8 @@ export {
   getIngredientGeneralById,
   activeIngredientGeneral,
   inActiveIngredientGeneral,
+  getIngredientGeneralMeasure,
+  createIngredientGeneralMeasure,
   //
   getDishGeneral,
   getDishGeneralById,
@@ -122,6 +131,8 @@ export {
   updateIngredientQuantityInDishGeneral,
   activeDishGeneral,
   inactiveDishGeneral,
+  createVariant,
+  updateDishGeneralNormalInformation,
   //
   getManagers,
   //
@@ -130,6 +141,7 @@ export {
   addDish,
   activeDish,
   inactiveDish,
+  changeDishPrice,
   //
   getCombo,
   createCombo,

@@ -16,6 +16,8 @@ import { decrypt } from "@/helper";
 import { AdminPagination } from "../../components";
 import Image from "next/image";
 import AdminDishMenuActions from "./AdminDishMenuActions";
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
 
 async function AdminDishTable({
   page,
@@ -53,6 +55,7 @@ async function AdminDishTable({
                 Phần trăm chêch lệch giá
               </TableHead>
               <TableHead className="text-center">Phân loại</TableHead>
+              <TableHead className="text-center">Ngày tạo</TableHead>
               <TableHead className="text-center">Trạng thái</TableHead>
               <TableHead className="text-center"></TableHead>
             </TableRow>
@@ -60,7 +63,7 @@ async function AdminDishTable({
           <TableBody>
             {data.results.map((dish) => (
               <TableRow key={dish.id} className="text-center">
-                <TableCell className="flex items-center gap-4 w-32 text-center">
+                <TableCell className="flex items-center gap-2 w-32 text-center">
                   {dish.images.map((image, index) => (
                     <Image
                       key={index}
@@ -85,6 +88,11 @@ async function AdminDishTable({
                   {dish.categoryName}
                 </TableCell>
                 <TableCell>
+                  {format(new Date(dish.createdDate), "dd/MM/yyyy", {
+                    locale: vi,
+                  })}
+                </TableCell>
+                <TableCell>
                   {dish.status === 1 ? (
                     <div className="text-center">
                       Đang hoạt động
@@ -92,11 +100,18 @@ async function AdminDishTable({
                         className={`inline-block w-3 h-3 rounded-full bg-green-500 ml-2`}
                       />
                     </div>
-                  ) : (
+                  ) : dish.status === 2 ? (
                     <div className="text-center">
-                      không hoạt động
+                      Không hoạt động
                       <span
                         className={`inline-block w-3 h-3 rounded-full bg-red-500 ml-2`}
+                      />
+                    </div>
+                  ) : (
+                    <div className="text-center">
+                      Mới tạo
+                      <span
+                        className={`inline-block w-3 h-3 rounded-full bg-yellow-500 ml-2`}
                       />
                     </div>
                   )}
@@ -109,7 +124,7 @@ async function AdminDishTable({
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TableCell colSpan={6}>Tổng cộng</TableCell>
+              <TableCell colSpan={7}>Tổng cộng</TableCell>
               <TableCell>{data.results.length} món ăn</TableCell>
             </TableRow>
           </TableFooter>

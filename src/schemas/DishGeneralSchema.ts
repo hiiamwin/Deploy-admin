@@ -146,3 +146,29 @@ export const updateIngredientQuantityInDishGeneralSchema = z.object({
     .min(1, { message: "Món ăn phải có ít nhất 1 nguyên liệu" }),
   id: z.string(),
 });
+
+export const updateDishGeneralNormalInformationFormSchema = z.object({
+  dishGeneralName: z
+    .string()
+    .trim()
+    .min(1, { message: "Tên món ăn không được để trống" }),
+  price: z
+    .number({ message: "Giá tiền phải là số" })
+    .int({ message: "Giá tiền phải là số nguyên" })
+    .positive({ message: "Giá tiền phải lớn hơn 0" })
+    .min(1, { message: "Giá tiền phải lớn hơn 0" }),
+
+  percentagePriceDifference: z
+    .number({ message: "Phần trăm chênh lệch phải là số" })
+    .int({ message: "Phần trăm chênh lệch phải là số nguyên" })
+    .min(0, { message: "Phần trăm chênh lệch phải lớn hơn hoặc bằng 0" }),
+
+  dishGeneralDescription: z
+    .string()
+    .trim()
+    .min(1, { message: "Mô tả món ăn không được để trống" }),
+  categoryId: z
+    .string()
+    .trim()
+    .min(1, { message: "Danh mục món ăn không được để trống" }),
+});

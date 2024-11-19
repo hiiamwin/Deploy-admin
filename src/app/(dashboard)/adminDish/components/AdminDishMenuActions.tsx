@@ -9,13 +9,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Edit, MoreHorizontal, PowerOff } from "lucide-react";
+import { Copy, Edit, MoreHorizontal, PowerOff } from "lucide-react";
 import { DishGeneral } from "@/types";
 import UpdateNormalInfomationDialog from "./UpdateNormalInfomationDialog";
 import UpdateDishIngredientDialog from "./UpdateDishIngredientDialog";
 import InactiveDishGeneralDialog from "./InactiveDishGeneralDialog";
 import ActiveDishGeneralDialog from "./ActiveDishGeneralDialog";
 import DetailDishGeneralSheet from "./DetailDishGeneralSheet";
+import CreateVariantDialog from "./CreateVariantDialog";
 
 function AdminDishMenuActions({ item }: { item: DishGeneral }) {
   const [
@@ -29,6 +30,8 @@ function AdminDishMenuActions({ item }: { item: DishGeneral }) {
   const [isOpenInactivateDialog, setIsOpenInactivateDialog] = useState(false);
   const [isOpenActivateDialog, setIsOpenActivateDialog] = useState(false);
   const [isOpenDetailSheet, setIsOpenDetailSheet] = useState(false);
+  const [isOpenCreateVariationDialog, setIsOpenCreateVariationDialog] =
+    useState(false);
   return (
     <>
       <DropdownMenu>
@@ -53,29 +56,55 @@ function AdminDishMenuActions({ item }: { item: DishGeneral }) {
               <span>Chi tiết món ăn</span>
             </Button>
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem className="cursor-pointer">
-            <Button
-              variant={"ghost"}
-              size={"sm"}
-              onClick={() => setIsOpenUpdateNormalInformationDialog(true)}
-            >
-              <Edit className="mr-2 h-4 w-4" />
-              <span>Chỉnh sửa thông tin cơ bản</span>
-            </Button>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem className="cursor-pointer">
-            <Button
-              variant={"ghost"}
-              size={"sm"}
-              onClick={() => setIsOpenUpdateDishIngredientDialog(true)}
-            >
-              <Edit className="mr-2 h-4 w-4" />
-              <span>Chỉnh sửa công thức</span>
-            </Button>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
+          {item.status !== 3 && <DropdownMenuSeparator />}
+          {item.status === 3 && (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="cursor-pointer">
+                <Button
+                  variant={"ghost"}
+                  size={"sm"}
+                  onClick={() => setIsOpenUpdateNormalInformationDialog(true)}
+                >
+                  <Edit className="mr-2 h-4 w-4" />
+                  <span>Chỉnh sửa thông tin cơ bản</span>
+                </Button>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </>
+          )}
+
+          {item.status === 3 && item.isRefund === false && (
+            <>
+              <DropdownMenuItem className="cursor-pointer">
+                <Button
+                  variant={"ghost"}
+                  size={"sm"}
+                  onClick={() => setIsOpenUpdateDishIngredientDialog(true)}
+                >
+                  <Edit className="mr-2 h-4 w-4" />
+                  <span>Chỉnh sửa công thức</span>
+                </Button>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </>
+          )}
+
+          {item.status !== 3 && (
+            <>
+              <DropdownMenuItem className="cursor-pointer">
+                <Button
+                  variant={"ghost"}
+                  size={"sm"}
+                  onClick={() => setIsOpenCreateVariationDialog(true)}
+                >
+                  <Copy className="mr-2 h-4 w-4" />
+                  <span>Tạo ra món tương tự</span>
+                </Button>
+              </DropdownMenuItem>
+            </>
+          )}
+
           <DropdownMenuItem className="cursor-pointer">
             {item.status === 1 ? (
               <Button
@@ -143,6 +172,14 @@ function AdminDishMenuActions({ item }: { item: DishGeneral }) {
           id={item.id}
           isOpenDetailSheet={isOpenDetailSheet}
           setIsOpenDetailSheet={setIsOpenDetailSheet}
+        />
+      )}
+
+      {isOpenCreateVariationDialog && (
+        <CreateVariantDialog
+          id={item.id}
+          isOpenCreateVariationDialog={isOpenCreateVariationDialog}
+          setIsOpenCreateVariationDialog={setIsOpenCreateVariationDialog}
         />
       )}
     </>

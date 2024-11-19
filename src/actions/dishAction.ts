@@ -4,6 +4,7 @@ import { authActionClient } from "./safe-action";
 import {
   activeDish,
   addDish,
+  changeDishPrice,
   getDishById,
   getDishGeneral,
   inactiveDish,
@@ -49,7 +50,7 @@ export const addDishAction = authActionClient
   )
   .action(async ({ parsedInput, ctx: { accesstoken } }) => {
     const message = await addDish(parsedInput.productId, accesstoken);
-    revalidatePath("//managerDish");
+    revalidatePath("/managerDish");
     return message;
   });
 
@@ -73,6 +74,23 @@ export const activeDishAction = authActionClient
   )
   .action(async ({ parsedInput, ctx: { accesstoken } }) => {
     const message = await activeDish(parsedInput.id, accesstoken);
+    revalidatePath("/managerDish");
+    return message;
+  });
+
+export const changeDishPriceAction = authActionClient
+  .schema(
+    z.object({
+      id: z.string(),
+      price: z.number(),
+    })
+  )
+  .action(async ({ parsedInput, ctx: { accesstoken } }) => {
+    const message = await changeDishPrice(
+      parsedInput.id,
+      parsedInput.price,
+      accesstoken
+    );
     revalidatePath("/managerDish");
     return message;
   });
