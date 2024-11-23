@@ -54,6 +54,24 @@ async function AdminSideBar() {
       role: "Manager",
     },
     {
+      path: "/ingredientType?page=1",
+      icon: <LeafIcon className="w-5 h-5" />,
+      name: "Phân loại nguyên liệu",
+      role: "Administrator",
+    },
+    {
+      path: "/ingredientGeneral?page=1",
+      icon: <LeafIcon className="w-5 h-5" />,
+      name: "Nguyên liệu",
+      role: "Administrator",
+    },
+    {
+      path: "/dishCategory?page=1",
+      icon: <UtensilsIcon className="w-5 h-5" />,
+      name: "Phân loại món ăn",
+      role: "Administrator",
+    },
+    {
       path: "/adminDish?page=1",
       icon: <UtensilsIcon className="w-5 h-5" />,
       name: "Món ăn ",
@@ -71,35 +89,19 @@ async function AdminSideBar() {
       name: "Món ăn có thể hoàn trả ",
       role: "Manager",
     },
-    {
-      path: "/dishCategory?page=1",
-      icon: <UtensilsIcon className="w-5 h-5" />,
-      name: "Phân loại món ăn",
-      role: "Administrator",
-    },
+
     {
       path: "/combo?page=1",
       icon: <UtensilsIcon className="w-5 h-5" />,
       name: "Combo món ăn",
       role: "Manager",
     },
-    {
-      path: "/ingredientGeneral?page=1",
-      icon: <LeafIcon className="w-5 h-5" />,
-      name: "Nguyên liệu",
-      role: "Administrator",
-    },
+
     {
       path: "/ingredient?page=1",
       icon: <LeafIcon className="w-5 h-5" />,
       name: "Nguyên liệu ",
       role: "Manager",
-    },
-    {
-      path: "/ingredientType?page=1",
-      icon: <LeafIcon className="w-5 h-5" />,
-      name: "Phân loại nguyên liệu",
-      role: "Administrator",
     },
 
     {
