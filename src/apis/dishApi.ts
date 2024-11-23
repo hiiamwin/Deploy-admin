@@ -38,6 +38,9 @@ export async function getDishById(
     cache: "no-store",
   });
   if (!res.ok) {
+    const data = await res.json();
+    console.log(data);
+
     throw new Error("Something went wrong");
   }
   const data = await res.json();
@@ -104,8 +107,6 @@ export async function changeDishPrice(
   price: number,
   token: string
 ) {
-  console.log(id, price);
-
   const res = await fetch(`${process.env.API_URL}/v1/Dish/${id}`, {
     method: "PUT",
     headers: {

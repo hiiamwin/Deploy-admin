@@ -43,7 +43,7 @@ async function ComboTable({
       {data.results.length > 0 ? (
         <Table>
           <TableCaption className="caption-top text-2xl font-bold text-gray-700">
-            Danh sách món ăn
+            Danh sách combo
           </TableCaption>
           <TableHeader>
             <TableRow>
@@ -96,12 +96,12 @@ async function ComboTable({
           <TableFooter>
             <TableRow>
               <TableCell colSpan={4}>Tổng cộng</TableCell>
-              <TableCell>{data.totalNumberOfRecords} món ăn</TableCell>
+              <TableCell>{data.totalNumberOfRecords} combo</TableCell>
             </TableRow>
           </TableFooter>
         </Table>
       ) : (
-        <h2 className="text-center mt-10">Không tìm thấy món ăn nào</h2>
+        <h2 className="text-center mt-10">Không tìm thấy combo nào</h2>
       )}
 
       <AdminPagination totalPage={Math.ceil(data.totalNumberOfRecords / 5)} />

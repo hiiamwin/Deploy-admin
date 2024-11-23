@@ -26,6 +26,7 @@ function DishDetailSheet({
   const { data, isPending } = useQuery({
     queryKey: ["getDishById", { id }],
     queryFn: () => getDishByIdAction({ id }),
+    refetchOnWindowFocus: false,
   });
 
   return (

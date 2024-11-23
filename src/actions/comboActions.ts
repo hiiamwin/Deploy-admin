@@ -1,7 +1,13 @@
 "use server";
 import { z } from "zod";
 import { authActionClient } from "./safe-action";
-import { activeCombo, createCombo, getDishes, inactiveCombo } from "@/apis";
+import {
+  activeCombo,
+  createCombo,
+  getDetailCombo,
+  getDishes,
+  inactiveCombo,
+} from "@/apis";
 import { cookies } from "next/headers";
 import { decrypt, uploadASingleImage } from "@/helper";
 import { createComboSchema } from "@/schemas";
@@ -59,4 +65,11 @@ export const activeComboAction = authActionClient
     const message = await activeCombo(parsedInput.id, accesstoken);
     revalidatePath("/combo");
     return message;
+  });
+
+export const getDetailComboAction = authActionClient
+  .schema(z.object({ id: z.string() }))
+  .action(async ({ parsedInput, ctx: { accesstoken } }) => {
+    const data = await getDetailCombo(parsedInput.id, accesstoken);
+    return data;
   });

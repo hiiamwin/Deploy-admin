@@ -61,7 +61,13 @@ import {
   changeDishPrice,
 } from "./dishApi";
 
-import { getCombo, createCombo, activeCombo, inactiveCombo } from "./comboApi";
+import {
+  getCombo,
+  createCombo,
+  activeCombo,
+  inactiveCombo,
+  getDetailCombo,
+} from "./comboApi";
 
 import { getLocations } from "./locationApi";
 
@@ -88,6 +94,13 @@ import {
   getEmployeeInShiftAtDate,
   unregisterSchedule,
 } from "./scheduleApi";
+
+import {
+  getCurrentStatictis,
+  getRevenueStatistic,
+  getCustomerStatistic,
+  getOrderStatistic,
+} from "./statictis";
 
 export {
   login,
@@ -147,6 +160,7 @@ export {
   createCombo,
   activeCombo,
   inactiveCombo,
+  getDetailCombo,
   //
   getIngredients,
   downloadIngredientFile,
@@ -170,4 +184,9 @@ export {
   registerSchedule,
   getEmployeeInShiftAtDate,
   unregisterSchedule,
+  //
+  getCurrentStatictis,
+  getRevenueStatistic,
+  getCustomerStatistic,
+  getOrderStatistic,
 };

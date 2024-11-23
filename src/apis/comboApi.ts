@@ -72,3 +72,16 @@ export async function activeCombo(id: string, token: string) {
   const data = await response.json();
   return data.message;
 }
+
+export async function getDetailCombo(id: string, token: string) {
+  const response = await fetch(`${process.env.API_URL}/v1/Combo/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) {
+    throw Error("Something went wrong");
+  }
+  const data = await response.json();
+  return data;
+}

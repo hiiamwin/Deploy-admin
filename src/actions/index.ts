@@ -63,6 +63,7 @@ import {
   createComboAction,
   activeComboAction,
   inactiveComboAction,
+  getDetailComboAction,
 } from "./comboActions";
 
 import {
@@ -92,6 +93,12 @@ import {
   getEmployeeInShiftAtDateAction,
   unregisterScheduleAction,
 } from "./scheduleActions";
+
+import {
+  getRevenueStatisticAction,
+  getCustomerStatisticAction,
+  getOrderStatisticAction,
+} from "./statictisActions";
 
 export {
   loginAction,
@@ -146,6 +153,7 @@ export {
   createComboAction,
   activeComboAction,
   inactiveComboAction,
+  getDetailComboAction,
   //
   downloadIngredientFileAction,
   uploadIngredientFileAction,
@@ -166,4 +174,8 @@ export {
   registerScheduleAction,
   getEmployeeInShiftAtDateAction,
   unregisterScheduleAction,
+  //
+  getRevenueStatisticAction,
+  getCustomerStatisticAction,
+  getOrderStatisticAction,
 };

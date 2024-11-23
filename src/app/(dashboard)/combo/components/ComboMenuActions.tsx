@@ -5,17 +5,20 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, PowerOff } from "lucide-react";
+import { Edit, MoreHorizontal, PowerOff } from "lucide-react";
 import { Combo } from "@/types";
 import InactiveComboDialog from "./InactiveComboDialog";
 import ActiveComboDialog from "./ActiveComboDialog";
+import DetailComboSheet from "./DetailComboSheet";
 
 function ComboMenuActions({ item }: { item: Combo }) {
   const [isOpenInactivateDialog, setIsOpenInactivateDialog] = useState(false);
   const [isOpenActivateDialog, setIsOpenActivateDialog] = useState(false);
+  const [isOpenDetailSheet, setIsOpenDetailSheet] = useState(false);
   return (
     <>
       <DropdownMenu>
@@ -30,6 +33,16 @@ function ComboMenuActions({ item }: { item: Combo }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => setIsOpenDetailSheet(true)}
+          >
+            <Button variant={"ghost"} size={"sm"}>
+              <Edit className="mr-2 h-4 w-4" />
+              <span>Chi tiết combo</span>
+            </Button>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
           <DropdownMenuItem className="cursor-pointer">
             {item.status === 1 ? (
               <Button
@@ -67,6 +80,14 @@ function ComboMenuActions({ item }: { item: Combo }) {
           id={item.id}
           isOpenActivateDialog={isOpenActivateDialog}
           setIsOpenActivateDialog={setIsOpenActivateDialog}
+        />
+      )}
+
+      {isOpenDetailSheet && (
+        <DetailComboSheet
+          id={item.id}
+          isOpenDetailSheet={isOpenDetailSheet}
+          setIsOpenDetailSheet={setIsOpenDetailSheet}
         />
       )}
     </>
