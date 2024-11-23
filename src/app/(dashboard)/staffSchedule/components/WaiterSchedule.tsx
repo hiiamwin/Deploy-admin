@@ -21,6 +21,7 @@ import StaffList from "./StaffList";
 import { useQuery } from "@tanstack/react-query";
 import { getWeeklyShiftCountAction } from "@/actions";
 import ScheduleSkeleton from "./ScheduleSkeleton";
+import ViewQr from "./ViewQr";
 
 const shifts = [
   {
@@ -86,6 +87,9 @@ function WaiterSchedule() {
   };
   return (
     <>
+      <div className="flex justify-end mb-2">
+        <ViewQr />
+      </div>
       <div className="flex justify-between items-center mb-6">
         <Button
           onClick={goToPreviousWeek}
@@ -202,23 +206,6 @@ function WaiterSchedule() {
                             <UserIcon className="h-4 w-4 mr-2" />
                             Xem
                           </Button>
-                          {/* <AddWaiterForm
-                            isEditableDate={isEditableDate}
-                            date={format(day, "EEEE,dd/MM/yyyy", {
-                              locale: vi,
-                            })}
-                            shiftTime={`${shift.startTime} - ${shift.endTime}`}
-                            shiftId={shift.id}
-                          />
-                          <StaffList
-                            isEditableDate={isEditableDate}
-                            date={format(day, "EEEE,dd/MM/yyyy", {
-                              locale: vi,
-                            })}
-                            shiftTime={`${shift.startTime} - ${shift.endTime}`}
-                            shiftId={shift.id}
-                            refetchCount={refetch}
-                          /> */}
                         </div>
                       </td>
                     );

@@ -59,6 +59,7 @@ function AddWaiterForm({
     onSuccess: () => {
       refetch();
       refetchCount();
+      setRegisterList([]);
       toast.success("Đăng ký nhân viên thành công");
     },
     onError: () => {

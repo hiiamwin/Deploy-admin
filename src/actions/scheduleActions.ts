@@ -3,13 +3,16 @@
 import { authActionClient } from "@/actions/safe-action";
 import {
   getEmployeeInShiftAtDate,
+  getQRCode,
   getUnassignedEmployees,
   getWeeklyShiftCount,
   registerSchedule,
   unregisterSchedule,
 } from "@/apis";
+import { decrypt } from "@/helper";
 import { format, parse } from "date-fns";
 import { vi } from "date-fns/locale";
+import { cookies } from "next/headers";
 import { z } from "zod";
 
 export const getWeeklyShiftCountAction = authActionClient
@@ -86,6 +89,26 @@ export const unregisterScheduleAction = authActionClient
     const data = await unregisterSchedule(
       parsedInput.employeeId,
       parsedInput.scheduleId,
+      accesstoken
+    );
+    return data;
+  });
+
+export const getQRCodeAction = authActionClient
+  .schema(
+    z.object({
+      shiftId: z.string(),
+      date: z.string(),
+    })
+  )
+  .action(async ({ parsedInput, ctx: { accesstoken } }) => {
+    const cookie = cookies().get("session")?.value;
+    if (!cookie) return null;
+    const session = await decrypt(cookie);
+    const data = await getQRCode(
+      session.restaurantId as string,
+      parsedInput.shiftId,
+      parsedInput.date,
       accesstoken
     );
     return data;

@@ -93,6 +93,7 @@ import {
   registerSchedule,
   getEmployeeInShiftAtDate,
   unregisterSchedule,
+  getQRCode,
 } from "./scheduleApi";
 
 import {
@@ -184,6 +185,7 @@ export {
   registerSchedule,
   getEmployeeInShiftAtDate,
   unregisterSchedule,
+  getQRCode,
   //
   getCurrentStatictis,
   getRevenueStatistic,

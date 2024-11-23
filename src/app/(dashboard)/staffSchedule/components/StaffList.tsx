@@ -6,11 +6,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Loader2, UserIcon } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
   getEmployeeInShiftAtDateAction,
@@ -62,12 +61,6 @@ function StaffList({
   };
   return (
     <Dialog open={openList} onOpenChange={handleOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="bg-white">
-          <UserIcon className="h-4 w-4 mr-2" />
-          Xem
-        </Button>
-      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-white">
         <DialogHeader>
           <DialogTitle>Danh Sách Nhân Viên Trong Ca</DialogTitle>

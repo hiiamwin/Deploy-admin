@@ -95,3 +95,22 @@ export async function unregisterSchedule(
   const data = await response.json();
   return data;
 }
+
+export async function getQRCode(
+  restaurantId: string,
+  shiftId: string,
+  date: string,
+  token: string
+) {
+  const response = await fetch(
+    `${process.env.API_URL}/Attendance/qr?RestaurantId=${restaurantId}&ShiftId=${shiftId}&Date=${date}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  const data = await response.json();
+
+  return data;
+}

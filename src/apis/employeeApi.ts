@@ -23,7 +23,8 @@ export async function getWaiters(
   status: string
 ): Promise<GetResponseType<Employee>> {
   const res = await fetch(
-    `${process.env.API_URL}/Employee/employee?PagingRequest.Page=${page}&PagingRequest.PageSize=5&Role=Waiter&RestaurantId=${restaurantId}&FullName=${fullName}&Status=${status}`,
+    // &Role=Waiter
+    `${process.env.API_URL}/Employee/employee?PagingRequest.Page=${page}&PagingRequest.PageSize=5&RestaurantId=${restaurantId}&FullName=${fullName}&Status=${status}`,
     {
       cache: "no-store",
     }

@@ -92,6 +92,7 @@ import {
   registerScheduleAction,
   getEmployeeInShiftAtDateAction,
   unregisterScheduleAction,
+  getQRCodeAction,
 } from "./scheduleActions";
 
 import {
@@ -174,6 +175,7 @@ export {
   registerScheduleAction,
   getEmployeeInShiftAtDateAction,
   unregisterScheduleAction,
+  getQRCodeAction,
   //
   getRevenueStatisticAction,
   getCustomerStatisticAction,
