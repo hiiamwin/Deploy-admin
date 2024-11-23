@@ -33,11 +33,7 @@ function LoginPage() {
         <CardContent>
           <LoginForm />
         </CardContent>
-        <CardFooter>
-          <Button variant="link" className="w-full" asChild>
-            <Link href="/forgotpassword">Quên mật khẩu?</Link>
-          </Button>
-        </CardFooter>
+        <CardFooter></CardFooter>
       </Card>
     </div>
   );
