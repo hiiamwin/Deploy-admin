@@ -44,8 +44,8 @@ async function ManagerTable({
           columns={columns}
           data={data.results}
           total={data.totalNumberOfRecords}
-          tableName="Nhà hàng"
-          tableCaption="Danh sách nhà hàng"
+          tableName="Quản lý nhà hàng"
+          tableCaption="Danh sách quản lý nhà hàng"
           renderActions={(item) => <ManagerMenuActions item={item} />}
         />
       ) : (
