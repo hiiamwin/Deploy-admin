@@ -86,12 +86,12 @@ function OrderTable({}: // page,
           columns={columns}
           data={data.results}
           total={data.totalNumberOfRecords}
-          tableName="Nhà hàng"
-          tableCaption="Danh sách nhà hàng"
+          tableName="Đơn hàng"
+          tableCaption="Danh sách đơn hàng"
           // renderActions={(item) => <OrderMenuActions item={item} />}
         />
       ) : (
-        <h2 className="text-center mt-10">Không tìm thấy nhà hàng nào</h2>
+        <h2 className="text-center mt-10">Không tìm thấy đơn hàng nào</h2>
       )}
 
       <AdminPagination totalPage={Math.ceil(data.totalNumberOfRecords / 5)} />

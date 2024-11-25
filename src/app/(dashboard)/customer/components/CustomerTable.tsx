@@ -65,7 +65,7 @@ function CustomerTable({}: { page: string; phone: string }) {
           renderActions={(item) => <CustomerMenuActions item={item} />}
         />
       ) : (
-        <h2 className="text-center mt-10">Không tìm thấy nhà hàng nào</h2>
+        <h2 className="text-center mt-10">Không tìm thấy khách hàng nào</h2>
       )}
 
       <AdminPagination totalPage={Math.ceil(data.totalNumberOfRecords / 5)} />

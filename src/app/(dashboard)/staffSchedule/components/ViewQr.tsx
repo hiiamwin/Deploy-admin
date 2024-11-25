@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { format, isAfter, isWithinInterval, parse } from "date-fns";
+import { format, isWithinInterval, parse } from "date-fns";
 import { vi } from "date-fns/locale";
 import { useQuery } from "@tanstack/react-query";
 import { getQRCodeAction } from "@/actions";
@@ -68,19 +68,19 @@ function ViewQr() {
     refetchOnWindowFocus: false,
   });
 
-  const isDisabled = (() => {
-    if (!scheduleInfo) return true; // Không có ca làm việc thì vô hiệu hóa
+  // const isDisabled = (() => {
+  //   if (!scheduleInfo) return true; // Không có ca làm việc thì vô hiệu hóa
 
-    const now = new Date();
-    const lockTime = parse(scheduleInfo.lockTime, "HH:mm:ss", now);
+  //   const now = new Date();
+  //   const lockTime = parse(scheduleInfo.lockTime, "HH:mm:ss", now);
 
-    // Kiểm tra nếu hiện tại đã qua thời gian khóa
-    return isAfter(now, lockTime);
-  })();
+  //   // Kiểm tra nếu hiện tại đã qua thời gian khóa
+  //   return isAfter(now, lockTime);
+  // })();
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button disabled={isDisabled}>Xem QR</Button>
+        <Button>Xem QR</Button>
       </DialogTrigger>
       <DialogContent className="bg-white">
         <DialogHeader>
