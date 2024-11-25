@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -157,7 +158,7 @@ function WaiterSchedule() {
                           Nhân viên: {shiftCount?.employeeCount}
                         </div>
                         <div className="flex flex-col space-y-2">
-                          {!isEditableDate ? (
+                          {/* {!isEditableDate ? (
                             <Button
                               variant="outline"
                               size="sm"
@@ -186,7 +187,25 @@ function WaiterSchedule() {
                               <PlusIcon className="h-4 w-4 mr-2" />
                               Thêm
                             </Button>
-                          )}
+                          )} */}
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="bg-white"
+                            onClick={() => {
+                              setScheduleInfo({
+                                date: format(day, "EEEE,dd/MM/yyyy", {
+                                  locale: vi,
+                                }),
+                                shiftTime: `${shift.startTime} - ${shift.endTime}`,
+                                shiftId: shift.id,
+                              });
+                              setOpenAdd(true);
+                            }}
+                          >
+                            <PlusIcon className="h-4 w-4 mr-2" />
+                            Thêm
+                          </Button>
 
                           <Button
                             variant="outline"
