@@ -36,6 +36,8 @@ export async function createCombo(newCombo: CreateCombo, token: string) {
   });
   if (!response.ok) {
     const data = await response.json();
+    console.log(data);
+
     throw new MyError(data.statusCode, JSON.stringify(data.errors));
   }
   const data = await response.json();

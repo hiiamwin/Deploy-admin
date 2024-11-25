@@ -41,10 +41,9 @@ function InactiveComboDialog({
     <Dialog open={isOpenInactivateDialog} onOpenChange={handleOpen}>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle>Bạn có chắc dừng hoạt động combo này?</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            Combo sẽ không hiển thị trên menu
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

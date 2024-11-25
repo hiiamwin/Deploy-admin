@@ -78,10 +78,10 @@ function AddComboDialog({
   const onSubmit: SubmitHandler<z.infer<typeof createComboFormSchema>> = async (
     data
   ) => {
-    if (Number(data.price) > totalPrice) {
+    if (Number(data.price) >= totalPrice) {
       setError("price", {
         type: "manual",
-        message: "Giá combo không thể lớn hơn tổng giá các món",
+        message: "Giá combo không thể bằng hoặc lớn hơn tổng giá các món",
       });
       return;
     }
