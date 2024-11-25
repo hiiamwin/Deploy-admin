@@ -49,7 +49,7 @@ async function IngredientTable({ page, name }: { page: string; name: string }) {
                   {ingredient.ingredientType}
                 </TableCell>
                 <TableCell>{ingredient.ingredientDescription}</TableCell>
-                <TableCell>{ingredient.amount} gam</TableCell>
+                <TableCell>{ingredient.amount}</TableCell>
                 <TableCell className="flex items-center justify-center">
                   {ingredient.ingredientUnits.reverse().map((unit, index) => {
                     if (index + 1 === ingredient.ingredientUnits.length) {
