@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/table";
 import Image from "next/image";
 import DishMenuActions from "./DishMenuActions";
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
 
 async function DishTable({
   page,
@@ -47,11 +49,12 @@ async function DishTable({
             <TableRow>
               <TableHead className="text-center">Hình ảnh</TableHead>
               <TableHead className="text-center">Tên món ăn</TableHead>
-              <TableHead className="text-center">Giá gốc</TableHead>
+              <TableHead className="text-center">Giá</TableHead>
               <TableHead className="text-center">
                 Phần trăm chêch lệch giá
               </TableHead>
               <TableHead className="text-center">Phân loại</TableHead>
+              <TableHead className="text-center">Ngày tạo</TableHead>
               <TableHead className="text-center">Trạng thái</TableHead>
               <TableHead className="text-center"></TableHead>
             </TableRow>
@@ -78,6 +81,11 @@ async function DishTable({
                 </TableCell>
                 <TableCell className="text-center">
                   {dish.categoryName}
+                </TableCell>
+                <TableCell className="text-center">
+                  {format(new Date(dish.createdDate), "dd/MM/yyyy", {
+                    locale: vi,
+                  })}
                 </TableCell>
                 <TableCell>
                   {dish.status === 1 ? (

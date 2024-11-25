@@ -42,9 +42,12 @@ export async function createRestaurant(
     body: JSON.stringify(restaurant),
     cache: "no-store",
   });
+  console.log(restaurant);
 
   if (!res.ok) {
     const data = await res.json();
+    console.log(data);
+
     throw new MyError(data.statusCode, JSON.stringify(data.errors));
   }
   const data = await res.json();
