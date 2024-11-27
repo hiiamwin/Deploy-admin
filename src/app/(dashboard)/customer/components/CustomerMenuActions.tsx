@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ClipboardList, MoreHorizontal } from "lucide-react";
-import { Customer } from "@/types";
 import {
   Sheet,
   SheetContent,
@@ -48,7 +47,7 @@ const mockOrders = [
   },
 ];
 
-function CustomerMenuActions({ item }: { item: Customer }) {
+function CustomerMenuActions() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   return (
@@ -82,9 +81,9 @@ function CustomerMenuActions({ item }: { item: Customer }) {
           </SheetTrigger>
           <SheetContent className="w-[400px] sm:w-[540px] bg-white">
             <SheetHeader>
-              <SheetTitle>Lịch sử đặt đơn - {item.name}</SheetTitle>
+              <SheetTitle>Lịch sử đặt đơn - </SheetTitle>
               <SheetDescription>
-                Tên khách hàng: {item.name} - Số điện thoại: {item.phone}
+                {/* Tên khách hàng: {item.name} - Số điện thoại: {item.phone} */}
               </SheetDescription>
             </SheetHeader>
             <div className="mt-6">
