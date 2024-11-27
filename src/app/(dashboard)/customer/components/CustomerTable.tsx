@@ -1,56 +1,29 @@
 import React from "react";
 import { AdminPagination, ReuseTable } from "../../components";
 import { Column, Customer } from "@/types";
-import CustomerMenuActions from "./CustomerMenuActions";
+// import CustomerMenuActions from "./CustomerMenuActions";
+import { getCustomer } from "@/apis";
+import { decrypt } from "@/helper";
+import { cookies } from "next/headers";
 
-function CustomerTable({}: { page: string; phone: string }) {
-  const data = {
-    results: [
-      {
-        id: "a1",
-        name: "Nguyễn Văn A",
-        phone: "0123456789",
-        points: 100,
-      },
-      {
-        id: "a2",
-        name: "Nguyễn Văn B",
-        phone: "0123456789",
-        points: 200,
-      },
-      {
-        id: "a3",
-        name: "Nguyễn Văn C",
-        phone: "0123456789",
-        points: 300,
-      },
-      {
-        id: "a4",
-        name: "Nguyễn Văn D",
-        phone: "0123456789",
-        points: 400,
-      },
-      {
-        id: "a5",
-        name: "Nguyễn Văn E",
-        phone: "0123456789",
-        points: 500,
-      },
-    ],
-    totalNumberOfRecords: 15,
-  };
+async function CustomerTable({ page, name }: { page: string; name: string }) {
+  const cookie = cookies().get("session")?.value;
+  if (!cookie) return null;
+  const session = await decrypt(cookie);
+  const data = await getCustomer(page, session.accessToken as string, name);
+
   const columns: Column<Customer>[] = [
     {
       header: "Tên người dùng",
-      accessorKey: "name",
+      accessorKey: "fullName",
     },
     {
       header: "Số điện thoại",
-      accessorKey: "phone",
+      accessorKey: "phoneNumber",
     },
     {
       header: "Điểm tích lũy",
-      accessorKey: "points",
+      accessorKey: "point",
     },
   ];
   return (
@@ -62,7 +35,7 @@ function CustomerTable({}: { page: string; phone: string }) {
           total={data.totalNumberOfRecords}
           tableName="Khách hàng"
           tableCaption="Danh sách khách hàng"
-          renderActions={(item) => <CustomerMenuActions item={item} />}
+          // renderActions={(item) => <CustomerMenuActions item={item} />}
         />
       ) : (
         <h2 className="text-center mt-10">Không tìm thấy khách hàng nào</h2>

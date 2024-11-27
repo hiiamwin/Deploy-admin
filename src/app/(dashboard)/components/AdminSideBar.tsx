@@ -9,6 +9,7 @@ import {
   UserIcon,
   CalendarIcon,
   Soup,
+  Table,
 } from "lucide-react";
 import SideBarItem from "./SideBarItem";
 import { cookies } from "next/headers";
@@ -43,14 +44,14 @@ async function AdminSideBar() {
     },
     {
       path: "/table?page=1",
-      icon: <UsersIcon className="w-5 h-5" />,
+      icon: <Table className="w-5 h-5" />,
       name: "Bàn ăn",
       role: "Manager",
     },
     {
       path: "/customer?page=1",
       icon: <UsersIcon className="w-5 h-5" />,
-      name: "Khách hàng",
+      name: "Thông tin khách hàng",
       role: "Manager",
     },
     {

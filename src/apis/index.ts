@@ -103,6 +103,10 @@ import {
   getOrderStatistic,
 } from "./statictis";
 
+import { getCustomer } from "./customerApi";
+
+import { getOrder, getOrderDetail } from "./orderApi";
+
 export {
   login,
   changeProfile,
@@ -191,4 +195,9 @@ export {
   getRevenueStatistic,
   getCustomerStatistic,
   getOrderStatistic,
+  //
+  getCustomer,
+  //
+  getOrder,
+  getOrderDetail,
 };

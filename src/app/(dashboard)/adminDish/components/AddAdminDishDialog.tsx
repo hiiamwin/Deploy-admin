@@ -212,7 +212,7 @@ function AddAdminDishDialog() {
               <div className="flex w-full gap-4">
                 <div className="flex flex-col w-1/2">
                   <Label htmlFor="adminDishName" className="mb-2">
-                    Độ lệch Giá
+                    Chênh lệch giá (%)
                   </Label>
                   <Input
                     defaultValue={0}

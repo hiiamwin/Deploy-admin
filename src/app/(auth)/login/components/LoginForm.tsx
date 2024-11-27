@@ -59,6 +59,7 @@ function LoginForm() {
           placeholder="Nhập mã nhân viên của bạn"
           required
           {...register("code")}
+          disabled={isPending}
         />
         {errors.code && (
           <p className="text-red-500 text-sm mt-1" role="alert">
@@ -76,11 +77,13 @@ function LoginForm() {
             required
             placeholder="Nhập mật khẩu của bạn"
             {...register("password")}
+            disabled={isPending}
           />
           <button
             type="button"
             className="absolute right-2 top-2 text-gray-500"
             onClick={() => setShowPassword(!showPassword)}
+            disabled={isPending}
           >
             {showPassword ? (
               <EyeOff className="h-5 w-5" />

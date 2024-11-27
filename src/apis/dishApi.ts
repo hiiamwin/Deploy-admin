@@ -10,7 +10,7 @@ export async function getDishes(
   token: string
 ): Promise<GetResponseType<Dish>> {
   const res = await fetch(
-    `${process.env.API_URL}/v1/Dish/dish?PagingRequest.Page=${page}&PagingRequest.PageSize=${pageSize}&Status${status}&RestaurantId=${restaurantId}&DishName=${name}`,
+    `${process.env.API_URL}/v1/Dish/dish?PagingRequest.Page=${page}&PagingRequest.PageSize=${pageSize}&Status=${status}&RestaurantId=${restaurantId}&DishName=${name}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

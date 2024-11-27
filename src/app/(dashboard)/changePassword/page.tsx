@@ -1,7 +1,8 @@
 import React from "react";
+import { ChangePasswordForm } from "./components";
 
 function ChangePassword() {
-  return <div>ChangePassword</div>;
+  return <ChangePasswordForm />;
 }
 
 export default ChangePassword;

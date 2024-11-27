@@ -202,7 +202,7 @@ function UpdateNormalInfomationDialog({
               </div>
               <div className="flex flex-col">
                 <Label htmlFor={"percentagePriceDifference"} className="mb-2">
-                  Chênh lệch giá
+                  Chênh lệch giá (%)
                 </Label>
                 <Input
                   id={"percentagePriceDifference"}

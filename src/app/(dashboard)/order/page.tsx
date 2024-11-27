@@ -1,29 +1,20 @@
 import React, { Suspense } from "react";
 import { ReuseActionBar, ReuseTableLoading } from "../components";
 import { OrderTable } from "./components";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Quản lý đơn hàng",
+  description: "Quản lý đơn hàng",
+};
 
 function ManageOrderPage({
   searchParams,
 }: {
-  searchParams?: { page?: string; phone?: string; status: string };
+  searchParams?: { page?: string; phone?: string };
 }) {
   const page = searchParams?.page || "1";
   const phone = searchParams?.phone || "";
-  const status = searchParams?.status || "";
-  // const orderStatus = [
-  //   {
-  //     value: 1,
-  //     label: "Đã xác nhận",
-  //   },
-  //   {
-  //     value: 2,
-  //     label: "Đang chờ xác nhận",
-  //   },
-  //   {
-  //     value: 3,
-  //     label: "Đã hủy",
-  //   },
-  // ];
 
   const columns = [
     {
@@ -46,14 +37,14 @@ function ManageOrderPage({
   return (
     <div>
       <ReuseActionBar
-        isFilter={true}
+        isFilter={false}
         isSearch={true}
         searchBy="phone"
         filterBy="status"
         placeholder="Tìm theo số điện thoại khách hàng"
       />
       <Suspense
-        key={page + phone + status}
+        key={page + phone}
         fallback={
           <ReuseTableLoading
             columns={columns}
@@ -62,7 +53,7 @@ function ManageOrderPage({
           />
         }
       >
-        <OrderTable page={page} phone={phone} status={status} />
+        <OrderTable page={page} phone={phone} />
       </Suspense>
     </div>
   );

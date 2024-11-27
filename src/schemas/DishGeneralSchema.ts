@@ -42,7 +42,10 @@ export const createDishGeneralFormSchema = z
     percentPriceDifference: z
       .number()
       .int({ message: "Phần trăm chênh lệch phải là số nguyên" })
-      .min(0, { message: "Phần trăm chênh lệch phải lớn hơn hoặc bằng 0" }),
+      .min(0, { message: "Phần trăm chênh lệch phải lớn hơn hoặc bằng 0%" })
+      .max(100, {
+        message: "Phần trăm chênh lệch phải nhỏ hơn hoặc bằng 100%",
+      }),
   })
   .refine(
     (data) => {
@@ -161,7 +164,8 @@ export const updateDishGeneralNormalInformationFormSchema = z.object({
   percentagePriceDifference: z
     .number({ message: "Phần trăm chênh lệch phải là số" })
     .int({ message: "Phần trăm chênh lệch phải là số nguyên" })
-    .min(0, { message: "Phần trăm chênh lệch phải lớn hơn hoặc bằng 0" }),
+    .min(0, { message: "Phần trăm chênh lệch phải lớn hơn hoặc bằng 0%" })
+    .max(100, { message: "Phần trăm chênh lệch phải nhỏ hơn hoặc bằng 100%" }),
 
   dishGeneralDescription: z
     .string()

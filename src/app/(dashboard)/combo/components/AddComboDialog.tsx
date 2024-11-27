@@ -190,6 +190,7 @@ function AddComboDialog({
                   id="comboDescription"
                   placeholder="Nhập mô tả"
                   {...register("comboDescription")}
+                  disabled={isPending}
                 />
                 {errors.comboDescription?.message && (
                   <p className="text-red-500 text-sm mt-1" role="alert">

@@ -36,6 +36,10 @@ function ProfileForm({
     },
   });
   const onSubmit = (data: any) => {
+    if (data.fullName === fullName && data.phoneNumber === phoneNumber) {
+      toast.error("Thông tin không thay đổi");
+      return;
+    }
     execute(data);
   };
 

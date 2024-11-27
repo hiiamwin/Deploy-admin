@@ -1,6 +1,7 @@
 export type Customer = {
   id: string;
-  name: string;
-  phone: string;
-  points: number;
+  fullName: string;
+  phoneNumber: string;
+  point: number;
+  createdDate: string;
 };

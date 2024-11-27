@@ -4,17 +4,17 @@ import { ReuseActionBar, ReuseTableLoading } from "../components";
 import { CustomerTable } from "./components";
 
 export const metadata: Metadata = {
-  title: "Quản lý người dùng",
-  description: "Quản lý người dùng",
+  title: "Thông tin khách hàng",
+  description: "Thông tin khách hàng",
 };
 
 function ManageUserPage({
   searchParams,
 }: {
-  searchParams?: { page?: string; phone: string };
+  searchParams?: { page?: string; name: string };
 }) {
   const page = searchParams?.page || "1";
-  const phone = searchParams?.phone || "";
+  const name = searchParams?.name || "";
   const columns = [
     {
       header: "Tên người dùng",
@@ -31,12 +31,12 @@ function ManageUserPage({
       <ReuseActionBar
         isFilter={false}
         isSearch={true}
-        searchBy="phone"
-        placeholder="Tìm theo số điện thoại"
+        searchBy="name"
+        placeholder="Tìm theo tên"
       />
 
       <Suspense
-        key={page + phone}
+        key={page + name}
         fallback={
           <ReuseTableLoading
             columns={columns}
@@ -45,7 +45,7 @@ function ManageUserPage({
           />
         }
       >
-        <CustomerTable page={page} phone={phone} />
+        <CustomerTable page={page} name={name} />
       </Suspense>
     </div>
   );

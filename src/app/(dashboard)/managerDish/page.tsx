@@ -46,7 +46,7 @@ async function ManagerDishManagementPage({
         isFilter={true}
         isSearch={true}
         searchBy="dishName"
-        filterBy=""
+        filterBy="status"
         placeholder="Tìm theo tên món ăn"
         addComponent={<AddDishdialog />}
       />

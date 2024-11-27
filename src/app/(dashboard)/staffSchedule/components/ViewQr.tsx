@@ -19,23 +19,20 @@ const shifts = [
   {
     id: "8918424e-62c6-4d06-b35a-481ad0ccfb9e",
     name: "Ca sáng",
-    startTime: "08:00:00",
-    endTime: "12:00:00",
-    lockTime: "08:30:00", // Thời gian khóa
+    startTime: "09:00:00",
+    endTime: "14:00:00",
   },
   {
     id: "a2c28140-85bb-48e9-8725-c381b610556f",
     name: "Ca chiều",
-    startTime: "13:00:00",
-    endTime: "17:00:00",
-    lockTime: "13:30:00", // Thời gian khóa
+    startTime: "14:00:00",
+    endTime: "19:00:00",
   },
   {
     id: "ccabc8b6-480d-4e83-99da-246cceeb714c",
     name: "Ca tối",
-    startTime: "17:00:00",
-    endTime: "22:00:00",
-    lockTime: "18:30:00", // Thời gian khóa
+    startTime: "19:00:00",
+    endTime: "24:00:00",
   },
 ];
 
