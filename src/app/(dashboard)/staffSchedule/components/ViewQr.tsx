@@ -14,59 +14,88 @@ import { format, isWithinInterval, parse } from "date-fns";
 import { vi } from "date-fns/locale";
 import { useQuery } from "@tanstack/react-query";
 import { getQRCodeAction } from "@/actions";
-import { Loader2 } from "lucide-react";
+import { Clock, Loader2 } from "lucide-react";
 const shifts = [
   {
     id: "8918424e-62c6-4d06-b35a-481ad0ccfb9e",
     name: "Ca sáng",
     startTime: "09:00:00",
     endTime: "14:00:00",
+    qrAvalableStartTime: "08:45:00",
+    qrAvalableEndTime: "09:15:00",
   },
   {
     id: "a2c28140-85bb-48e9-8725-c381b610556f",
     name: "Ca chiều",
     startTime: "14:00:00",
     endTime: "19:00:00",
+    qrAvalableStartTime: "13:45:00",
+    qrAvalableEndTime: "14:15:00",
   },
   {
     id: "ccabc8b6-480d-4e83-99da-246cceeb714c",
     name: "Ca tối",
     startTime: "19:00:00",
     endTime: "24:00:00",
+    qrAvalableStartTime: "18:45:00",
+    qrAvalableEndTime: "19:15:00",
   },
 ];
 
 function ViewQr() {
-  const getCurrentShift = () => {
-    const now = new Date(); // Giờ hiện tại
+  const getCurrentShiftAndQRStatus = () => {
+    const now = new Date();
 
     for (const shift of shifts) {
-      // Chuyển đổi startTime và endTime thành Date
-      const start = parse(shift.startTime, "HH:mm:ss", now);
-      const end = parse(shift.endTime, "HH:mm:ss", now);
+      // Kiểm tra xem có phải đang trong ca làm việc không
+      const shiftStart = parse(shift.startTime, "HH:mm:ss", now);
+      const shiftEnd = parse(shift.endTime, "HH:mm:ss", now);
 
-      // Kiểm tra giờ hiện tại có nằm trong khoảng của ca không
-      if (isWithinInterval(now, { start, end })) {
-        return shift; // Trả về ca làm việc hiện tại
+      if (isWithinInterval(now, { start: shiftStart, end: shiftEnd })) {
+        // Kiểm tra xem có trong thời gian QR khả dụng không
+        const qrStart = parse(shift.qrAvalableStartTime, "HH:mm:ss", now);
+        const qrEnd = parse(shift.qrAvalableEndTime, "HH:mm:ss", now);
+
+        const isQRAvailable = isWithinInterval(now, {
+          start: qrStart,
+          end: qrEnd,
+        });
+
+        return {
+          shift,
+          isQRAvailable,
+          message: isQRAvailable
+            ? "QR code đang khả dụng"
+            : `QR code chỉ khả dụng từ ${shift.qrAvalableStartTime} đến ${shift.qrAvalableEndTime}`,
+        };
       }
     }
 
-    return null; // Không thuộc ca nào
+    return {
+      shift: null,
+      isQRAvailable: false,
+      message: "Hiện không trong ca làm việc nào",
+    };
   };
-  const scheduleInfo = getCurrentShift();
+  const { shift, isQRAvailable, message } = getCurrentShiftAndQRStatus();
 
   const { data, isFetching } = useQuery({
-    queryKey: ["qr-code", scheduleInfo?.id],
+    queryKey: [
+      "qr-code",
+      shift?.id,
+      format(Date.now(), "yyyy-MM-dd", { locale: vi }),
+    ],
     queryFn: () =>
       getQRCodeAction({
-        shiftId: scheduleInfo?.id as string,
+        shiftId: shift?.id as string,
         date: format(Date.now(), "yyyy-MM-dd", { locale: vi }),
       }),
     refetchOnWindowFocus: false,
+    enabled: isQRAvailable && !!shift,
   });
 
   // const isDisabled = (() => {
-  //   if (!scheduleInfo) return true; // Không có ca làm việc thì vô hiệu hóa
+  //   if (!scheduleInfo) return true;
 
   //   const now = new Date();
   //   const lockTime = parse(scheduleInfo.lockTime, "HH:mm:ss", now);
@@ -77,15 +106,30 @@ function ViewQr() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Xem QR</Button>
+        <Button disabled={!isQRAvailable}>
+          {isQRAvailable ? (
+            "Xem QR"
+          ) : (
+            <div className="flex items-center gap-2">
+              <Clock className="h-4 w-4" />
+              <span>Xem QR</span>
+            </div>
+          )}
+        </Button>
       </DialogTrigger>
       <DialogContent className="bg-white">
         <DialogHeader>
           <DialogTitle>QR điểm danh</DialogTitle>
           <DialogDescription>
-            Ngày {format(Date.now(), "dd/MM/yyyy", { locale: vi })}, ca{" "}
-            {scheduleInfo?.name}: {scheduleInfo?.startTime} -{" "}
-            {scheduleInfo?.endTime}
+            {shift ? (
+              <>
+                Ngày {format(Date.now(), "dd/MM/yyyy", { locale: vi })},{" "}
+                {shift.name}: {shift.startTime} - {shift.endTime}
+                <p className="mt-2 text-sm text-muted-foreground">{message}</p>
+              </>
+            ) : (
+              message
+            )}
           </DialogDescription>
         </DialogHeader>
         {isFetching ? (

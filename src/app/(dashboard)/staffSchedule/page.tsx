@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import { WaiterSchedule } from "./components";
 
 export const metadata: Metadata = {
-  title: "Quản lịch làm việc",
-  description: "Quản lịch làm việc",
+  title: "Quản lý lịch làm việc",
+  description: "Quản lý lịch làm việc",
 };
 
 function ManageWaiterSchedulePage() {

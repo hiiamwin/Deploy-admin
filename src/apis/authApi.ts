@@ -16,9 +16,12 @@ export async function login(
     }),
   });
   const data = await res.json();
-  if (data.statusCode === 400) {
-    throw new MyError(400, JSON.stringify(data.errors));
+  if (!res.ok) {
+    throw new MyError(data.statusCode, data.message);
   }
+  // if (data.statusCode === 400) {
+  //   throw new MyError(400, JSON.stringify(data.errors));
+  // }
   return data.metadata;
 }
 

@@ -1,7 +1,12 @@
 import React, { Suspense } from "react";
 import { ReuseTableLoading } from "../components";
 import { TableActionBar, TableTable } from "./components";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Quản lý bàn ăn",
+  description: "Quản lý bàn ăn",
+};
 function ManageTablePage({
   searchParams,
 }: {
