@@ -17,7 +17,7 @@ export async function login(
   });
   const data = await res.json();
   if (!res.ok) {
-    throw new MyError(data.statusCode, data.message);
+    throw new MyError(data.statusCode, JSON.stringify(data.errors));
   }
   // if (data.statusCode === 400) {
   //   throw new MyError(400, JSON.stringify(data.errors));
