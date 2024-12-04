@@ -10,11 +10,11 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { format, isWithinInterval, parse } from "date-fns";
+import { format, isWithinInterval, parse, subMinutes } from "date-fns";
 import { vi } from "date-fns/locale";
 import { useQuery } from "@tanstack/react-query";
 import { getQRCodeAction } from "@/actions";
-import { Clock, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 const shifts = [
   {
     id: "8918424e-62c6-4d06-b35a-481ad0ccfb9e",
@@ -43,41 +43,69 @@ const shifts = [
 ];
 
 function ViewQr() {
-  const getCurrentShiftAndQRStatus = () => {
-    const now = new Date();
+  // const getCurrentShiftAndQRStatus = () => {
+  //   const now = new Date();
 
-    for (const shift of shifts) {
-      // Kiểm tra xem có phải đang trong ca làm việc không
+  //   for (const shift of shifts) {
+  //     // Kiểm tra xem có phải đang trong ca làm việc không
+  //     const shiftStart = parse(shift.startTime, "HH:mm:ss", now);
+  //     const shiftEnd = parse(shift.endTime, "HH:mm:ss", now);
+
+  //     if (isWithinInterval(now, { start: shiftStart, end: shiftEnd })) {
+  //       // Kiểm tra xem có trong thời gian QR khả dụng không
+  //       const qrStart = parse(shift.qrAvalableStartTime, "HH:mm:ss", now);
+  //       const qrEnd = parse(shift.qrAvalableEndTime, "HH:mm:ss", now);
+
+  //       const isQRAvailable = isWithinInterval(now, {
+  //         start: qrStart,
+  //         end: qrEnd,
+  //       });
+
+  //       return {
+  //         shift,
+  //         isQRAvailable,
+  //         message: isQRAvailable
+  //           ? "QR code đang khả dụng"
+  //           : `QR code chỉ khả dụng từ ${shift.qrAvalableStartTime} đến ${shift.qrAvalableEndTime}`,
+  //       };
+  //     }
+  //   }
+
+  //   return {
+  //     shift: null,
+  //     isQRAvailable: false,
+  //     message: "Hiện không trong ca làm việc nào",
+  //   };
+  // };
+  // const { shift, isQRAvailable, message } = getCurrentShiftAndQRStatus();
+
+  const checkQRCode = () => {
+    const now = new Date();
+    for (let i = 0; i < shifts.length; i++) {
+      const shift = shifts[i];
+
+      // Chuyển startTime và endTime thành các đối tượng Date
       const shiftStart = parse(shift.startTime, "HH:mm:ss", now);
       const shiftEnd = parse(shift.endTime, "HH:mm:ss", now);
 
+      // Kiểm tra nếu thời gian hiện tại nằm trong ca làm việc
       if (isWithinInterval(now, { start: shiftStart, end: shiftEnd })) {
-        // Kiểm tra xem có trong thời gian QR khả dụng không
-        const qrStart = parse(shift.qrAvalableStartTime, "HH:mm:ss", now);
-        const qrEnd = parse(shift.qrAvalableEndTime, "HH:mm:ss", now);
-
-        const isQRAvailable = isWithinInterval(now, {
-          start: qrStart,
-          end: qrEnd,
-        });
-
-        return {
-          shift,
-          isQRAvailable,
-          message: isQRAvailable
-            ? "QR code đang khả dụng"
-            : `QR code chỉ khả dụng từ ${shift.qrAvalableStartTime} đến ${shift.qrAvalableEndTime}`,
-        };
+        // Kiểm tra xem thời gian hiện tại có bằng hoặc sau 15 phút trước endTime không
+        if (now >= subMinutes(shiftEnd, 15)) {
+          // Nếu có, trả về ca tiếp theo
+          const nextShift = shifts[i + 1]; // Lấy ca tiếp theo trong mảng
+          if (nextShift) {
+            return nextShift; // Trả về ca tiếp theo nếu có
+          } else {
+            return shift; // Nếu không, trả về ca hiện tại
+          }
+        }
+        return shift; // Nếu không, trả về ca hiện tại
       }
     }
-
-    return {
-      shift: null,
-      isQRAvailable: false,
-      message: "Hiện không trong ca làm việc nào",
-    };
   };
-  const { shift, isQRAvailable, message } = getCurrentShiftAndQRStatus();
+
+  const shift = checkQRCode();
 
   const { data, isFetching } = useQuery({
     queryKey: [
@@ -91,49 +119,25 @@ function ViewQr() {
         date: format(Date.now(), "yyyy-MM-dd", { locale: vi }),
       }),
     refetchOnWindowFocus: false,
-    enabled: isQRAvailable && !!shift,
   });
 
-  // const isDisabled = (() => {
-  //   if (!scheduleInfo) return true;
-
-  //   const now = new Date();
-  //   const lockTime = parse(scheduleInfo.lockTime, "HH:mm:ss", now);
-
-  //   // Kiểm tra nếu hiện tại đã qua thời gian khóa
-  //   return isAfter(now, lockTime);
-  // })();
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button disabled={!isQRAvailable}>
-          {isQRAvailable ? (
-            "Xem QR"
-          ) : (
-            <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4" />
-              <span>Xem QR</span>
-            </div>
-          )}
-        </Button>
+        <Button>Xem QR</Button>
       </DialogTrigger>
       <DialogContent className="bg-white">
         <DialogHeader>
           <DialogTitle>QR điểm danh</DialogTitle>
           <DialogDescription>
-            {shift ? (
-              <>
-                Ngày {format(Date.now(), "dd/MM/yyyy", { locale: vi })},{" "}
-                {shift.name}: {shift.startTime} - {shift.endTime}
-                <p className="mt-2 text-sm text-muted-foreground">{message}</p>
-              </>
-            ) : (
-              message
-            )}
+            <>
+              Ngày {format(Date.now(), "dd/MM/yyyy", { locale: vi })},{" "}
+              {shift?.name}: {shift?.startTime} - {shift?.endTime}
+            </>
           </DialogDescription>
         </DialogHeader>
         {isFetching ? (
-          <div className="w-full flex items-center justify-center ">
+          <div className="w-full flex items-center justify-center">
             <Loader2 className="animate-spin h-8 w-8" />
           </div>
         ) : (

@@ -37,10 +37,15 @@ function OrderDetailSheet({
   };
   return (
     <Sheet open={isOpenDetailSheet} onOpenChange={handleOpen}>
-      <SheetContent className="w-[400px] sm:w-[540px] bg-white">
+      <SheetContent className="bg-white sm:max-w-2xl">
         <SheetHeader>
           <SheetTitle>Chi tiết đơn hàng</SheetTitle>
-          <SheetDescription></SheetDescription>
+          <SheetDescription>
+            Thanh toán bởi:{" "}
+            {data?.data?.paymentEmployeeCode && data?.data?.paymentEmployeeName
+              ? `${data?.data?.paymentEmployeeCode} - ${data?.data?.paymentEmployeeName}`
+              : "VnPay"}
+          </SheetDescription>
         </SheetHeader>
         {isFetching ? (
           <div className="w-full flex items-center justify-center ">
@@ -120,6 +125,42 @@ function OrderDetailSheet({
                           Trả lại: {item.refundQuantity}
                         </p>
                       )}
+
+                      {item.cancelEmployeeCode && item.cancelEmployeeName ? (
+                        <p className="text-sm text-gray-500">
+                          Hủy bởi: {item.cancelEmployeeCode} -{" "}
+                          {item.cancelEmployeeName}
+                        </p>
+                      ) : null}
+
+                      {item.confirmOrderEmployeeCode &&
+                      item.confirmOrderEmployeeName ? (
+                        <p className="text-sm text-gray-500">
+                          Xác nhận bởi: {item.confirmOrderEmployeeCode} -{" "}
+                          {item.confirmOrderEmployeeName}
+                        </p>
+                      ) : null}
+
+                      {item.cookedEmployeeCode && item.cookedEmployeeName ? (
+                        <p className="text-sm text-gray-500">
+                          Nấu bởi: {item.cookedEmployeeCode} -{" "}
+                          {item.cookedEmployeeName}
+                        </p>
+                      ) : null}
+
+                      {item.serveEmployeeCode && item.serveEmployeeName ? (
+                        <p className="text-sm text-gray-500">
+                          Phục vụ bởi: {item.serveEmployeeCode} -{" "}
+                          {item.serveEmployeeName}
+                        </p>
+                      ) : null}
+
+                      {item.refundEmployeeCode && item.refundEmployeeName ? (
+                        <p className="text-sm text-gray-500">
+                          Trả lại bởi: {item.refundEmployeeCode} -{" "}
+                          {item.refundEmployeeName}
+                        </p>
+                      ) : null}
                     </div>
                   </div>
                 ))}

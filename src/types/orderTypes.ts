@@ -19,6 +19,8 @@ export type OrderDetail = {
   totalPrice: number;
   orderTime: string;
   feedback: string | null;
+  paymentEmployeeCode: string | null;
+  paymentEmployeeName: string | null;
   orderDetails: Array<{
     id: string;
     comboId: string | null;
@@ -34,5 +36,15 @@ export type OrderDetail = {
     price: number;
     note: string;
     isAddMore: boolean;
+    confirmOrderEmployeeCode: string | null;
+    confirmOrderEmployeeName: string | null;
+    cookedEmployeeCode: string | null;
+    cookedEmployeeName: string | null;
+    serveEmployeeCode: string | null;
+    serveEmployeeName: string | null;
+    refundEmployeeCode: string | null;
+    refundEmployeeName: string | null;
+    cancelEmployeeCode: string | null;
+    cancelEmployeeName: string | null;
   }>;
 };

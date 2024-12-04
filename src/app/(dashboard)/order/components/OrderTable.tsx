@@ -58,7 +58,7 @@ async function OrderTable({ page, phone }: { page: string; phone: string }) {
                   {order.finalAmount.toLocaleString("vi-VN")} đ
                 </TableCell>
                 <TableCell className="text-center">
-                  {format(new Date(order.createdDate), "dd/MM/yyyy HH:mm:ss", {
+                  {format(new Date(order.createdDate), "dd/MM/yyyy", {
                     locale: vi,
                   })}
                 </TableCell>
@@ -116,7 +116,7 @@ async function OrderTable({ page, phone }: { page: string; phone: string }) {
           <TableFooter>
             <TableRow>
               <TableCell colSpan={6}>Tổng cộng</TableCell>
-              <TableCell>{data.totalNumberOfRecords} món ăn</TableCell>
+              <TableCell>{data.totalNumberOfRecords} đơn hàng</TableCell>
             </TableRow>
           </TableFooter>
         </Table>
