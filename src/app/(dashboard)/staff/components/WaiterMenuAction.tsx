@@ -5,17 +5,20 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import InactiveWaiterDialog from "./InactiveWaiterDialog";
 import { Employee } from "@/types";
-import { MoreHorizontal, Power, PowerOff } from "lucide-react";
+import { HandCoins, MoreHorizontal, Power, PowerOff } from "lucide-react";
 import ActiveWaiterDialog from "./ActiveWaiterDialog";
+import ViewSalarySheet from "./ViewSalarySheet";
 
 function WaiterMenuAction({ item }: { item: Employee }) {
   const [isOpenInactivateDialog, setIsOpenInactivateDialog] = useState(false);
   const [isOpenActivateDialog, setIsOpenActivateDialog] = useState(false);
+  const [isOpenViewSalarySheet, setIsOpenViewSalarySheet] = useState(false);
   return (
     <>
       <DropdownMenu>
@@ -30,7 +33,7 @@ function WaiterMenuAction({ item }: { item: Employee }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-
+          <DropdownMenuSeparator />
           <DropdownMenuItem className="cursor-pointer">
             {item.status === 1 ? (
               <Button
@@ -52,6 +55,17 @@ function WaiterMenuAction({ item }: { item: Employee }) {
               </Button>
             )}
           </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem className="cursor-pointer">
+            <Button
+              variant={"ghost"}
+              size={"sm"}
+              onClick={() => setIsOpenViewSalarySheet(true)}
+            >
+              <HandCoins className="mr-2 h-4 w-4" />
+              <span>Lương tháng này</span>
+            </Button>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
@@ -68,6 +82,14 @@ function WaiterMenuAction({ item }: { item: Employee }) {
           id={item.id}
           isOpenActivateDialog={isOpenActivateDialog}
           setIsOpenActivateDialog={setIsOpenActivateDialog}
+        />
+      )}
+
+      {isOpenViewSalarySheet && (
+        <ViewSalarySheet
+          id={item.id}
+          isOpenViewSalarySheet={isOpenViewSalarySheet}
+          setIsOpenViewSalarySheet={setIsOpenViewSalarySheet}
         />
       )}
     </>

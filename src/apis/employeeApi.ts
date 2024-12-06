@@ -83,3 +83,24 @@ export async function inactiveEmployee(id: string) {
   const data = await res.json();
   return data.message;
 }
+
+export async function getEmployeeSalary(
+  id: string,
+  date: string,
+  token: string
+) {
+  const res = await fetch(
+    `${process.env.API_URL}/Salary/salary-restaurant?UserId=${id}&ChosenDate=${date}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+  if (!res.ok) {
+    throw new Error("Something went wrong");
+  }
+  const data = await res.json();
+  return data;
+}

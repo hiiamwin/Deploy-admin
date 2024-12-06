@@ -14,6 +14,7 @@ import {
   activeEmployee,
   inactiveEmployee,
   getManagers,
+  getEmployeeSalary,
 } from "./employeeApi";
 
 import {
@@ -123,6 +124,8 @@ export {
   createEmployee,
   activeEmployee,
   inactiveEmployee,
+  getEmployeeSalary,
+
   //
   getDishCategory,
   createDishCategory,

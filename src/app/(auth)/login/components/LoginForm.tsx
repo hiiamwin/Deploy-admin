@@ -30,7 +30,6 @@ function LoginForm() {
       toast.success("Đăng nhập thành công");
     },
     onError: ({ error }) => {
-      console.log(error);
       if (error.serverError) {
         const errorArray = JSON.parse(error.serverError);
         errorArray.forEach((error: { field: string; message: string }) => {

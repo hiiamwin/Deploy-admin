@@ -12,6 +12,7 @@ import {
   activeEmployeeAction,
   inactiveEmployeeAction,
   getRestaurantAction,
+  getEmployeeSalaryAction,
 } from "./employee-actions";
 
 import {
@@ -115,6 +116,7 @@ export {
   activeEmployeeAction,
   inactiveEmployeeAction,
   getRestaurantAction,
+  getEmployeeSalaryAction,
   //
   createDishCategoryAction,
   updateDishCategoryAction,

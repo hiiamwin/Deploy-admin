@@ -84,23 +84,23 @@ function ViewQr() {
     for (let i = 0; i < shifts.length; i++) {
       const shift = shifts[i];
 
-      // Chuyển startTime và endTime thành các đối tượng Date
       const shiftStart = parse(shift.startTime, "HH:mm:ss", now);
       const shiftEnd = parse(shift.endTime, "HH:mm:ss", now);
 
-      // Kiểm tra nếu thời gian hiện tại nằm trong ca làm việc
       if (isWithinInterval(now, { start: shiftStart, end: shiftEnd })) {
-        // Kiểm tra xem thời gian hiện tại có bằng hoặc sau 15 phút trước endTime không
         if (now >= subMinutes(shiftEnd, 15)) {
-          // Nếu có, trả về ca tiếp theo
-          const nextShift = shifts[i + 1]; // Lấy ca tiếp theo trong mảng
+          const nextShift = shifts[i + 1];
           if (nextShift) {
-            return nextShift; // Trả về ca tiếp theo nếu có
+            return nextShift;
           } else {
-            return shift; // Nếu không, trả về ca hiện tại
+            return shift;
           }
         }
-        return shift; // Nếu không, trả về ca hiện tại
+        return shift;
+      } else {
+        if (now >= subMinutes(parse("09:00:00", "HH:mm:ss", now), 15)) {
+          return shifts[0];
+        }
       }
     }
   };
@@ -119,6 +119,7 @@ function ViewQr() {
         date: format(Date.now(), "yyyy-MM-dd", { locale: vi }),
       }),
     refetchOnWindowFocus: false,
+    enabled: !!shift,
   });
 
   return (
@@ -130,13 +131,18 @@ function ViewQr() {
         <DialogHeader>
           <DialogTitle>QR điểm danh</DialogTitle>
           <DialogDescription>
-            <>
-              Ngày {format(Date.now(), "dd/MM/yyyy", { locale: vi })},{" "}
-              {shift?.name}: {shift?.startTime} - {shift?.endTime}
-            </>
+            {shift && (
+              <>
+                Ngày {format(Date.now(), "dd/MM/yyyy", { locale: vi })},{" "}
+                {shift?.name}: {shift?.startTime} - {shift?.endTime}
+              </>
+            )}
           </DialogDescription>
         </DialogHeader>
-        {isFetching ? (
+
+        {shift === undefined ? (
+          <span className="text-center">Chưa có ca làm</span>
+        ) : isFetching ? (
           <div className="w-full flex items-center justify-center">
             <Loader2 className="animate-spin h-8 w-8" />
           </div>

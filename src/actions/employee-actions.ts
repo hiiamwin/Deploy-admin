@@ -4,14 +4,16 @@ import {
   activeAndInactiveEmployeeSchema,
   createEmployeeSchema,
 } from "@/schemas";
-import { actionClient } from "./safe-action";
+import { actionClient, authActionClient } from "./safe-action";
 import {
   activeEmployee,
   createEmployee,
+  getEmployeeSalary,
   getRestaurants,
   inactiveEmployee,
 } from "@/apis";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 export const getRestaurantAction = actionClient.action(async () => {
   const data = await getRestaurants("1", "", "", "8683");
@@ -25,7 +27,7 @@ export const createEmployeeAction = actionClient
     if (parsedInput.roleId === 1) {
       revalidatePath("/manager");
     }
-    if (parsedInput.roleId === 2) {
+    if (parsedInput.roleId === 2 || parsedInput.roleId === 3) {
       revalidatePath("/staff");
     }
     return message;
@@ -45,5 +47,22 @@ export const inactiveEmployeeAction = actionClient
   .action(async ({ parsedInput }) => {
     const message = await inactiveEmployee(parsedInput.id);
     revalidatePath(parsedInput.path);
+
     return message;
+  });
+
+export const getEmployeeSalaryAction = authActionClient
+  .schema(
+    z.object({
+      id: z.string(),
+      date: z.string(),
+    })
+  )
+  .action(async ({ parsedInput, ctx: { accesstoken } }) => {
+    const data = await getEmployeeSalary(
+      parsedInput.id,
+      parsedInput.date,
+      accesstoken
+    );
+    return data;
   });

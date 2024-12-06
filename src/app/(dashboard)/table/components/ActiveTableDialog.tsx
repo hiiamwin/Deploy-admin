@@ -38,11 +38,8 @@ function ActiveTableDialog({
     <Dialog open={isOpenActivateDialog} onOpenChange={handleOpen}>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </DialogDescription>
+          <DialogTitle>Bạn có chắc muốn bàn này hoạt động trở lại?</DialogTitle>
+          <DialogDescription>Bàn sẽ hoạt động trở lại</DialogDescription>
         </DialogHeader>
         <div className="flex items-center justify-between">
           <Button disabled={isPending} onClick={() => handleOpen(false)}>
