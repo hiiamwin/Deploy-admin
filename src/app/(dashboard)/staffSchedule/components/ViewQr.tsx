@@ -81,6 +81,7 @@ function ViewQr() {
 
   const checkQRCode = () => {
     const now = new Date();
+
     for (let i = 0; i < shifts.length; i++) {
       const shift = shifts[i];
 
@@ -97,11 +98,11 @@ function ViewQr() {
           }
         }
         return shift;
-      } else {
-        if (now >= subMinutes(parse("09:00:00", "HH:mm:ss", now), 15)) {
-          return shifts[0];
-        }
       }
+    }
+
+    if (now >= subMinutes(parse("09:00:00", "HH:mm:ss", now), 15)) {
+      return shifts[0];
     }
   };
 
