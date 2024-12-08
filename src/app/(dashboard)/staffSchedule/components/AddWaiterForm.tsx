@@ -98,6 +98,7 @@ function AddWaiterForm({
                       onCheckedChange={() =>
                         handleCheckboxRegister(employee.employeeId)
                       }
+                      disabled={isPending}
                     />
                     <Label htmlFor={employee.employeeId}>
                       {employee.employeeName}

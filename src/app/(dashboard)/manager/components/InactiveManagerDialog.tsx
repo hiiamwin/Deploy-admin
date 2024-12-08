@@ -26,6 +26,10 @@ function InactiveManagerDialog({
       toast.success(data);
       handleOpen(false);
     },
+
+    onError: () => {
+      toast.error("Có lỗi xảy ra");
+    },
   });
   const handleInactive = () => {
     execute({ id: id, path: "/manager" });

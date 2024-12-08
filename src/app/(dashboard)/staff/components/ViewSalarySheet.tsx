@@ -21,6 +21,13 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 function ViewSalarySheet({
   id,
@@ -77,7 +84,7 @@ function ViewSalarySheet({
   return (
     <Sheet open={isOpenViewSalarySheet} onOpenChange={handleOpen}>
       <SheetTrigger>Open</SheetTrigger>
-      <SheetContent className="bg-white overflow-y-auto">
+      <SheetContent className="bg-white overflow-y-auto sm:max-w-2xl">
         <SheetHeader>
           <SheetTitle>Xem lương nhân viên</SheetTitle>
           <SheetDescription>Chọn tháng để xem thông tin lương</SheetDescription>
@@ -100,13 +107,13 @@ function ViewSalarySheet({
               <Loader2 className="animate-spin h-8 w-8" />
             </div>
           ) : data && data.data.results.length > 0 ? (
-            <Card>
-              <CardHeader>
+            <Card className="border-none ">
+              <CardHeader className="p-4">
                 <CardTitle>
-                  Thông tin lương tháng {selectedMonth}/{currentYear}
+                  Thông tin lương tháng {selectedMonth}/{currentYear} (Tạm tính)
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="border-b pb-4 px-4">
                 <div className="space-y-2">
                   <p>
                     <strong>Mã nhân viên:</strong>{" "}
@@ -146,6 +153,103 @@ function ViewSalarySheet({
                   </p>
                 </div>
               </CardContent>
+
+              <ScrollArea className="border-none h-[400px]">
+                <Accordion type="single" collapsible className="p-4">
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca chiều <div>09:00:00 - 14:00:00</div>
+                    </AccordionContent>
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-2">
+                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca chiều
+                      <span>09:00:00 - 14:00:00</span>
+                    </AccordionContent>
+
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-3">
+                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca chiều <div>09:00:00 - 14:00:00</div>
+                    </AccordionContent>
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-4">
+                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca chiều <div>09:00:00 - 14:00:00</div>
+                    </AccordionContent>
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-5">
+                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca chiều <div>09:00:00 - 14:00:00</div>
+                    </AccordionContent>
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-6">
+                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca chiều <div>09:00:00 - 14:00:00</div>
+                    </AccordionContent>
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-7">
+                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca chiều <div>09:00:00 - 14:00:00</div>
+                    </AccordionContent>
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-8">
+                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca chiều <div>09:00:00 - 14:00:00</div>
+                    </AccordionContent>
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-9">
+                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca chiều <div>09:00:00 - 14:00:00</div>
+                    </AccordionContent>
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-10">
+                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca chiều <div>09:00:00 - 14:00:00</div>
+                    </AccordionContent>
+                    <AccordionContent className="flex items-center justify-between">
+                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </ScrollArea>
             </Card>
           ) : (
             <p>Không có dữ liệu lương cho tháng này</p>

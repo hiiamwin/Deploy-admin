@@ -27,6 +27,7 @@ type StaffListProps = {
   setOpenList: Dispatch<SetStateAction<boolean>>;
   refetchCount: () => void;
 };
+
 function StaffList({
   isEditableDate,
   date,
@@ -40,6 +41,7 @@ function StaffList({
     queryKey: ["assigned-employees", date, shiftId],
     queryFn: () => getEmployeeInShiftAtDateAction({ shiftId, date }),
     enabled: openList,
+    refetchOnWindowFocus: false,
   });
   const handleOpen = (value: boolean) => {
     if (isFetching) return;
@@ -59,6 +61,7 @@ function StaffList({
   const handleUnregister = (employeeId: string, scheduleId: string) => {
     execute({ employeeId, scheduleId });
   };
+
   return (
     <Dialog open={openList} onOpenChange={handleOpen}>
       <DialogContent className="sm:max-w-[425px] bg-white">
@@ -83,9 +86,10 @@ function StaffList({
                     key={employee.employeeId}
                   >
                     <span>{employee.employeeName}</span>
+
                     <Button
                       size={"sm"}
-                      disabled={!isEditableDate || isPending || isFetching}
+                      disabled={isEditableDate || isPending || isFetching}
                       onClick={() =>
                         handleUnregister(
                           employee.employeeId,

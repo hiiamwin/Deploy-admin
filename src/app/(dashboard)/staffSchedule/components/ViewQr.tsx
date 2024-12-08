@@ -36,60 +36,29 @@ const shifts = [
     id: "ccabc8b6-480d-4e83-99da-246cceeb714c",
     name: "Ca tối",
     startTime: "19:00:00",
-    endTime: "24:00:00",
+    endTime: "23:59:59",
     qrAvalableStartTime: "18:45:00",
     qrAvalableEndTime: "19:15:00",
   },
 ];
 
 function ViewQr() {
-  // const getCurrentShiftAndQRStatus = () => {
-  //   const now = new Date();
-
-  //   for (const shift of shifts) {
-  //     // Kiểm tra xem có phải đang trong ca làm việc không
-  //     const shiftStart = parse(shift.startTime, "HH:mm:ss", now);
-  //     const shiftEnd = parse(shift.endTime, "HH:mm:ss", now);
-
-  //     if (isWithinInterval(now, { start: shiftStart, end: shiftEnd })) {
-  //       // Kiểm tra xem có trong thời gian QR khả dụng không
-  //       const qrStart = parse(shift.qrAvalableStartTime, "HH:mm:ss", now);
-  //       const qrEnd = parse(shift.qrAvalableEndTime, "HH:mm:ss", now);
-
-  //       const isQRAvailable = isWithinInterval(now, {
-  //         start: qrStart,
-  //         end: qrEnd,
-  //       });
-
-  //       return {
-  //         shift,
-  //         isQRAvailable,
-  //         message: isQRAvailable
-  //           ? "QR code đang khả dụng"
-  //           : `QR code chỉ khả dụng từ ${shift.qrAvalableStartTime} đến ${shift.qrAvalableEndTime}`,
-  //       };
-  //     }
-  //   }
-
-  //   return {
-  //     shift: null,
-  //     isQRAvailable: false,
-  //     message: "Hiện không trong ca làm việc nào",
-  //   };
-  // };
-  // const { shift, isQRAvailable, message } = getCurrentShiftAndQRStatus();
-
   const checkQRCode = () => {
     const now = new Date();
+    const currentTime = parse(now.toTimeString().slice(0, 8), "HH:mm:ss", now);
 
     for (let i = 0; i < shifts.length; i++) {
       const shift = shifts[i];
 
-      const shiftStart = parse(shift.startTime, "HH:mm:ss", now);
-      const shiftEnd = parse(shift.endTime, "HH:mm:ss", now);
+      if (
+        isWithinInterval(currentTime, {
+          start: parse(shift.startTime, "HH:mm:ss", now),
+          end: parse(shift.endTime, "HH:mm:ss", now),
+        })
+      ) {
+        console.log("a");
 
-      if (isWithinInterval(now, { start: shiftStart, end: shiftEnd })) {
-        if (now >= subMinutes(shiftEnd, 15)) {
+        if (now >= subMinutes(parse(shift.endTime, "HH:mm:ss", now), 15)) {
           const nextShift = shifts[i + 1];
           if (nextShift) {
             return nextShift;
@@ -107,6 +76,7 @@ function ViewQr() {
   };
 
   const shift = checkQRCode();
+  console.log(shift);
 
   const { data, isFetching } = useQuery({
     queryKey: [

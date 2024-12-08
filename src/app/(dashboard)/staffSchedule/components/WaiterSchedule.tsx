@@ -16,7 +16,7 @@ import {
   endOfWeek,
   isAfter,
 } from "date-fns";
-import { vi } from "date-fns/locale";
+import { is, vi } from "date-fns/locale";
 import AddWaiterForm from "./AddWaiterForm";
 import StaffList from "./StaffList";
 import { useQuery } from "@tanstack/react-query";
@@ -52,6 +52,7 @@ function WaiterSchedule() {
     date: "",
     shiftTime: "",
     shiftId: "",
+    isEditableDate: true,
   });
   const [currentWeekStart, setCurrentWeekStart] = useState(
     startOfWeek(new Date(), { weekStartsOn: 1 })
@@ -79,12 +80,10 @@ function WaiterSchedule() {
 
   const isEditable = (dateString: string) => {
     const date = parseISO(dateString);
-    const today = new Date();
-    const endOfCurrentWeek = endOfWeek(today, { weekStartsOn: 1 });
+    const now = new Date();
+    const isPast = isAfter(now, date);
 
-    const isFutureWeek = isAfter(date, endOfCurrentWeek);
-
-    return isFutureWeek;
+    return isPast;
   };
   return (
     <>
@@ -158,7 +157,7 @@ function WaiterSchedule() {
                           Nhân viên: {shiftCount?.employeeCount}
                         </div>
                         <div className="flex flex-col space-y-2">
-                          {!isEditableDate ? (
+                          {isEditableDate ? (
                             <Button
                               variant="outline"
                               size="sm"
@@ -180,6 +179,7 @@ function WaiterSchedule() {
                                   }),
                                   shiftTime: `${shift.startTime} - ${shift.endTime}`,
                                   shiftId: shift.id,
+                                  isEditableDate: true,
                                 });
                                 setOpenAdd(true);
                               }}
@@ -218,6 +218,7 @@ function WaiterSchedule() {
                                 }),
                                 shiftTime: `${shift.startTime} - ${shift.endTime}`,
                                 shiftId: shift.id,
+                                isEditableDate: isEditableDate,
                               });
                               setOpenList(true);
                             }}
@@ -245,7 +246,7 @@ function WaiterSchedule() {
         setOpenAdd={setOpenAdd}
       />
       <StaffList
-        isEditableDate={true}
+        isEditableDate={scheduleInfo.isEditableDate}
         date={scheduleInfo.date}
         shiftTime={scheduleInfo.shiftTime}
         shiftId={scheduleInfo.shiftId}
