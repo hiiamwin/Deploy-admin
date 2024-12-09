@@ -41,7 +41,7 @@ const shifts = [
     id: "ccabc8b6-480d-4e83-99da-246cceeb714c",
     name: "Ca tối",
     startTime: "19:00:00",
-    endTime: "24:00:00",
+    endTime: "23:59:59",
   },
 ];
 

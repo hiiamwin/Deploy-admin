@@ -102,5 +102,6 @@ export async function getEmployeeSalary(
     throw new Error("Something went wrong");
   }
   const data = await res.json();
+
   return data;
 }

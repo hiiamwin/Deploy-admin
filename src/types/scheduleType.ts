@@ -9,6 +9,7 @@ export type AssignedEmployeeInfo = {
   employeeName: string;
   employeeCode: string;
   waiterScheduleId: string;
+  isCheckIn: boolean;
 };
 
 export type WeeklyShiftCount = {

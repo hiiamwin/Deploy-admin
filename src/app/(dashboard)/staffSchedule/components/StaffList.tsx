@@ -17,6 +17,7 @@ import {
 } from "@/actions";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
+import { isAfter, parse } from "date-fns";
 
 type StaffListProps = {
   isEditableDate: boolean;
@@ -62,6 +63,13 @@ function StaffList({
     execute({ employeeId, scheduleId });
   };
 
+  console.log(
+    isAfter(
+      new Date(),
+      parse("08/12/2024 14:00:00", "dd/MM/yyyy HH:mm:ss", new Date())
+    )
+  );
+
   return (
     <Dialog open={openList} onOpenChange={handleOpen}>
       <DialogContent className="sm:max-w-[425px] bg-white">
@@ -87,18 +95,31 @@ function StaffList({
                   >
                     <span>{employee.employeeName}</span>
 
-                    <Button
-                      size={"sm"}
-                      disabled={isEditableDate || isPending || isFetching}
-                      onClick={() =>
-                        handleUnregister(
-                          employee.employeeId,
-                          employee.waiterScheduleId
+                    {employee.isCheckIn ? (
+                      <span className="text-green-500">Đã checkin</span>
+                    ) : isAfter(
+                        new Date(),
+                        parse(
+                          `${date.split(",")[1]} ${shiftTime.split(" ")[2]}`,
+                          "dd/MM/yyyy HH:mm:ss",
+                          new Date()
                         )
-                      }
-                    >
-                      Hủy
-                    </Button>
+                      ) ? (
+                      <span className="text-red-500">Chưa checkin</span>
+                    ) : (
+                      <Button
+                        size={"sm"}
+                        disabled={isEditableDate || isPending || isFetching}
+                        onClick={() =>
+                          handleUnregister(
+                            employee.employeeId,
+                            employee.waiterScheduleId
+                          )
+                        }
+                      >
+                        Hủy
+                      </Button>
+                    )}
                   </li>
                 ))}
               </ul>

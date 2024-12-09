@@ -34,6 +34,20 @@ function WaiterMenuAction({ item }: { item: Employee }) {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuSeparator />
+
+          <DropdownMenuItem className="cursor-pointer">
+            <Button
+              variant={"ghost"}
+              size={"sm"}
+              onClick={() => setIsOpenViewSalarySheet(true)}
+            >
+              <HandCoins className="mr-2 h-4 w-4" />
+              <span>Bảng lương</span>
+            </Button>
+          </DropdownMenuItem>
+
+          <DropdownMenuSeparator />
+
           <DropdownMenuItem className="cursor-pointer">
             {item.status === 1 ? (
               <Button
@@ -54,17 +68,6 @@ function WaiterMenuAction({ item }: { item: Employee }) {
                 <span>Hoạt động trở lại</span>
               </Button>
             )}
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem className="cursor-pointer">
-            <Button
-              variant={"ghost"}
-              size={"sm"}
-              onClick={() => setIsOpenViewSalarySheet(true)}
-            >
-              <HandCoins className="mr-2 h-4 w-4" />
-              <span>Lương tháng này</span>
-            </Button>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

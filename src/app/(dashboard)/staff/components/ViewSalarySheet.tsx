@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
@@ -11,7 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import { useQuery } from "@tanstack/react-query";
 import { getEmployeeSalaryAction } from "@/actions";
-import { format } from "date-fns";
+import { format, parse, parseISO } from "date-fns";
 import {
   Select,
   SelectContent,
@@ -155,99 +157,79 @@ function ViewSalarySheet({
               </CardContent>
 
               <ScrollArea className="border-none h-[400px]">
-                <Accordion type="single" collapsible className="p-4">
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca chiều <div>09:00:00 - 14:00:00</div>
-                    </AccordionContent>
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-2">
-                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca chiều
-                      <span>09:00:00 - 14:00:00</span>
-                    </AccordionContent>
+                {data.data.results[0].salary.attendanceDetailsDtos
+                  .reduce((acc: any, item: any) => {
+                    const { date, shiftName, checkInTime, checkOutTime } = item;
+                    const existingItem = acc.find((i: any) => i.date === date);
+                    if (existingItem) {
+                      existingItem.attendance.push({
+                        shiftName,
+                        checkInTime,
+                        checkOutTime,
+                      });
+                      return acc;
+                    }
 
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-3">
-                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca chiều <div>09:00:00 - 14:00:00</div>
-                    </AccordionContent>
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-4">
-                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca chiều <div>09:00:00 - 14:00:00</div>
-                    </AccordionContent>
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-5">
-                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca chiều <div>09:00:00 - 14:00:00</div>
-                    </AccordionContent>
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-6">
-                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca chiều <div>09:00:00 - 14:00:00</div>
-                    </AccordionContent>
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-7">
-                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca chiều <div>09:00:00 - 14:00:00</div>
-                    </AccordionContent>
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-8">
-                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca chiều <div>09:00:00 - 14:00:00</div>
-                    </AccordionContent>
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-9">
-                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca chiều <div>09:00:00 - 14:00:00</div>
-                    </AccordionContent>
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-10">
-                    <AccordionTrigger>Ngày 06/12/2024</AccordionTrigger>
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca chiều <div>09:00:00 - 14:00:00</div>
-                    </AccordionContent>
-                    <AccordionContent className="flex items-center justify-between">
-                      Ca: Ca sáng <div>09:00:00 - 14:00:00</div>
-                    </AccordionContent>
-                  </AccordionItem>
+                    acc.push({
+                      date,
+                      attendance: [{ shiftName, checkInTime, checkOutTime }],
+                    });
+                    return acc;
+                  }, [])
+                  .map((attendance: any) => {
+                    console.log(attendance);
+                  })}
+                <Accordion type="single" collapsible className="p-4">
+                  {data.data.results[0].salary.attendanceDetailsDtos
+                    .reduce((acc: any, item: any) => {
+                      const { date, shiftName, checkInTime, checkOutTime } =
+                        item;
+                      const existingItem = acc.find(
+                        (i: any) => i.date === date
+                      );
+                      if (existingItem) {
+                        existingItem.attendance.push({
+                          shiftName,
+                          checkInTime,
+                          checkOutTime,
+                        });
+                        return acc;
+                      }
+
+                      acc.push({
+                        date,
+                        attendance: [{ shiftName, checkInTime, checkOutTime }],
+                      });
+                      return acc;
+                    }, [])
+                    .map((attendanceDate: any, i: number) => (
+                      <AccordionItem value={`item-${i}`} key={i}>
+                        <AccordionTrigger>
+                          Ngày {attendanceDate.date}
+                        </AccordionTrigger>
+                        {attendanceDate.attendance.map(
+                          (attendance: any, i: number) => (
+                            <AccordionContent
+                              className="flex items-center justify-between"
+                              key={i}
+                            >
+                              Ca: {attendance.shiftName}{" "}
+                              <div>
+                                {attendance.checkInTime ===
+                                "Chưa thực hiện CheckIn"
+                                  ? attendance.checkInTime
+                                  : attendance.checkInTime.split(" ")[1]}{" "}
+                                -{" "}
+                                {attendance.checkOutTime ===
+                                "Chưa thực hiện CheckOut"
+                                  ? attendance.checkOutTime
+                                  : attendance.checkOutTime.split(" ")[1]}
+                              </div>
+                            </AccordionContent>
+                          )
+                        )}
+                      </AccordionItem>
+                    ))}
                 </Accordion>
               </ScrollArea>
             </Card>

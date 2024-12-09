@@ -56,8 +56,6 @@ function ViewQr() {
           end: parse(shift.endTime, "HH:mm:ss", now),
         })
       ) {
-        console.log("a");
-
         if (now >= subMinutes(parse(shift.endTime, "HH:mm:ss", now), 15)) {
           const nextShift = shifts[i + 1];
           if (nextShift) {
@@ -76,7 +74,6 @@ function ViewQr() {
   };
 
   const shift = checkQRCode();
-  console.log(shift);
 
   const { data, isFetching } = useQuery({
     queryKey: [
