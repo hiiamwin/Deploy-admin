@@ -17,7 +17,7 @@ import {
 } from "@/actions";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
-import { isAfter, parse } from "date-fns";
+import { isAfter, isBefore, parse } from "date-fns";
 
 type StaffListProps = {
   isEditableDate: boolean;
@@ -97,10 +97,10 @@ function StaffList({
 
                     {employee.isCheckIn ? (
                       <span className="text-green-500">Đã checkin</span>
-                    ) : isAfter(
+                    ) : !isBefore(
                         new Date(),
                         parse(
-                          `${date.split(",")[1]} ${shiftTime.split(" ")[2]}`,
+                          `${date.split(",")[1]} ${shiftTime.split(" ")[0]}`,
                           "dd/MM/yyyy HH:mm:ss",
                           new Date()
                         )
