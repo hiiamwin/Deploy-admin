@@ -10,7 +10,8 @@ export const createDishGeneralFormSchema = z
       .number()
       .int({ message: "Giá tiền phải là số nguyên" })
       .positive({ message: "Giá tiền phải lớn hơn 0" })
-      .min(1, { message: "Giá tiền phải lớn hơn 0" }),
+      .min(1, { message: "Giá tiền phải lớn hơn 0" })
+      .max(100000, { message: "Giá tiền phải nhỏ hơn 100000" }),
 
     dishGeneralDescription: z
       .string()

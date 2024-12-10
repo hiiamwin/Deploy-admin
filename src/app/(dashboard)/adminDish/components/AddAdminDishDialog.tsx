@@ -126,6 +126,11 @@ function AddAdminDishDialog() {
   const onSubmit: SubmitHandler<z.infer<typeof createDishGeneralFormSchema>> =
     useCallback(
       (data) => {
+        if (data.ingredients.length > 1000) {
+          toast.error("Số lượng nguyên liệu không được vượt quá 1000");
+          return;
+        }
+
         if (images.length === 0) {
           toast.error("Vui lòng tải lên ít nhất một hình ảnh");
           return;

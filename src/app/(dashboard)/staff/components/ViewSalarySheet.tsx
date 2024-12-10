@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import { useQuery } from "@tanstack/react-query";
 import { getEmployeeSalaryAction } from "@/actions";
-import { format, parse, parseISO } from "date-fns";
+import { compareDesc, format, parseISO } from "date-fns";
 import {
   Select,
   SelectContent,
@@ -157,28 +157,6 @@ function ViewSalarySheet({
               </CardContent>
 
               <ScrollArea className="border-none h-[400px]">
-                {data.data.results[0].salary.attendanceDetailsDtos
-                  .reduce((acc: any, item: any) => {
-                    const { date, shiftName, checkInTime, checkOutTime } = item;
-                    const existingItem = acc.find((i: any) => i.date === date);
-                    if (existingItem) {
-                      existingItem.attendance.push({
-                        shiftName,
-                        checkInTime,
-                        checkOutTime,
-                      });
-                      return acc;
-                    }
-
-                    acc.push({
-                      date,
-                      attendance: [{ shiftName, checkInTime, checkOutTime }],
-                    });
-                    return acc;
-                  }, [])
-                  .map((attendance: any) => {
-                    console.log(attendance);
-                  })}
                 <Accordion type="single" collapsible className="p-4">
                   {data.data.results[0].salary.attendanceDetailsDtos
                     .reduce((acc: any, item: any) => {
@@ -202,10 +180,13 @@ function ViewSalarySheet({
                       });
                       return acc;
                     }, [])
+                    .sort((a: any, b: any) => {
+                      return compareDesc(parseISO(a.date), parseISO(b.date));
+                    })
                     .map((attendanceDate: any, i: number) => (
                       <AccordionItem value={`item-${i}`} key={i}>
                         <AccordionTrigger>
-                          Ngày {attendanceDate.date}
+                          Ngày {format(attendanceDate.date, "dd/MM/yyyy")}
                         </AccordionTrigger>
                         {attendanceDate.attendance.map(
                           (attendance: any, i: number) => (
