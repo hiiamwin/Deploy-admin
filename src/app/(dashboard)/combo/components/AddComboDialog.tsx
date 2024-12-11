@@ -335,7 +335,9 @@ function AddComboDialog({
             <DialogFooter>
               {/* onClick={() => handleAddNewDish()} */}
               {selectedDishes.length > 0 && (
-                <Button disabled={isPending}>Thêm combo</Button>
+                <Button disabled={isPending || selectedDishes.length < 2}>
+                  Thêm combo
+                </Button>
               )}
             </DialogFooter>
           </form>

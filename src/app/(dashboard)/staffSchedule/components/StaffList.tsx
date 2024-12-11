@@ -17,7 +17,7 @@ import {
 } from "@/actions";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
-import { isAfter, isBefore, parse } from "date-fns";
+import { isBefore, parse } from "date-fns";
 
 type StaffListProps = {
   isEditableDate: boolean;
@@ -62,13 +62,6 @@ function StaffList({
   const handleUnregister = (employeeId: string, scheduleId: string) => {
     execute({ employeeId, scheduleId });
   };
-
-  console.log(
-    isAfter(
-      new Date(),
-      parse("08/12/2024 14:00:00", "dd/MM/yyyy HH:mm:ss", new Date())
-    )
-  );
 
   return (
     <Dialog open={openList} onOpenChange={handleOpen}>

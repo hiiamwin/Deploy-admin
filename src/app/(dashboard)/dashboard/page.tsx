@@ -173,10 +173,10 @@ async function DashboardHomePage() {
         <OrderChart />
         <CustomerChart />
       </div>
-      <div className="border mt-2 grid grid-cols-2">
+      {/* <div className="border mt-2 grid grid-cols-2">
         <div>món ăn bán chạy</div>
         <div>combo bán chạy</div>
-      </div>
+      </div> */}
     </div>
   );
 }

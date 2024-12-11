@@ -38,6 +38,7 @@ import CreateIngredientGeneralMeasure from "./CreateIngredientGeneralMeasure";
 
 function AddIngredientGeneralDialog() {
   const [open, setOpen] = useState(false);
+  const [isCreatingMeasure, setIsCreatingMeasure] = useState(false);
 
   const { data, isFetching, refetch } = useQuery({
     queryKey: ["ingredientMeasure"],
@@ -126,12 +127,14 @@ function AddIngredientGeneralDialog() {
             <TabsTrigger
               className="w-1/2 data-[state=active]:bg-black data-[state=active]:text-white"
               value="createIngredientGeneral"
+              disabled={isPending || isFetching || isCreatingMeasure}
             >
               Tạo mới nguyên liệu
             </TabsTrigger>
             <TabsTrigger
               className="w-1/2 data-[state=active]:bg-black data-[state=active]:text-white"
               value="createIngredientGeneralMeasure"
+              disabled={isPending || isFetching || isCreatingMeasure}
             >
               Tạo mới đơn vị cơ sở
             </TabsTrigger>
@@ -257,7 +260,10 @@ function AddIngredientGeneralDialog() {
             )}
           </TabsContent>
           <TabsContent value="createIngredientGeneralMeasure">
-            <CreateIngredientGeneralMeasure refetch={refetch} />
+            <CreateIngredientGeneralMeasure
+              refetch={refetch}
+              setIsCreatingMeasure={setIsCreatingMeasure}
+            />
           </TabsContent>
         </Tabs>
       </DialogContent>

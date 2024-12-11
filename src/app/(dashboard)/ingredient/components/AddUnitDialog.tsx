@@ -141,11 +141,11 @@ function AddUnitDialog({
                   {...register("ingredientId")}
                 />
 
-                {errors.conversionFactor?.message && (
+                {/* {errors.conversionFactor?.message && (
                   <p className="text-red-500 text-sm mt-1" role="alert">
                     {errors.conversionFactor.message as string}
                   </p>
-                )}
+                )} */}
               </div>
             </div>
             <DialogFooter>

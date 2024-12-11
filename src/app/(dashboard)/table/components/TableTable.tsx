@@ -52,6 +52,7 @@ async function TableTable({
                 <TableCell className="text-center">
                   {table.tableNumber}
                 </TableCell>
+
                 <TableCell>
                   {table.tableStatus === "Available" ? (
                     <span>
@@ -71,10 +72,10 @@ async function TableTable({
                   )}
                 </TableCell>
                 <TableCell>
-                  {table.tableStatus === "Disable" && (
+                  {table.tableStatus === "Disable" && !table.isLogin && (
                     <TableMenuActions item={table} />
                   )}
-                  {table.tableStatus === "Available" && (
+                  {table.tableStatus === "Available" && !table.isLogin && (
                     <TableMenuActions item={table} />
                   )}
                 </TableCell>

@@ -26,19 +26,19 @@ import ViewQr from "./ViewQr";
 
 const shifts = [
   {
-    id: "8918424e-62c6-4d06-b35a-481ad0ccfb9e",
+    id: "7346b17a-2c84-4ee5-be16-16ad90d29537",
     name: "Ca sáng",
     startTime: "09:00:00",
     endTime: "14:00:00",
   },
   {
-    id: "a2c28140-85bb-48e9-8725-c381b610556f",
+    id: "4f8cc7f6-d331-443b-a857-f83d7fce5d0b",
     name: "Ca chiều",
     startTime: "14:00:00",
     endTime: "19:00:00",
   },
   {
-    id: "ccabc8b6-480d-4e83-99da-246cceeb714c",
+    id: "d42c0840-faf3-4ee4-9b09-65a4673e270d",
     name: "Ca tối",
     startTime: "19:00:00",
     endTime: "23:59:59",
