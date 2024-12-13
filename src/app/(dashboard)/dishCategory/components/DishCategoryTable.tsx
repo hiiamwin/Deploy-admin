@@ -30,7 +30,7 @@ async function DishCategoryTable({
           renderActions={(item) => <DishCategoryMenuActions item={item} />}
         />
       ) : (
-        <h2 className="text-center mt-10">Không tìm thấy nhà hàng nào</h2>
+        <h2 className="text-center mt-10">Không tìm thấy loại món ăn nào</h2>
       )}
 
       <AdminPagination totalPage={Math.ceil(data.totalNumberOfRecords / 5)} />

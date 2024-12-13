@@ -38,7 +38,7 @@ async function TableTable({
       {data.results.length > 0 ? (
         <Table>
           <TableCaption className="caption-top text-2xl font-bold text-gray-700">
-            Danh sách bàn
+            Danh sách bàn ăn
           </TableCaption>
           <TableHeader>
             <TableRow>
@@ -85,12 +85,12 @@ async function TableTable({
           <TableFooter>
             <TableRow>
               <TableCell colSpan={2}>Tổng cộng</TableCell>
-              <TableCell>{data.totalNumberOfRecords} bàn</TableCell>
+              <TableCell>{data.totalNumberOfRecords} bàn ăn</TableCell>
             </TableRow>
           </TableFooter>
         </Table>
       ) : (
-        <h2 className="text-center mt-10">Không tìm thấy bàn nào</h2>
+        <h2 className="text-center mt-10">Không tìm thấy bàn ăn nào</h2>
       )}
 
       <AdminPagination totalPage={Math.ceil(data.totalNumberOfRecords / 5)} />

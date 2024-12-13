@@ -298,10 +298,12 @@ function AddAdminDishDialog() {
               />
               <div className="flex gap-2 items-center">
                 <Controller
+                  disabled={isPending}
                   name="isRefundable"
                   control={control}
                   render={({ field }) => (
                     <Checkbox
+                      disabled={isPending}
                       checked={field.value}
                       id="isRefundable"
                       onCheckedChange={(value) => {

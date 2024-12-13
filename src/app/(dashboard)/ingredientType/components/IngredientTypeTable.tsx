@@ -34,7 +34,9 @@ async function IngredientTypeTable({
           renderActions={(item) => <IngredientTypeMenuActions item={item} />}
         />
       ) : (
-        <h2 className="text-center mt-10">Không tìm thấy nhà hàng nào</h2>
+        <h2 className="text-center mt-10">
+          Không tìm thấy loại nguyên liệu nào
+        </h2>
       )}
 
       <AdminPagination totalPage={Math.ceil(data.totalNumberOfRecords / 5)} />

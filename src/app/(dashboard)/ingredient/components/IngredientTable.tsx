@@ -27,7 +27,7 @@ async function IngredientTable({ page, name }: { page: string; name: string }) {
       {data.results.length > 0 ? (
         <Table>
           <TableCaption className="caption-top text-2xl font-bold text-gray-700">
-            Danh sách món ăn
+            Danh sách nguyên liệu
           </TableCaption>
           <TableHeader>
             <TableRow>
@@ -74,12 +74,12 @@ async function IngredientTable({ page, name }: { page: string; name: string }) {
           <TableFooter>
             <TableRow>
               <TableCell colSpan={4}>Tổng cộng</TableCell>
-              <TableCell>{data.totalNumberOfRecords} món ăn</TableCell>
+              <TableCell>{data.totalNumberOfRecords} nguyên liệu</TableCell>
             </TableRow>
           </TableFooter>
         </Table>
       ) : (
-        <h2 className="text-center mt-10">Không tìm thấy món ăn nào</h2>
+        <h2 className="text-center mt-10">Không tìm thấy nguyên liệu nào</h2>
       )}
 
       <AdminPagination totalPage={Math.ceil(data.totalNumberOfRecords / 5)} />

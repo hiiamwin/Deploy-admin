@@ -157,6 +157,7 @@ function AddIngredientGeneralDialog() {
                       type="text"
                       placeholder="Nhập tên nguyên liệu"
                       {...register("ingredientGeneralName")}
+                      disabled={isPending}
                     />
                     {errors.ingredientGeneralName?.message && (
                       <p className="text-red-500 text-sm mt-1" role="alert">
@@ -177,6 +178,7 @@ function AddIngredientGeneralDialog() {
                       type="text"
                       placeholder="Nhập mô tả nguyên liệu"
                       {...register("ingredientGeneralDescription")}
+                      disabled={isPending}
                     />
                     {errors.ingredientGeneralDescription?.message && (
                       <p className="text-red-500 text-sm mt-1" role="alert">
@@ -188,6 +190,7 @@ function AddIngredientGeneralDialog() {
                   <div className="flex flex-col">
                     <Label className="mb-2">Loại nguyên liệu</Label>
                     <Controller
+                      disabled={isPending}
                       name="ingredientGeneralType"
                       control={control}
                       defaultValue=""
@@ -217,6 +220,7 @@ function AddIngredientGeneralDialog() {
                   <div className="flex flex-col">
                     <Label className="mb-2">Đơn vị cơ sở</Label>
                     <Controller
+                      disabled={isPending}
                       name="ingredientMeasureType"
                       control={control}
                       defaultValue=""
@@ -225,6 +229,7 @@ function AddIngredientGeneralDialog() {
                           <Select
                             onValueChange={field.onChange}
                             value={field.value}
+                            disabled={isPending}
                           >
                             <SelectTrigger className="w-full">
                               <SelectValue placeholder="Chọn đơn vị cơ sở" />

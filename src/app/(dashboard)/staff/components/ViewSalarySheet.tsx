@@ -146,7 +146,7 @@ function ViewSalarySheet({
                     {formatCurrency(data.data.results[0].salary.overtimeSalary)}
                   </p>
                   <p>
-                    <strong>Tiền phạt:</strong>{" "}
+                    <strong>Tiền phạt:</strong> -
                     {formatCurrency(data.data.results[0].salary.penalty)}
                   </p>
                   <p className="text-lg font-bold">

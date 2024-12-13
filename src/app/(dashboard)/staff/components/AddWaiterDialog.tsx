@@ -135,7 +135,12 @@ function AddWaiterDialog({ restaurantId }: { restaurantId: string }) {
               <Label htmlFor={"roleId"} className="mb-2">
                 Vị trí
               </Label>
-              <Select name="roleId" defaultValue="2" onValueChange={setRoleId}>
+              <Select
+                name="roleId"
+                defaultValue="2"
+                onValueChange={setRoleId}
+                disabled={isPending}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Vị trí" />
                 </SelectTrigger>

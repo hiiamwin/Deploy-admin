@@ -147,6 +147,7 @@ function AddDishdialog() {
                 type="text"
                 placeholder="Tìm món ăn theo tên"
                 onChange={(e) => debouncedSearch(e.target.value)}
+                disabled={isPending || isFectchingCategory || isAdding}
               />
               {isFectchingCategory ? (
                 <div className="flex items-center justify-center">
@@ -154,6 +155,7 @@ function AddDishdialog() {
                 </div>
               ) : (
                 <Select
+                  disabled={isPending || isFectchingCategory || isAdding}
                   onValueChange={(value) => {
                     if (value === "all") {
                       setSelectedCategory(value);
@@ -313,6 +315,7 @@ function AddDishdialog() {
                       <div className="my-auto">{dish?.categoryName}</div>
                       <div className="my-auto">
                         <Checkbox
+                          disabled={isAdding}
                           checked={selectedDishes.some(
                             (selectedDish) => selectedDish === dish?.id
                           )}
