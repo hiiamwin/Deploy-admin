@@ -30,6 +30,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 function ViewSalarySheet({
   id,
@@ -112,7 +118,18 @@ function ViewSalarySheet({
             <Card className="border-none ">
               <CardHeader className="p-4">
                 <CardTitle>
-                  Thông tin lương tháng {selectedMonth}/{currentYear} (Tạm tính)
+                  Thông tin lương tháng {selectedMonth}/{currentYear} (Tạm tính){" "}
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>*</TooltipTrigger>
+                      <TooltipContent>
+                        <p>
+                          Chỉ những ca đã có checkin và checkout mới được tính
+                          lương
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </CardTitle>
               </CardHeader>
               <CardContent className="border-b pb-4 px-4">
@@ -146,7 +163,7 @@ function ViewSalarySheet({
                     {formatCurrency(data.data.results[0].salary.overtimeSalary)}
                   </p>
                   <p>
-                    <strong>Tiền phạt:</strong> -
+                    <strong>Tiền phạt:</strong> -{" "}
                     {formatCurrency(data.data.results[0].salary.penalty)}
                   </p>
                   <p className="text-lg font-bold">
@@ -196,13 +213,13 @@ function ViewSalarySheet({
                             >
                               Ca: {attendance.shiftName}{" "}
                               <div>
-                                {attendance.checkInTime ===
-                                "Chưa thực hiện CheckIn"
+                                {attendance.checkInTime === "Không có CheckIn"
                                   ? attendance.checkInTime
                                   : attendance.checkInTime.split(" ")[1]}{" "}
                                 -{" "}
                                 {attendance.checkOutTime ===
-                                "Chưa thực hiện CheckOut"
+                                  "Không có CheckOut" ||
+                                attendance.checkOutTime === "Lịch sắp tới"
                                   ? attendance.checkOutTime
                                   : attendance.checkOutTime.split(" ")[1]}
                               </div>

@@ -80,7 +80,11 @@ function DishMenuActions({ item }: { item: Dish }) {
                 onClick={() => setIsOpenActivateDialog(true)}
               >
                 <PowerOff className="mr-2 h-4 w-4" />
-                <span>Hoạt động trở lại</span>
+                {item.status === 3 ? (
+                  <span>Hoạt động</span>
+                ) : (
+                  <span>Hoạt động trở lại</span>
+                )}
               </Button>
             )}
           </DropdownMenuItem>

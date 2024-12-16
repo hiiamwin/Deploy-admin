@@ -15,8 +15,11 @@ import {
   parseISO,
   endOfWeek,
   isAfter,
+  isWithinInterval,
+  parse,
+  startOfDay,
 } from "date-fns";
-import { is, vi } from "date-fns/locale";
+import { vi } from "date-fns/locale";
 import AddWaiterForm from "./AddWaiterForm";
 import StaffList from "./StaffList";
 import { useQuery } from "@tanstack/react-query";
@@ -78,12 +81,22 @@ function WaiterSchedule() {
     setCurrentWeekStart(addDays(currentWeekStart, 7));
   };
 
-  const isEditable = (dateString: string) => {
+  const isEditable = (
+    dateString: string,
+    startTime: string,
+    endTime: string
+  ) => {
     const date = parseISO(dateString);
     const now = new Date();
-    const isPast = isAfter(now, date);
+    const isPast = isAfter(startOfDay(now), startOfDay(date));
 
-    return isPast;
+    const checkTime = isAfter(
+      parse(now.toTimeString().slice(0, 8), "HH:mm:ss", now),
+      parse(startTime, "HH:mm:ss", now)
+    );
+    const isToday = format(date, "yyyy-MM-dd") === format(now, "yyyy-MM-dd");
+    // ? isPast : checkTime;
+    return isPast ? isPast : isToday ? checkTime : false;
   };
   return (
     <>
@@ -143,7 +156,11 @@ function WaiterSchedule() {
                   {weekDays.map((day) => {
                     const date = format(day, "yyyy-MM-dd");
 
-                    const isEditableDate = isEditable(date);
+                    const isEditableDate = isEditable(
+                      date,
+                      shift.startTime,
+                      shift.endTime
+                    );
                     const shiftCount = data?.data?.find(
                       (item) => item.date === date && item.shiftId === shift.id
                     );

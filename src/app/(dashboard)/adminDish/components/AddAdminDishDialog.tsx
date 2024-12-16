@@ -69,6 +69,7 @@ function AddAdminDishDialog() {
     setError,
     reset,
     setValue,
+    // getValues,
   } = useForm<z.infer<typeof createDishGeneralFormSchema>>({
     resolver: zodResolver(createDishGeneralFormSchema),
     defaultValues: {
@@ -297,7 +298,7 @@ function AddAdminDishDialog() {
                 isPending={isPending}
               />
               <div className="flex gap-2 items-center">
-                <Controller
+                {/* <Controller
                   disabled={isPending}
                   name="isRefundable"
                   control={control}
@@ -308,6 +309,8 @@ function AddAdminDishDialog() {
                       id="isRefundable"
                       onCheckedChange={(value) => {
                         field.onChange(value);
+                        console.log(value);
+
                         if (value) {
                           setValue("ingredients", []);
                           setExcludedIngredients([]);
@@ -322,10 +325,40 @@ function AddAdminDishDialog() {
                               quantity: 0,
                             },
                           ]);
+                          setExcludedIngredients([]);
                         }
                       }}
                     />
                   )}
+                /> */}
+
+                <Checkbox
+                  disabled={isPending}
+                  name="isRefundable"
+                  // checked={isRefundable}
+                  id="isRefundable"
+                  onCheckedChange={(value) => {
+                    // field.onChange(value);
+                    // console.log(value);
+                    setValue("isRefundable", Boolean(value));
+
+                    if (value) {
+                      setValue("ingredients", []);
+                      setExcludedIngredients([]);
+                    } else {
+                      setValue("ingredients", [
+                        {
+                          ingredient: {
+                            id: "",
+                            name: "",
+                            ingredientMeasureType: "",
+                          },
+                          quantity: 0,
+                        },
+                      ]);
+                      setExcludedIngredients([]);
+                    }
+                  }}
                 />
                 <Label htmlFor="isRefundable">Món ăn có thể trả lại</Label>
               </div>
