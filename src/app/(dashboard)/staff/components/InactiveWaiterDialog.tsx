@@ -20,6 +20,10 @@ function InactiveWaiterDialog({
       toast.success(data);
       setIsOpenInactivateDialog(false);
     },
+    onError: ({ error }) => {
+      toast.error(error.serverError);
+      setIsOpenInactivateDialog(false);
+    },
   });
   const handleInactive = () => {
     execute({ id: id, path: "/staff" });

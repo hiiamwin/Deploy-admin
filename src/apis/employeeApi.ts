@@ -78,7 +78,11 @@ export async function inactiveEmployee(id: string) {
     cache: "no-store",
   });
   if (!res.ok) {
-    throw new Error("Something went wrong");
+    const data = await res.json();
+    // throw new Error("Something went wrong");
+    // console.log(data);
+
+    throw new MyError(400, data.errors[0].message);
   }
   const data = await res.json();
   return data.message;

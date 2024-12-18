@@ -325,7 +325,7 @@ function SelectDishDialog() {
             </div>
           </div>
           <DialogFooter>
-            {selectedDishes.length > 0 && (
+            {selectedDishes.length > 1 && (
               <AddComboDialog
                 handleOpenPrevDialog={handleOpen}
                 selectedDishes={selectedDishes}

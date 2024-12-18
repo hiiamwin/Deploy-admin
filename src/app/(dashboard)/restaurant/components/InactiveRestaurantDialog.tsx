@@ -51,7 +51,11 @@ function InactiveRestaurantDialog({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Đóng</AlertDialogCancel>
+          <AlertDialogCancel asChild>
+            <Button className="text-black" disabled={isPending}>
+              Đóng
+            </Button>
+          </AlertDialogCancel>
           <Button disabled={isPending} onClick={() => handleInactive()}>
             Có
           </Button>
