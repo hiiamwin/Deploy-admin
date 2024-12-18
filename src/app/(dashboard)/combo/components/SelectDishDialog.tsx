@@ -98,18 +98,19 @@ function SelectDishDialog() {
     }
   }, [inView, fetchNextPage, hasNextPage]);
 
-  useEffect(() => {
-    if (open) {
-      setSearch("");
-      refetch();
-    }
-  }, [open, refetch]);
+  // useEffect(() => {
+  //   if (open) {
+  //     setSearch("");
+  //     refetch();
+  //   }
+  // }, [open, refetch]);
 
   const allDishes = data?.pages.flatMap((page) => page.data);
 
   const handleOpen = (value: boolean) => {
     setSelectedDishes([]);
     setOpen(value);
+    setSearch("");
   };
   return (
     <>
@@ -135,6 +136,7 @@ function SelectDishDialog() {
                 type="text"
                 placeholder="Tìm món ăn theo tên"
                 onChange={(e) => debouncedSearch(e.target.value)}
+                disabled={isPending || isFectchingCategory}
               />
               {isFectchingCategory ? (
                 <div className="flex items-center justify-center">
