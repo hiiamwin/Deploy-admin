@@ -65,7 +65,6 @@ function ViewSalarySheet({
       }),
     refetchOnWindowFocus: false,
   });
-  console.log(data);
 
   useEffect(() => {
     refetch();
