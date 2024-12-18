@@ -290,6 +290,7 @@ function AddComboDialog({
                             ).onChange(e);
                             calculateTotalPrice();
                           }}
+                          disabled={isPending}
                         />
                         {errors.productInCombos?.[index]?.quantity?.message && (
                           <p className="text-red-500 text-sm mt-1" role="alert">
