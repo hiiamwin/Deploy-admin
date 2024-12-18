@@ -98,6 +98,13 @@ function SelectDishDialog() {
     }
   }, [inView, fetchNextPage, hasNextPage]);
 
+  useEffect(() => {
+    if (open) {
+      setSearch("");
+      refetch();
+    }
+  }, [open, refetch]);
+
   const allDishes = data?.pages.flatMap((page) => page.data);
 
   const handleOpen = (value: boolean) => {

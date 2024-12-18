@@ -25,6 +25,8 @@ export async function getCombo(
 }
 
 export async function createCombo(newCombo: CreateCombo, token: string) {
+  console.log(newCombo);
+
   const response = await fetch(`${process.env.API_URL}/v1/Combo`, {
     method: "POST",
     headers: {

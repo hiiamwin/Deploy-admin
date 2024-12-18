@@ -71,7 +71,15 @@ function AddComboDialog({
       setImage(undefined);
     },
     onError: ({ error }) => {
-      console.log(error);
+      // console.log(error);
+      if (error.serverError) {
+        const errorArray = JSON.parse(error.serverError);
+        errorArray.forEach((error: { field: string; message: string }) => {
+          setError(error.field as keyof typeof errors, {
+            message: error.message,
+          });
+        });
+      }
     },
   });
 
@@ -310,7 +318,7 @@ function AddComboDialog({
                   ))}
                 </ScrollArea>
               </div>
-              <Label>Giá tối đa: {totalPrice}</Label>
+              <Label>Giá tối đa: {totalPrice.toLocaleString("vi-VN")} đ</Label>
               <div className="flex flex-col">
                 <Label htmlFor={`comboPrice`} className="mb-2">
                   Giá Combo
