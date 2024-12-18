@@ -65,6 +65,7 @@ function ViewSalarySheet({
       }),
     refetchOnWindowFocus: false,
   });
+  console.log(data);
 
   useEffect(() => {
     refetch();
@@ -219,7 +220,9 @@ function ViewSalarySheet({
                                 -{" "}
                                 {attendance.checkOutTime ===
                                   "Không có CheckOut" ||
-                                attendance.checkOutTime === "Lịch sắp tới"
+                                attendance.checkOutTime === "Lịch sắp tới" ||
+                                attendance.checkOutTime ===
+                                  "Chưa thực hiện CheckOut"
                                   ? attendance.checkOutTime
                                   : attendance.checkOutTime.split(" ")[1]}
                               </div>
