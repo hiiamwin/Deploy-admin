@@ -123,6 +123,7 @@ function AddDishdialog() {
   const handleAddNewDish = () => {
     execute({ productId: selectedDishes });
   };
+
   return (
     <>
       <Dialog open={open} onOpenChange={handleOpen}>
@@ -347,7 +348,10 @@ function AddDishdialog() {
             </div>
           </div>
           <DialogFooter>
-            <Button disabled={isAdding} onClick={() => handleAddNewDish()}>
+            <Button
+              disabled={isAdding || selectedDishes.length <= 0}
+              onClick={() => handleAddNewDish()}
+            >
               Thêm món ăn
             </Button>
           </DialogFooter>
