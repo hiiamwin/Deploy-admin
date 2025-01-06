@@ -117,7 +117,9 @@ async function WaiterTable({
         <h2 className="text-center mt-10">Không tìm thấy nhân viên nào</h2>
       )}
 
-      <AdminPagination totalPage={Math.ceil(data.totalNumberOfRecords / 5)} />
+      <AdminPagination
+        totalPage={Math.ceil((data.totalNumberOfRecords - 1) / 5)}
+      />
     </>
   );
 }

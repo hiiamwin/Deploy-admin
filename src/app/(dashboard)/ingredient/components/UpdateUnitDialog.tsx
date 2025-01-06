@@ -74,7 +74,15 @@ function UpdateUnitDialog({
           <DialogDescription>
             Nhập thông tin đơn vị cần cập nhật
           </DialogDescription>
-          {item.ingredientUnits.slice(2).length > 0 ? (
+          {item.ingredientUnits.filter((u) => {
+            if (
+              u.ingredientUnitParentId !== null &&
+              u.unitName !== "kg" &&
+              u.unitName !== "l"
+            ) {
+              return u;
+            }
+          }).length > 0 ? (
             <>
               <RadioGroup
                 disabled={isPending}
@@ -95,20 +103,27 @@ function UpdateUnitDialog({
                   setValue("id", unit?.ingredientUnitId as string);
                 }}
               >
-                {item.ingredientUnits.slice(2).map((unit) => (
-                  <div
-                    className="flex items-center space-x-2 justify-center"
-                    key={unit.ingredientUnitId}
-                  >
-                    <RadioGroupItem
-                      value={unit.ingredientUnitId}
-                      id={unit.ingredientUnitId}
-                    />
-                    <Label htmlFor={unit.ingredientUnitId}>
-                      {unit.unitName}
-                    </Label>
-                  </div>
-                ))}
+                {item.ingredientUnits
+                  .filter(
+                    (u) =>
+                      u.ingredientUnitParentId !== null &&
+                      u.unitName !== "kg" &&
+                      u.unitName !== "l"
+                  )
+                  .map((unit) => (
+                    <div
+                      className="flex items-center space-x-2 justify-center"
+                      key={unit.ingredientUnitId}
+                    >
+                      <RadioGroupItem
+                        value={unit.ingredientUnitId}
+                        id={unit.ingredientUnitId}
+                      />
+                      <Label htmlFor={unit.ingredientUnitId}>
+                        {unit.unitName}
+                      </Label>
+                    </div>
+                  ))}
               </RadioGroup>
               {unitName && (
                 <form onSubmit={handleSubmit(onSubmit)}>

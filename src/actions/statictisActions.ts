@@ -5,6 +5,11 @@ import {
   getCustomerStatistic,
   getOrderStatistic,
   getRevenueStatistic,
+  getRevenueRanking,
+  getOrderRanking,
+  getTopDish,
+  getTopCombo,
+  getTopRefundDish,
 } from "@/apis";
 
 export const getRevenueStatisticAction = authActionClient
@@ -12,13 +17,15 @@ export const getRevenueStatisticAction = authActionClient
     z.object({
       timeFrame: z.number(),
       date: z.string(),
+      resId: z.string(),
     })
   )
   .action(async ({ parsedInput, ctx: { accesstoken } }) => {
     const data = await getRevenueStatistic(
       parsedInput.timeFrame,
       parsedInput.date,
-      accesstoken
+      accesstoken,
+      parsedInput.resId
     );
     return data;
   });
@@ -28,10 +35,43 @@ export const getOrderStatisticAction = authActionClient
     z.object({
       timeFrame: z.number(),
       date: z.string(),
+      resId: z.string(),
     })
   )
   .action(async ({ parsedInput, ctx: { accesstoken } }) => {
     const data = await getOrderStatistic(
+      parsedInput.timeFrame,
+      parsedInput.date,
+      accesstoken,
+      parsedInput.resId
+    );
+    return data;
+  });
+
+export const getCustomerStatisticAction = authActionClient
+  .schema(
+    z.object({ timeFrame: z.number(), date: z.string(), resId: z.string() })
+  )
+  .action(async ({ parsedInput, ctx: { accesstoken } }) => {
+    const data = await getCustomerStatistic(
+      parsedInput.timeFrame,
+      parsedInput.date,
+      accesstoken,
+      parsedInput.resId
+    );
+
+    return data;
+  });
+
+export const getRevenueRankingAction = authActionClient
+  .schema(
+    z.object({
+      timeFrame: z.number(),
+      date: z.string(),
+    })
+  )
+  .action(async ({ parsedInput, ctx: { accesstoken } }) => {
+    const data = await getRevenueRanking(
       parsedInput.timeFrame,
       parsedInput.date,
       accesstoken
@@ -39,12 +79,71 @@ export const getOrderStatisticAction = authActionClient
     return data;
   });
 
-export const getCustomerStatisticAction = authActionClient
-  .schema(z.object({ timeFrame: z.number(), date: z.string() }))
+export const getOrderRankingAction = authActionClient
+  .schema(
+    z.object({
+      timeFrame: z.number(),
+      date: z.string(),
+    })
+  )
   .action(async ({ parsedInput, ctx: { accesstoken } }) => {
-    const data = await getCustomerStatistic(
+    const data = await getOrderRanking(
       parsedInput.timeFrame,
       parsedInput.date,
+      accesstoken
+    );
+    return data;
+  });
+
+export const getTopDishAction = authActionClient
+  .schema(
+    z.object({
+      timeFrame: z.number(),
+      date: z.string(),
+      restaurantId: z.string(),
+    })
+  )
+  .action(async ({ parsedInput, ctx: { accesstoken } }) => {
+    const data = await getTopDish(
+      parsedInput.timeFrame,
+      parsedInput.date,
+      parsedInput.restaurantId,
+      accesstoken
+    );
+    return data;
+  });
+
+export const getTopComboAction = authActionClient
+  .schema(
+    z.object({
+      timeFrame: z.number(),
+      date: z.string(),
+      restaurantId: z.string(),
+    })
+  )
+  .action(async ({ parsedInput, ctx: { accesstoken } }) => {
+    const data = await getTopCombo(
+      parsedInput.timeFrame,
+      parsedInput.date,
+      parsedInput.restaurantId,
+      accesstoken
+    );
+    return data;
+  });
+
+export const getTopRefundDishAction = authActionClient
+  .schema(
+    z.object({
+      timeFrame: z.number(),
+      date: z.string(),
+      restaurantId: z.string(),
+    })
+  )
+  .action(async ({ parsedInput, ctx: { accesstoken } }) => {
+    const data = await getTopRefundDish(
+      parsedInput.timeFrame,
+      parsedInput.date,
+      parsedInput.restaurantId,
       accesstoken
     );
     return data;

@@ -7,6 +7,7 @@ export async function getCurrentStatictis(token: string) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      cache: "no-store",
     }
   );
   const data = await res.json();
@@ -16,16 +17,33 @@ export async function getCurrentStatictis(token: string) {
 export async function getRevenueStatistic(
   timeFrame: number,
   date: string,
-  token: string
+  token: string,
+  resId: string
 ) {
+  if (resId === "all") {
+    const res = await fetch(
+      `${process.env.API_URL}/Statistics/revenue?TimeFrame=${timeFrame}&ChosenDate=${date}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store",
+      }
+    );
+    const data = await res.json();
+    return data;
+  }
   const res = await fetch(
-    `${process.env.API_URL}/Statistics/revenue?TimeFrame=${timeFrame}&ChosenDate=${date}`,
+    `${process.env.API_URL}/Statistics/revenue?TimeFrame=${timeFrame}&ChosenDate=${date}&RestaurantId=${resId}`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      cache: "no-store",
     }
   );
   const data = await res.json();
@@ -35,16 +53,33 @@ export async function getRevenueStatistic(
 export async function getOrderStatistic(
   timeFrame: number,
   date: string,
-  token: string
+  token: string,
+  resId: string
 ) {
+  if (resId === "all") {
+    const res = await fetch(
+      `${process.env.API_URL}/Statistics/orders?TimeFrame=${timeFrame}&ChosenDate=${date}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store",
+      }
+    );
+    const data = await res.json();
+    return data;
+  }
   const res = await fetch(
-    `${process.env.API_URL}/Statistics/orders?TimeFrame=${timeFrame}&ChosenDate=${date}`,
+    `${process.env.API_URL}/Statistics/orders?TimeFrame=${timeFrame}&ChosenDate=${date}&RestaurantId=${resId}`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      cache: "no-store",
     }
   );
   const data = await res.json();
@@ -54,16 +89,136 @@ export async function getOrderStatistic(
 export async function getCustomerStatistic(
   timeFrame: number,
   date: string,
-  token: string
+  token: string,
+  resId: string
 ) {
+  if (resId === "all") {
+    const res = await fetch(
+      `${process.env.API_URL}/Statistics/customers?TimeFrame=${timeFrame}&ChosenDate=${date}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store",
+      }
+    );
+    const data = await res.json();
+    return data;
+  }
   const res = await fetch(
-    `${process.env.API_URL}/Statistics/customers?TimeFrame=${timeFrame}&ChosenDate=${date}`,
+    `${process.env.API_URL}/Statistics/customers?TimeFrame=${timeFrame}&ChosenDate=${date}&RestaurantId=${resId}`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      cache: "no-store",
+    }
+  );
+  const data = await res.json();
+  return data;
+}
+
+export async function getRevenueRanking(
+  timeFrame: number,
+  date: string,
+  token: string
+) {
+  const res = await fetch(
+    `${process.env.API_URL}/Statistics/top-restaurant-revenues?TimeFrame=${timeFrame}&ChosenDate=${date}&SortAscending=false`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+  const data = await res.json();
+  return data;
+}
+
+export async function getOrderRanking(
+  timeFrame: number,
+  date: string,
+  token: string
+) {
+  const res = await fetch(
+    `${process.env.API_URL}/Statistics/top-restaurant-orders?TimeFrame=${timeFrame}&ChosenDate=${date}&SortAscending=false`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+  const data = await res.json();
+  return data;
+}
+
+export async function getTopDish(
+  timeFrame: number,
+  date: string,
+  restaurantId: string,
+  token: string
+) {
+  const res = await fetch(
+    `${process.env.API_URL}/Statistics/details-restaurant?TimeFrame=${timeFrame}&ChosenDate=${date}&TopNDish=10&RestaurantId=${restaurantId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+  const data = await res.json();
+  return data;
+}
+
+export async function getTopCombo(
+  timeFrame: number,
+  date: string,
+  restaurantId: string,
+  token: string
+) {
+  const res = await fetch(
+    `${process.env.API_URL}/Statistics/details-restaurant?TimeFrame=${timeFrame}&ChosenDate=${date}&TopNCombo=10&RestaurantId=${restaurantId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+  const data = await res.json();
+  return data;
+}
+
+export async function getTopRefundDish(
+  timeFrame: number,
+  date: string,
+  restaurantId: string,
+  token: string
+) {
+  const res = await fetch(
+    `${process.env.API_URL}/Statistics/details-restaurant?TimeFrame=${timeFrame}&ChosenDate=${date}&TopNRefundableDish=10&RestaurantId=${restaurantId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
     }
   );
   const data = await res.json();

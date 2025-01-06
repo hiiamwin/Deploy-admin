@@ -100,7 +100,14 @@ import {
   getRevenueStatisticAction,
   getCustomerStatisticAction,
   getOrderStatisticAction,
+  getRevenueRankingAction,
+  getOrderRankingAction,
+  getTopComboAction,
+  getTopDishAction,
+  getTopRefundDishAction,
 } from "./statictisActions";
+
+import { confirmMoneyAction, getOrderDetailAction } from "./OrderActions";
 
 export {
   loginAction,
@@ -182,4 +189,12 @@ export {
   getRevenueStatisticAction,
   getCustomerStatisticAction,
   getOrderStatisticAction,
+  getRevenueRankingAction,
+  getOrderRankingAction,
+  getTopComboAction,
+  getTopDishAction,
+  getTopRefundDishAction,
+  //
+  confirmMoneyAction,
+  getOrderDetailAction,
 };

@@ -102,11 +102,16 @@ import {
   getRevenueStatistic,
   getCustomerStatistic,
   getOrderStatistic,
+  getRevenueRanking,
+  getOrderRanking,
+  getTopCombo,
+  getTopDish,
+  getTopRefundDish,
 } from "./statictis";
 
 import { getCustomer } from "./customerApi";
 
-import { getOrder, getOrderDetail } from "./orderApi";
+import { getOrder, getOrderDetail, confirmMoney } from "./orderApi";
 
 export {
   login,
@@ -198,9 +203,15 @@ export {
   getRevenueStatistic,
   getCustomerStatistic,
   getOrderStatistic,
+  getRevenueRanking,
+  getOrderRanking,
+  getTopCombo,
+  getTopDish,
+  getTopRefundDish,
   //
   getCustomer,
   //
   getOrder,
   getOrderDetail,
+  confirmMoney,
 };

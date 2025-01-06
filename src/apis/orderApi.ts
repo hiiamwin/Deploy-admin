@@ -35,3 +35,23 @@ export async function getOrderDetail(
   const data = await response.json();
   return data;
 }
+
+export async function confirmMoney(id: string, token: string): Promise<void> {
+  const response = await fetch(
+    `${process.env.API_URL}/Payment/${id}/confirm-received-money`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+  console.log(response);
+
+  const data = await response.json();
+  console.log(data);
+
+  return data;
+}

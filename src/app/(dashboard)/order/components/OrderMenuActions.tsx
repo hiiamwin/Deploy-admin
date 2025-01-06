@@ -6,15 +6,18 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ClipboardList, MoreHorizontal } from "lucide-react";
+import { ClipboardList, HandCoins, MoreHorizontal } from "lucide-react";
 import { Order } from "@/types";
 import OrderDetailSheet from "./OrderDetailSheet";
+import ConfirmMoneyDialog from "./ConfirmMoneyDialog";
 
 function OrderMenuActions({ item }: { item: Order }) {
   const [isOpenDetailSheet, setIsOpenDetailSheet] = useState(false);
+  const [isOpenConfimDialog, setIsOpenConfimDialog] = useState(false);
   return (
     <>
       <DropdownMenu>
@@ -39,6 +42,24 @@ function OrderMenuActions({ item }: { item: Order }) {
               <span>Chi tiết đơn hàng</span>
             </Button>
           </DropdownMenuItem>
+
+          {!item.isAdminConfirm &&
+            item.orderStatus !== "Canceled" &&
+            item.orderStatus === "Finish" && (
+              <>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="cursor-pointer">
+                  <Button
+                    variant={"ghost"}
+                    size={"sm"}
+                    onClick={() => setIsOpenConfimDialog(true)}
+                  >
+                    <HandCoins className="mr-2 h-4 w-4" />
+                    <span>Đã nhận được tiền</span>
+                  </Button>
+                </DropdownMenuItem>
+              </>
+            )}
         </DropdownMenuContent>
       </DropdownMenu>
 
@@ -47,6 +68,14 @@ function OrderMenuActions({ item }: { item: Order }) {
           item={item}
           isOpenDetailSheet={isOpenDetailSheet}
           setIsOpenDetailSheet={setIsOpenDetailSheet}
+        />
+      )}
+
+      {isOpenConfimDialog && (
+        <ConfirmMoneyDialog
+          id={item.id}
+          isOpenConfimDialog={isOpenConfimDialog}
+          setIsOpenConfimDialog={setIsOpenConfimDialog}
         />
       )}
     </>

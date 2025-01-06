@@ -36,10 +36,10 @@ import {
 import { vi } from "date-fns/locale";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { getCustomerStatisticAction } from "@/actions";
+import { getCustomerStatisticAction, getRestaurantAction } from "@/actions";
 import { Loader2 } from "lucide-react";
 
-function CustomerChart() {
+function CustomerChart({ role }: { role: string }) {
   /**
    * 0: week
    * 1: month
@@ -60,13 +60,22 @@ function CustomerChart() {
         })
   );
 
+  const [res, setRes] = useState("all");
+
   const { data, isFetching } = useQuery({
-    queryKey: ["getCustomerStatistic", { timeFrame: period, date }],
+    queryKey: ["getCustomerStatistic", { timeFrame: period, date, resId: res }],
     queryFn: () =>
       getCustomerStatisticAction({
         timeFrame: period === "week" ? 0 : period === "month" ? 1 : 2,
         date,
+        resId: res,
       }),
+    refetchOnWindowFocus: false,
+  });
+
+  const { data: restaurants, isFetching: isFetchingRestaurant } = useQuery({
+    queryKey: ["restaurant"],
+    queryFn: () => getRestaurantAction(),
     refetchOnWindowFocus: false,
   });
 
@@ -75,6 +84,7 @@ function CustomerChart() {
       <CardHeader>
         <CardTitle className="text-center flex items-center justify-evenly">
           <Button
+            disabled={isFetching}
             onClick={() => {
               setDate((prevDate) => {
                 const currentDate = new Date(prevDate);
@@ -132,18 +142,20 @@ function CustomerChart() {
                 }
               });
             }}
-            disabled={(() => {
-              const currentDate = new Date(date);
-              const now = new Date();
+            disabled={
+              (() => {
+                const currentDate = new Date(date);
+                const now = new Date();
 
-              if (period === "week") {
-                return isSameWeek(currentDate, now, { weekStartsOn: 1 });
-              } else if (period === "month") {
-                return isSameMonth(currentDate, now);
-              } else {
-                return isSameYear(currentDate, now);
-              }
-            })()}
+                if (period === "week") {
+                  return isSameWeek(currentDate, now, { weekStartsOn: 1 });
+                } else if (period === "month") {
+                  return isSameMonth(currentDate, now);
+                } else {
+                  return isSameYear(currentDate, now);
+                }
+              })() || isFetching
+            }
           >
             Sau
           </Button>
@@ -151,7 +163,34 @@ function CustomerChart() {
       </CardHeader>
       <CardContent>
         <div className="mb-4 flex justify-end gap-4">
+          {role === "Administrator" && (
+            <>
+              {isFetchingRestaurant ? (
+                <Loader2 className="animate-spin h-8 w-8" />
+              ) : (
+                <Select
+                  defaultValue={res}
+                  onValueChange={setRes}
+                  disabled={isFetching}
+                >
+                  <SelectTrigger className="w-80">
+                    <SelectValue placeholder="Chọn nhà hàng" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value={"all"}>Tất cả</SelectItem>
+                    {restaurants?.data?.results.map((restaurant: any) => (
+                      <SelectItem value={restaurant.id} key={restaurant.id}>
+                        {restaurant.restaurantName}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            </>
+          )}
+
           <Select
+            disabled={isFetching}
             value={period}
             onValueChange={(value: string) => {
               setPeriod(value);
@@ -183,19 +222,6 @@ function CustomerChart() {
               <SelectItem value="year">Năm</SelectItem>
             </SelectContent>
           </Select>
-
-          {/* {role === "Administrator" && (
-            <Select value={restaurant} onValueChange={setRestaurant}>
-              <SelectTrigger className="w-32">
-                <SelectValue placeholder="Chọn nhà hàng" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Tất cả</SelectItem>
-                <SelectItem value="month">nhà hàng thủ đức</SelectItem>
-                <SelectItem value="year">nhà hàng quận 1</SelectItem>
-              </SelectContent>
-            </Select>
-          )} */}
         </div>
 
         {isFetching ? (
@@ -228,6 +254,7 @@ function CustomerChart() {
               <Line
                 type="monotone"
                 dataKey="revenue"
+                name="Khách hàng"
                 stroke="#8884d8"
                 activeDot={{ r: 8 }}
               />

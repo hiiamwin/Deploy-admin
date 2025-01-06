@@ -11,6 +11,8 @@ export type Order = {
   phoneNumber: string | null;
   feedback: string | null;
   createdDate: string;
+  isAdminConfirm: boolean;
+  paymentMethods: string;
 };
 
 export type OrderDetail = {

@@ -38,6 +38,10 @@ async function OrderTable({ page, phone }: { page: string; phone: string }) {
               <TableHead className="text-center">Bàn số</TableHead>
               <TableHead className="text-center">Tổng tiền</TableHead>
               <TableHead className="text-center">Ngày tạo</TableHead>
+              <TableHead className="text-center">
+                Phương thức thanh toán
+              </TableHead>
+              <TableHead className="text-center">Xác nhận thanh toán</TableHead>
               <TableHead className="text-center">Trạng thái</TableHead>
               <TableHead className="text-center"></TableHead>
             </TableRow>
@@ -55,12 +59,29 @@ async function OrderTable({ page, phone }: { page: string; phone: string }) {
                   {order.tableNumber}
                 </TableCell>
                 <TableCell className="text-center">
-                  {order.finalAmount.toLocaleString("vi-VN")} đ
+                  {order.orderStatus === "Canceled"
+                    ? order.totalPrice.toLocaleString("vi-VN")
+                    : order.finalAmount.toLocaleString("vi-VN")}{" "}
+                  đ
                 </TableCell>
                 <TableCell className="text-center">
                   {format(new Date(order.createdDate), "dd/MM/yyyy", {
                     locale: vi,
                   })}
+                </TableCell>
+                <TableCell className="text-center">
+                  {order.paymentMethods === "Cash"
+                    ? "Tiền mặt"
+                    : order.paymentMethods === "VNPay"
+                    ? "VnPay"
+                    : "Chưa thanh toán"}
+                </TableCell>
+                <TableCell className="text-center">
+                  {order.orderStatus === "Canceled"
+                    ? "Đơn bị hủy"
+                    : order.isAdminConfirm
+                    ? "Đã xác nhận"
+                    : "Chưa xác nhận"}
                 </TableCell>
                 <TableCell>
                   {order.orderStatus === "Prepare" ? (
@@ -115,7 +136,7 @@ async function OrderTable({ page, phone }: { page: string; phone: string }) {
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TableCell colSpan={6}>Tổng cộng</TableCell>
+              <TableCell colSpan={8}>Tổng cộng</TableCell>
               <TableCell>{data.totalNumberOfRecords} đơn hàng</TableCell>
             </TableRow>
           </TableFooter>

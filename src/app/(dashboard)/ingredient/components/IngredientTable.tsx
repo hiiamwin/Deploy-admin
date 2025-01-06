@@ -13,7 +13,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getIngredients } from "@/apis";
-import { MoveRight } from "lucide-react";
+// import { MoveRight } from "lucide-react";
 import IngredientMenuActions from "./IngredientMenuActions";
 
 async function IngredientTable({ page, name }: { page: string; name: string }) {
@@ -21,6 +21,9 @@ async function IngredientTable({ page, name }: { page: string; name: string }) {
   if (!cookie) return null;
   const session = await decrypt(cookie);
   const data = await getIngredients(page, name, session.accessToken as string);
+  // console.log(
+  //   data.results[0].ingredientUnits[data.results[0].ingredientUnits.length - 1]
+  // );
 
   return (
     <>
@@ -51,7 +54,7 @@ async function IngredientTable({ page, name }: { page: string; name: string }) {
                 <TableCell>{ingredient.ingredientDescription}</TableCell>
                 <TableCell>{ingredient.amount}</TableCell>
                 <TableCell className="flex items-center justify-center">
-                  {ingredient.ingredientUnits.reverse().map((unit, index) => {
+                  {/* {ingredient.ingredientUnits.reverse().map((unit, index) => {
                     if (index + 1 === ingredient.ingredientUnits.length) {
                       return `${unit.unitName}`;
                     }
@@ -63,7 +66,12 @@ async function IngredientTable({ page, name }: { page: string; name: string }) {
                         {unit.unitName} <MoveRight className="mx-1" />
                       </span>
                     );
-                  })}
+                  })} */}
+                  {
+                    ingredient.ingredientUnits[
+                      ingredient.ingredientUnits.length - 1
+                    ].unitName
+                  }
                 </TableCell>
                 <TableCell>
                   <IngredientMenuActions item={ingredient} />

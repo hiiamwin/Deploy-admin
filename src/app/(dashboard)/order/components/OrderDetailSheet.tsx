@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sheet";
 import { Order } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { getOrderDetailAction } from "@/actions/OrderActions";
+import { getOrderDetailAction } from "@/actions";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
@@ -44,6 +44,10 @@ function OrderDetailSheet({
             Thanh toán bởi:{" "}
             {data?.data?.paymentEmployeeCode && data?.data?.paymentEmployeeName
               ? `${data?.data?.paymentEmployeeCode} - ${data?.data?.paymentEmployeeName}`
+              : item.orderStatus === "Canceled"
+              ? "Đơn bị hủy"
+              : item.orderStatus !== "Finish"
+              ? "Chưa thanh toán"
               : "VnPay"}
           </SheetDescription>
         </SheetHeader>

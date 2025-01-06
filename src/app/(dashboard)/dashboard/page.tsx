@@ -9,7 +9,16 @@ import {
   UsersIcon,
 } from "lucide-react";
 import type { Metadata } from "next";
-import { CustomerChart, OrderChart, RevenueChart } from "./components";
+import {
+  CustomerChart,
+  OrderChart,
+  OrderRanking,
+  RevenueChart,
+  RevenueRanking,
+  TopCombo,
+  TopDish,
+  TopRefundDish,
+} from "./components";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { decrypt } from "@/helper";
@@ -168,15 +177,27 @@ async function DashboardHomePage() {
           )}
         </div>
       </div>
-      <div className="mt-2 ">
-        <RevenueChart />
-        <OrderChart />
-        <CustomerChart />
+      {/*  */}
+      <RevenueChart role={session.role as string} />
+      <div className="mt-2 flex gap-2">
+        <OrderChart role={session.role as string} />
+        <CustomerChart role={session.role as string} />
       </div>
-      {/* <div className="border mt-2 grid grid-cols-2">
-        <div>món ăn bán chạy</div>
-        <div>combo bán chạy</div>
-      </div> */}
+      {/*  */}
+      {session.role === "Administrator" && (
+        <div className="grid gap-4 md:grid-cols-2 mt-4">
+          <RevenueRanking />
+          <OrderRanking />
+        </div>
+      )}
+
+      {session.role === "Manager" && (
+        <div className="grid gap-2 md:grid-cols-3 mt-4">
+          <TopDish restaurantId={session.restaurantId as string} />
+          <TopRefundDish restaurantId={session.restaurantId as string} />
+          <TopCombo restaurantId={session.restaurantId as string} />
+        </div>
+      )}
     </div>
   );
 }

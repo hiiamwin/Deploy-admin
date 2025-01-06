@@ -9,14 +9,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Edit, MoreHorizontal } from "lucide-react";
+import { Edit, MoreHorizontal, Ruler } from "lucide-react";
 import { Ingredient } from "@/types";
 import AddUnitDialog from "./AddUnitDialog";
 import UpdateUnitDialog from "./UpdateUnitDialog";
+import DetailUnitSheet from "./DetailUnitSheet";
 
 function IngredientMenuActions({ item }: { item: Ingredient }) {
   const [isOpenAddUnitDialog, setIsOpenAddUnitDialog] = useState(false);
   const [isOpenUpdateUnitDialog, setIsOpenUpdateUnitDialog] = useState(false);
+  const [isOpenDetailUnitSheet, setIsOpenDetailUnitSheet] = useState(false);
   return (
     <>
       <DropdownMenu>
@@ -52,6 +54,17 @@ function IngredientMenuActions({ item }: { item: Ingredient }) {
               <span>Cập nhật đơn vị</span>
             </Button>
           </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem className="cursor-pointer">
+            <Button
+              variant={"ghost"}
+              size={"sm"}
+              onClick={() => setIsOpenDetailUnitSheet(true)}
+            >
+              <Ruler className="mr-2 h-4 w-4" />
+              <span>Chi tiết đơn vị</span>
+            </Button>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
@@ -68,6 +81,14 @@ function IngredientMenuActions({ item }: { item: Ingredient }) {
           isOpenUpdateUnitDialog={isOpenUpdateUnitDialog}
           setIsOpenUpdateUnitDialog={setIsOpenUpdateUnitDialog}
           item={item}
+        />
+      )}
+
+      {isOpenDetailUnitSheet && (
+        <DetailUnitSheet
+          ingredientUnit={item.ingredientUnits}
+          isOpenDetailSheet={isOpenDetailUnitSheet}
+          setIsOpenDetailSheet={setIsOpenDetailUnitSheet}
         />
       )}
     </>
