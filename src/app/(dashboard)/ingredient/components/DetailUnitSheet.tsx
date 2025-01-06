@@ -56,38 +56,38 @@ function DetailUnitSheet({
   };
 
   // Function to calculate conversion factor to base unit
-  const calculateConversionToBase = (
-    unit: {
-      ingredientUnitId: string;
-      ingredientUnitParentId: string | null;
-      ingredientUnitParentName: string;
-      unitName: string;
-      conversionFactor: number;
-      createdDate: string;
-    },
-    units: {
-      ingredientUnitId: string;
-      ingredientUnitParentId: string | null;
-      ingredientUnitParentName: string;
-      unitName: string;
-      conversionFactor: number;
-      createdDate: string;
-    }[]
-  ): number => {
-    let factor = unit.conversionFactor;
-    let currentUnit = unit;
+  // const calculateConversionToBase = (
+  //   unit: {
+  //     ingredientUnitId: string;
+  //     ingredientUnitParentId: string | null;
+  //     ingredientUnitParentName: string;
+  //     unitName: string;
+  //     conversionFactor: number;
+  //     createdDate: string;
+  //   },
+  //   units: {
+  //     ingredientUnitId: string;
+  //     ingredientUnitParentId: string | null;
+  //     ingredientUnitParentName: string;
+  //     unitName: string;
+  //     conversionFactor: number;
+  //     createdDate: string;
+  //   }[]
+  // ): number => {
+  //   let factor = unit.conversionFactor;
+  //   let currentUnit = unit;
 
-    while (currentUnit.ingredientUnitParentId !== null) {
-      const parentUnit = units.find(
-        (u) => u.ingredientUnitId === currentUnit.ingredientUnitParentId
-      );
-      if (!parentUnit) break;
-      factor *= parentUnit.conversionFactor;
-      currentUnit = parentUnit;
-    }
+  //   while (currentUnit.ingredientUnitParentId !== null) {
+  //     const parentUnit = units.find(
+  //       (u) => u.ingredientUnitId === currentUnit.ingredientUnitParentId
+  //     );
+  //     if (!parentUnit) break;
+  //     factor *= parentUnit.conversionFactor;
+  //     currentUnit = parentUnit;
+  //   }
 
-    return factor;
-  };
+  //   return factor;
+  // };
 
   const baseUnit = findBaseUnit(ingredientUnit);
   console.log(baseUnit);
