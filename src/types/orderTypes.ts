@@ -20,6 +20,7 @@ export type OrderDetail = {
   orderStatus: string;
   totalPrice: number;
   orderTime: string;
+  vnp_TxnRef: string | null;
   feedback: string | null;
   paymentEmployeeCode: string | null;
   paymentEmployeeName: string | null;

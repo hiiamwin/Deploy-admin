@@ -224,3 +224,66 @@ export async function getTopRefundDish(
   const data = await res.json();
   return data;
 }
+
+export async function getTopUnpopularDish(
+  timeFrame: number,
+  date: string,
+  restaurantId: string,
+  token: string
+) {
+  const res = await fetch(
+    `${process.env.API_URL}/Statistics/top-unpopular?TimeFrame=${timeFrame}&ChosenDate=${date}&TopNDish=10&RestaurantId=${restaurantId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+  const data = await res.json();
+  return data;
+}
+
+export async function getTopUnpopularCombo(
+  timeFrame: number,
+  date: string,
+  restaurantId: string,
+  token: string
+) {
+  const res = await fetch(
+    `${process.env.API_URL}/Statistics/top-unpopular?TimeFrame=${timeFrame}&ChosenDate=${date}&TopNCombo=10&RestaurantId=${restaurantId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+  const data = await res.json();
+  return data;
+}
+
+export async function getTopUnpopularRefundDish(
+  timeFrame: number,
+  date: string,
+  restaurantId: string,
+  token: string
+) {
+  const res = await fetch(
+    `${process.env.API_URL}/Statistics/top-unpopular?TimeFrame=${timeFrame}&ChosenDate=${date}&TopNRefundableDish=10&RestaurantId=${restaurantId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+  const data = await res.json();
+  return data;
+}

@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
-import { ReuseActionBar, ReuseTableLoading } from "../components";
-import { OrderTable } from "./components";
+import { ReuseTableLoading } from "../components";
+import { OrderActionBar, OrderTable } from "./components";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,10 +11,11 @@ export const metadata: Metadata = {
 function ManageOrderPage({
   searchParams,
 }: {
-  searchParams?: { page?: string; phone?: string };
+  searchParams?: { page?: string; phone?: string; isAdminConfirm: boolean };
 }) {
   const page = searchParams?.page || "1";
   const phone = searchParams?.phone || "";
+  const isAdminConfirm = searchParams?.isAdminConfirm || "";
 
   const columns = [
     {
@@ -36,13 +37,7 @@ function ManageOrderPage({
 
   return (
     <div>
-      <ReuseActionBar
-        isFilter={false}
-        isSearch={true}
-        searchBy="phone"
-        filterBy="status"
-        placeholder="Tìm theo số điện thoại khách hàng"
-      />
+      <OrderActionBar />
       <Suspense
         key={page + phone}
         fallback={
@@ -53,7 +48,7 @@ function ManageOrderPage({
           />
         }
       >
-        <OrderTable page={page} phone={phone} />
+        <OrderTable page={page} phone={phone} isAdminConfirm={isAdminConfirm} />
       </Suspense>
     </div>
   );

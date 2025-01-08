@@ -107,6 +107,9 @@ import {
   getTopCombo,
   getTopDish,
   getTopRefundDish,
+  getTopUnpopularCombo,
+  getTopUnpopularDish,
+  getTopUnpopularRefundDish,
 } from "./statictis";
 
 import { getCustomer } from "./customerApi";
@@ -208,6 +211,9 @@ export {
   getTopCombo,
   getTopDish,
   getTopRefundDish,
+  getTopUnpopularCombo,
+  getTopUnpopularDish,
+  getTopUnpopularRefundDish,
   //
   getCustomer,
   //

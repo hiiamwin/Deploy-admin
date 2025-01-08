@@ -10,6 +10,9 @@ import {
   getTopDish,
   getTopCombo,
   getTopRefundDish,
+  getTopUnpopularDish,
+  getTopUnpopularRefundDish,
+  getTopUnpopularCombo,
 } from "@/apis";
 
 export const getRevenueStatisticAction = authActionClient
@@ -141,6 +144,60 @@ export const getTopRefundDishAction = authActionClient
   )
   .action(async ({ parsedInput, ctx: { accesstoken } }) => {
     const data = await getTopRefundDish(
+      parsedInput.timeFrame,
+      parsedInput.date,
+      parsedInput.restaurantId,
+      accesstoken
+    );
+    return data;
+  });
+
+export const getTopUnpopularDishAction = authActionClient
+  .schema(
+    z.object({
+      timeFrame: z.number(),
+      date: z.string(),
+      restaurantId: z.string(),
+    })
+  )
+  .action(async ({ parsedInput, ctx: { accesstoken } }) => {
+    const data = await getTopUnpopularDish(
+      parsedInput.timeFrame,
+      parsedInput.date,
+      parsedInput.restaurantId,
+      accesstoken
+    );
+    return data;
+  });
+
+export const getTopUnpopularRefundDishAction = authActionClient
+  .schema(
+    z.object({
+      timeFrame: z.number(),
+      date: z.string(),
+      restaurantId: z.string(),
+    })
+  )
+  .action(async ({ parsedInput, ctx: { accesstoken } }) => {
+    const data = await getTopUnpopularRefundDish(
+      parsedInput.timeFrame,
+      parsedInput.date,
+      parsedInput.restaurantId,
+      accesstoken
+    );
+    return data;
+  });
+
+export const getTopUnpopularComboAction = authActionClient
+  .schema(
+    z.object({
+      timeFrame: z.number(),
+      date: z.string(),
+      restaurantId: z.string(),
+    })
+  )
+  .action(async ({ parsedInput, ctx: { accesstoken } }) => {
+    const data = await getTopUnpopularCombo(
       parsedInput.timeFrame,
       parsedInput.date,
       parsedInput.restaurantId,

@@ -17,12 +17,26 @@ import { cookies } from "next/headers";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 import OrderMenuActions from "./OrderMenuActions";
+import ConfirmMoneyDialog from "./ConfirmMoneyDialog";
 
-async function OrderTable({ page, phone }: { page: string; phone: string }) {
+async function OrderTable({
+  page,
+  phone,
+  isAdminConfirm,
+}: {
+  page: string;
+  phone: string;
+  isAdminConfirm: boolean | string;
+}) {
   const cookie = cookies().get("session")?.value;
   if (!cookie) return null;
   const session = await decrypt(cookie);
-  const data = await getOrder(page, phone, session.accessToken as string);
+  const data = await getOrder(
+    page,
+    phone,
+    isAdminConfirm,
+    session.accessToken as string
+  );
 
   return (
     <>
@@ -77,11 +91,17 @@ async function OrderTable({ page, phone }: { page: string; phone: string }) {
                     : "Chưa thanh toán"}
                 </TableCell>
                 <TableCell className="text-center">
-                  {order.orderStatus === "Canceled"
-                    ? "Đơn bị hủy"
-                    : order.isAdminConfirm
-                    ? "Đã xác nhận"
-                    : "Chưa xác nhận"}
+                  {order.orderStatus === "Canceled" ? (
+                    "Đơn bị hủy"
+                  ) : order.isAdminConfirm ? (
+                    "Đã xác nhận"
+                  ) : (
+                    // <Button size={"sm"} variant={"outline"}>
+                    //   Xác nhận
+                    // </Button>
+                    <ConfirmMoneyDialog id={order.id} />
+                  )}
+                  {/* "Chưa xác nhận" */}
                 </TableCell>
                 <TableCell>
                   {order.orderStatus === "Prepare" ? (

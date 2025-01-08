@@ -116,20 +116,14 @@ function AddUnitDialog({
                   Đơn vị chuyển đổi
                 </Label>
                 <Input
-                  value={
-                    item.ingredientUnits[item.ingredientUnits.length - 1]
-                      .unitName
-                  }
+                  value={item.ingredientUnits[0].unitName}
                   id={"ingredientUnitParentId"}
                   className="col-span-3"
                   type={"text"}
                   disabled={true}
                 />
                 <Input
-                  value={
-                    item.ingredientUnits[item.ingredientUnits.length - 1]
-                      .ingredientUnitId
-                  }
+                  value={item.ingredientUnits[0].ingredientUnitId}
                   className="col-span-3"
                   type={"hidden"}
                   {...register("ingredientUnitParentId")}

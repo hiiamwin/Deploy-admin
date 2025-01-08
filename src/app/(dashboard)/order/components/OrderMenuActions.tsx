@@ -6,18 +6,18 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
+  // DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ClipboardList, HandCoins, MoreHorizontal } from "lucide-react";
+import { ClipboardList, MoreHorizontal } from "lucide-react";
 import { Order } from "@/types";
 import OrderDetailSheet from "./OrderDetailSheet";
-import ConfirmMoneyDialog from "./ConfirmMoneyDialog";
+// import ConfirmMoneyDialog from "./ConfirmMoneyDialog";
 
 function OrderMenuActions({ item }: { item: Order }) {
   const [isOpenDetailSheet, setIsOpenDetailSheet] = useState(false);
-  const [isOpenConfimDialog, setIsOpenConfimDialog] = useState(false);
+  // const [isOpenConfimDialog, setIsOpenConfimDialog] = useState(false);
   return (
     <>
       <DropdownMenu>
@@ -43,7 +43,7 @@ function OrderMenuActions({ item }: { item: Order }) {
             </Button>
           </DropdownMenuItem>
 
-          {!item.isAdminConfirm &&
+          {/* {!item.isAdminConfirm &&
             item.orderStatus !== "Canceled" &&
             item.orderStatus === "Finish" && (
               <>
@@ -59,7 +59,7 @@ function OrderMenuActions({ item }: { item: Order }) {
                   </Button>
                 </DropdownMenuItem>
               </>
-            )}
+            )} */}
         </DropdownMenuContent>
       </DropdownMenu>
 
@@ -71,13 +71,13 @@ function OrderMenuActions({ item }: { item: Order }) {
         />
       )}
 
-      {isOpenConfimDialog && (
+      {/* {isOpenConfimDialog && (
         <ConfirmMoneyDialog
           id={item.id}
           isOpenConfimDialog={isOpenConfimDialog}
           setIsOpenConfimDialog={setIsOpenConfimDialog}
         />
-      )}
+      )} */}
     </>
   );
 }

@@ -1,4 +1,5 @@
-import React, { Dispatch, SetStateAction } from "react";
+"use client";
+import React from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,16 +11,18 @@ import { Button } from "@/components/ui/button";
 import { useAction } from "next-safe-action/hooks";
 import { confirmMoneyAction } from "@/actions";
 import { toast } from "sonner";
+import { DialogTrigger } from "@radix-ui/react-dialog";
 
 function ConfirmMoneyDialog({
   id,
-  isOpenConfimDialog,
-  setIsOpenConfimDialog,
-}: {
+}: // isOpenConfimDialog,
+// setIsOpenConfimDialog,
+{
   id: string;
-  isOpenConfimDialog: boolean;
-  setIsOpenConfimDialog: Dispatch<SetStateAction<boolean>>;
+  // isOpenConfimDialog: boolean;
+  // setIsOpenConfimDialog: Dispatch<SetStateAction<boolean>>;
 }) {
+  const [open, setOpen] = React.useState(false);
   const { isPending, execute } = useAction(confirmMoneyAction, {
     onSuccess: () => {
       toast.success("Xác nhận thành công");
@@ -31,10 +34,17 @@ function ConfirmMoneyDialog({
   });
   const handleOpen = (value: boolean) => {
     if (isPending) return;
-    setIsOpenConfimDialog(value);
+    // setIsOpenConfimDialog(value);
+    setOpen(value);
   };
+  // open={isOpenConfimDialog}
   return (
-    <Dialog open={isOpenConfimDialog} onOpenChange={handleOpen}>
+    <Dialog open={open} onOpenChange={handleOpen}>
+      <DialogTrigger asChild>
+        <Button size={"sm"} variant="outline">
+          Xác nhận
+        </Button>
+      </DialogTrigger>
       <DialogContent className="bg-white">
         <DialogHeader>
           <DialogTitle>Bạn có chắc là đã nhận được tiền?</DialogTitle>

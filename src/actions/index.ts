@@ -105,6 +105,9 @@ import {
   getTopComboAction,
   getTopDishAction,
   getTopRefundDishAction,
+  getTopUnpopularComboAction,
+  getTopUnpopularDishAction,
+  getTopUnpopularRefundDishAction,
 } from "./statictisActions";
 
 import { confirmMoneyAction, getOrderDetailAction } from "./OrderActions";
@@ -194,6 +197,9 @@ export {
   getTopComboAction,
   getTopDishAction,
   getTopRefundDishAction,
+  getTopUnpopularComboAction,
+  getTopUnpopularDishAction,
+  getTopUnpopularRefundDishAction,
   //
   confirmMoneyAction,
   getOrderDetailAction,

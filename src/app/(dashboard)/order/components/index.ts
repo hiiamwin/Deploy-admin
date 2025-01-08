@@ -1,2 +1,3 @@
 import OrderTable from "./OrderTable";
-export { OrderTable };
+import OrderActionBar from "./OrderActionBar";
+export { OrderTable, OrderActionBar };

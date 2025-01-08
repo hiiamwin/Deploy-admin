@@ -37,7 +37,7 @@ import { vi } from "date-fns/locale";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { getCustomerStatisticAction, getRestaurantAction } from "@/actions";
-import { Loader2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 
 function CustomerChart({ role }: { role: string }) {
   /**
@@ -83,7 +83,7 @@ function CustomerChart({ role }: { role: string }) {
     <Card className="w-full">
       <CardHeader>
         <CardTitle className="text-center flex items-center justify-evenly">
-          <Button
+          {/* <Button
             disabled={isFetching}
             onClick={() => {
               setDate((prevDate) => {
@@ -113,9 +113,9 @@ function CustomerChart({ role }: { role: string }) {
             }}
           >
             Trước
-          </Button>
+          </Button> */}
           Khách hàng
-          <Button
+          {/* <Button
             onClick={() => {
               setDate((prevDate) => {
                 const currentDate = new Date(prevDate);
@@ -158,7 +158,7 @@ function CustomerChart({ role }: { role: string }) {
             }
           >
             Sau
-          </Button>
+          </Button> */}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -217,11 +217,91 @@ function CustomerChart({ role }: { role: string }) {
               <SelectValue placeholder="Chọn thời gian" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="week">Tuần</SelectItem>
-              <SelectItem value="month">Tháng</SelectItem>
-              <SelectItem value="year">Năm</SelectItem>
+              <SelectItem value="week">Trong Tuần</SelectItem>
+              <SelectItem value="month">Trong Tháng</SelectItem>
+              <SelectItem value="year">Trong Năm</SelectItem>
             </SelectContent>
           </Select>
+
+          <Button
+            variant="outline"
+            size="icon"
+            disabled={isFetching}
+            onClick={() => {
+              setDate((prevDate) => {
+                const currentDate = new Date(prevDate);
+                if (period === "week") {
+                  return format(
+                    startOfWeek(subWeeks(currentDate, 1), { weekStartsOn: 1 }),
+                    "yyyy-MM-dd",
+                    {
+                      locale: vi,
+                    }
+                  );
+                } else if (period === "month") {
+                  return format(
+                    startOfMonth(subMonths(currentDate, 1)),
+                    "yyyy-MM-dd",
+                    { locale: vi }
+                  );
+                } else {
+                  return format(
+                    startOfYear(subYears(currentDate, 1)),
+                    "yyyy-MM-dd",
+                    { locale: vi }
+                  );
+                }
+              });
+            }}
+          >
+            <ChevronLeft />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => {
+              setDate((prevDate) => {
+                const currentDate = new Date(prevDate);
+                if (period === "week") {
+                  return format(
+                    startOfWeek(addWeeks(currentDate, 1), { weekStartsOn: 1 }),
+                    "yyyy-MM-dd",
+                    {
+                      locale: vi,
+                    }
+                  );
+                } else if (period === "month") {
+                  return format(
+                    startOfMonth(addMonths(currentDate, 1)),
+                    "yyyy-MM-dd",
+                    { locale: vi }
+                  );
+                } else {
+                  return format(
+                    startOfYear(addYears(currentDate, 1)),
+                    "yyyy-MM-dd",
+                    { locale: vi }
+                  );
+                }
+              });
+            }}
+            disabled={
+              (() => {
+                const currentDate = new Date(date);
+                const now = new Date();
+
+                if (period === "week") {
+                  return isSameWeek(currentDate, now, { weekStartsOn: 1 });
+                } else if (period === "month") {
+                  return isSameMonth(currentDate, now);
+                } else {
+                  return isSameYear(currentDate, now);
+                }
+              })() || isFetching
+            }
+          >
+            <ChevronRight />
+          </Button>
         </div>
 
         {isFetching ? (

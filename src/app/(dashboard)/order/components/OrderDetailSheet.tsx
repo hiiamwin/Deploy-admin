@@ -35,6 +35,7 @@ function OrderDetailSheet({
   const handleOpen = (value: boolean) => {
     setIsOpenDetailSheet(value);
   };
+
   return (
     <Sheet open={isOpenDetailSheet} onOpenChange={handleOpen}>
       <SheetContent className="bg-white sm:max-w-2xl">
@@ -50,6 +51,11 @@ function OrderDetailSheet({
               ? "Chưa thanh toán"
               : "VnPay"}
           </SheetDescription>
+          {data?.data?.vnp_TxnRef && (
+            <p className="text-sm text-gray-500">
+              Mã giao dịch: {data?.data?.vnp_TxnRef && data.data.vnp_TxnRef}
+            </p>
+          )}
         </SheetHeader>
         {isFetching ? (
           <div className="w-full flex items-center justify-center ">
@@ -172,15 +178,15 @@ function OrderDetailSheet({
               <Separator />
               <div className="flex justify-between items-center text-lg font-bold">
                 <span>Tổng tiền gốc:</span>
-                <span>{item.totalPrice}</span>
+                <span>{item.totalPrice.toLocaleString("vi-vn")}đ</span>
               </div>
               <div className="flex justify-between items-center text-lg font-bold">
                 <span>Tiền giảm giá:</span>
-                <span>{item.reduceAmount}</span>
+                <span>{item.reduceAmount.toLocaleString("vi-vn")}đ</span>
               </div>
               <div className="flex justify-between items-center text-lg font-bold">
                 <span>Tổng tiền:</span>
-                <span>{item.finalAmount}</span>
+                <span>{item.finalAmount.toLocaleString("vi-vn")}đ</span>
               </div>
               {data?.data?.feedback && (
                 <div className="mt-4">

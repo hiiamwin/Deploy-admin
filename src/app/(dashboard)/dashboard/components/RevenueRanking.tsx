@@ -17,6 +17,9 @@ import {
   addMonths,
   addWeeks,
   addYears,
+  endOfMonth,
+  endOfWeek,
+  endOfYear,
   format,
   isSameMonth,
   isSameWeek,
@@ -29,7 +32,7 @@ import {
   subYears,
 } from "date-fns";
 import { vi } from "date-fns/locale";
-import { Crown, Loader2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Crown, Loader2 } from "lucide-react";
 import { useState } from "react";
 import {
   Select,
@@ -67,8 +70,8 @@ function RevenueRanking() {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center pb-2 space-y-0 justify-between">
-        <Button
+      <CardHeader className="flex flex-row items-center pb-2 space-y-0 justify-center">
+        {/* <Button
           size={"sm"}
           onClick={() => {
             setDate((prevDate) => {
@@ -99,14 +102,38 @@ function RevenueRanking() {
           disabled={isFetching}
         >
           Trước
-        </Button>
+        </Button> */}
         <CardTitle>
-          <div className="text-2xl font-bold  flex items-center gap-2 justify-center">
+          <div className="text-xl font-bold  flex items-center gap-2 justify-center">
             Top Doanh Thu Chi Nhánh
-            <Crown className="w-4 h-4 text-yellow-500" />
+            <Crown className="w-4 h-4 text-yellow-500" /> (
+            {period === "week"
+              ? `${format(date, "dd/MM/yyy", { locale: vi })} - ${format(
+                  endOfWeek(date, { weekStartsOn: 1 }),
+                  "dd/MM/yyyy",
+                  {
+                    locale: vi,
+                  }
+                )}`
+              : period === "month"
+              ? `${format(date, "dd/MM/yyy", { locale: vi })} - ${format(
+                  endOfMonth(date),
+                  "dd/MM/yyyy",
+                  {
+                    locale: vi,
+                  }
+                )}`
+              : `${format(date, "dd/MM/yyy", { locale: vi })} - ${format(
+                  endOfYear(date),
+                  "dd/MM/yyyy",
+                  {
+                    locale: vi,
+                  }
+                )}`}
+            )
           </div>
         </CardTitle>
-        <Button
+        {/* <Button
           size={"sm"}
           onClick={() => {
             setDate((prevDate) => {
@@ -150,41 +177,124 @@ function RevenueRanking() {
           }
         >
           Sau
-        </Button>
+        </Button> */}
       </CardHeader>
-      <Select
-        disabled={isFetching}
-        value={period}
-        onValueChange={(value: string) => {
-          setPeriod(value);
-          setDate(
-            value === "week"
-              ? format(
-                  startOfWeek(new Date(), { weekStartsOn: 1 }),
+      <div className="float-right flex items-center justify-center space-x-2 mr-2">
+        <Select
+          disabled={isFetching}
+          value={period}
+          onValueChange={(value: string) => {
+            setPeriod(value);
+            setDate(
+              value === "week"
+                ? format(
+                    startOfWeek(new Date(), { weekStartsOn: 1 }),
+                    "yyyy-MM-dd",
+                    {
+                      locale: vi,
+                    }
+                  )
+                : value === "month"
+                ? format(startOfMonth(new Date()), "yyyy-MM-dd", {
+                    locale: vi,
+                  })
+                : format(startOfYear(new Date()), "yyyy-MM-dd", {
+                    locale: vi,
+                  })
+            );
+          }}
+        >
+          <SelectTrigger className="w-40 float-right my-2 mr-2 text-base">
+            <SelectValue placeholder="Chọn thời gian" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="week">Trong Tuần</SelectItem>
+            <SelectItem value="month">Trong Tháng</SelectItem>
+            <SelectItem value="year">Trong Năm</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => {
+            setDate((prevDate) => {
+              const currentDate = new Date(prevDate);
+              if (period === "week") {
+                return format(
+                  startOfWeek(subWeeks(currentDate, 1), { weekStartsOn: 1 }),
                   "yyyy-MM-dd",
                   {
                     locale: vi,
                   }
-                )
-              : value === "month"
-              ? format(startOfMonth(new Date()), "yyyy-MM-dd", {
-                  locale: vi,
-                })
-              : format(startOfYear(new Date()), "yyyy-MM-dd", {
-                  locale: vi,
-                })
-          );
-        }}
-      >
-        <SelectTrigger className="w-32 float-right my-2 mr-2 text-base">
-          <SelectValue placeholder="Chọn thời gian" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="week">Tuần</SelectItem>
-          <SelectItem value="month">Tháng</SelectItem>
-          <SelectItem value="year">Năm</SelectItem>
-        </SelectContent>
-      </Select>
+                );
+              } else if (period === "month") {
+                return format(
+                  startOfMonth(subMonths(currentDate, 1)),
+                  "yyyy-MM-dd",
+                  { locale: vi }
+                );
+              } else {
+                return format(
+                  startOfYear(subYears(currentDate, 1)),
+                  "yyyy-MM-dd",
+                  { locale: vi }
+                );
+              }
+            });
+          }}
+          disabled={isFetching}
+        >
+          <ChevronLeft />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => {
+            setDate((prevDate) => {
+              const currentDate = new Date(prevDate);
+              if (period === "week") {
+                return format(
+                  startOfWeek(addWeeks(currentDate, 1), { weekStartsOn: 1 }),
+                  "yyyy-MM-dd",
+                  {
+                    locale: vi,
+                  }
+                );
+              } else if (period === "month") {
+                return format(
+                  startOfMonth(addMonths(currentDate, 1)),
+                  "yyyy-MM-dd",
+                  { locale: vi }
+                );
+              } else {
+                return format(
+                  startOfYear(addYears(currentDate, 1)),
+                  "yyyy-MM-dd",
+                  { locale: vi }
+                );
+              }
+            });
+          }}
+          disabled={
+            (() => {
+              const currentDate = new Date(date);
+              const now = new Date();
+
+              if (period === "week") {
+                return isSameWeek(currentDate, now, { weekStartsOn: 1 });
+              } else if (period === "month") {
+                return isSameMonth(currentDate, now);
+              } else {
+                return isSameYear(currentDate, now);
+              }
+            })() || isFetching
+          }
+        >
+          <ChevronRight />
+        </Button>
+      </div>
+
       <CardContent>
         {isFetching ? (
           <div className="w-full flex items-center justify-center h-[400px]">
