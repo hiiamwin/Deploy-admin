@@ -66,6 +66,7 @@ export async function createDishGeneral(
   });
   if (!response.ok) {
     const data = await response.json();
+    console.log(data);
 
     throw new MyError(data.statusCode, JSON.stringify(data.errors));
   }
