@@ -59,7 +59,7 @@ function TopUnpopularCombo({ restaurantId }: { restaurantId: string }) {
   );
 
   const { data, isFetching } = useQuery({
-    queryKey: ["topUnpopularCombo", { timeFrame: 1, date: date }],
+    queryKey: ["topUnpopularCombo", { timeFrame: period, date: date }],
     queryFn: () =>
       getTopUnpopularComboAction({
         timeFrame: period === "week" ? 0 : period === "month" ? 1 : 2,

@@ -17,10 +17,14 @@ import {
   RevenueRanking,
   TopCombo,
   TopDish,
+  TopDishAdmin,
   TopRefundDish,
+  TopRefundDishAdmin,
   TopUnpopularCombo,
   TopUnpopularDish,
+  TopUnpopularDishAdmin,
   TopUnpopularRefundDish,
+  TopUnpopularRefundDishAdmin,
 } from "./components";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -197,13 +201,23 @@ async function DashboardHomePage() {
       {session.role === "Manager" && (
         <div className="grid gap-2 grid-cols-2 mt-4">
           <TopDish restaurantId={session.restaurantId as string} />
-          <TopRefundDish restaurantId={session.restaurantId as string} />
-          <TopCombo restaurantId={session.restaurantId as string} />
           <TopUnpopularDish restaurantId={session.restaurantId as string} />
+          <TopRefundDish restaurantId={session.restaurantId as string} />
           <TopUnpopularRefundDish
             restaurantId={session.restaurantId as string}
           />
+          <TopCombo restaurantId={session.restaurantId as string} />
+
           <TopUnpopularCombo restaurantId={session.restaurantId as string} />
+        </div>
+      )}
+
+      {session.role === "Administrator" && (
+        <div className="grid gap-2 grid-cols-2 mt-4">
+          <TopDishAdmin />
+          <TopUnpopularDishAdmin />
+          <TopRefundDishAdmin />
+          <TopUnpopularRefundDishAdmin />
         </div>
       )}
     </div>

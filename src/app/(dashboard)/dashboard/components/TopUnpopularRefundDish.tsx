@@ -59,7 +59,7 @@ function TopUnpopularRefundDish({ restaurantId }: { restaurantId: string }) {
   );
 
   const { data, isFetching } = useQuery({
-    queryKey: ["topUnpopularRefundDish", { timeFrame: 1, date: date }],
+    queryKey: ["topUnpopularRefundDish", { timeFrame: period, date: date }],
     queryFn: () =>
       getTopUnpopularRefundDishAction({
         timeFrame: period === "week" ? 0 : period === "month" ? 1 : 2,

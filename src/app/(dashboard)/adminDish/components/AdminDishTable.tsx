@@ -125,7 +125,7 @@ async function AdminDishTable({
           <TableFooter>
             <TableRow>
               <TableCell colSpan={7}>Tổng cộng</TableCell>
-              <TableCell>{data.results.length} món ăn</TableCell>
+              <TableCell>{data.totalNumberOfRecords} món ăn</TableCell>
             </TableRow>
           </TableFooter>
         </Table>

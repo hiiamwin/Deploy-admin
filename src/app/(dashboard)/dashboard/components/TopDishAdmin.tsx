@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -39,10 +39,10 @@ import {
 import { vi } from "date-fns/locale";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight, Crown, Loader2 } from "lucide-react";
-import { getTopRefundDishAction } from "@/actions";
+import { getRestaurantAction, getTopDishAction } from "@/actions";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-function TopRefundDish({ restaurantId }: { restaurantId: string }) {
+function TopDishAdmin() {
   const [period, setPeriod] = useState("week");
   const [date, setDate] = useState(
     period === "week"
@@ -58,54 +58,36 @@ function TopRefundDish({ restaurantId }: { restaurantId: string }) {
         })
   );
 
-  const { data, isFetching } = useQuery({
-    queryKey: ["topRefundDish", { timeFrame: period, date: date }],
-    queryFn: () =>
-      getTopRefundDishAction({
-        timeFrame: period === "week" ? 0 : period === "month" ? 1 : 2,
-        date,
-        restaurantId,
-      }),
+  const [resId, setResId] = useState("");
+
+  const { data: resList, isFetching: isFetchingResList } = useQuery({
+    queryKey: ["restaurant"],
+    queryFn: () => getRestaurantAction(),
     refetchOnWindowFocus: false,
   });
+
+  useEffect(() => {
+    setResId(resList?.data?.results[0].id as string);
+  }, [resList?.data?.results]);
+
+  const { data, isFetching } = useQuery({
+    queryKey: ["topDishAdmin", { timeFrame: period, date: date, resId }],
+    queryFn: () =>
+      getTopDishAction({
+        timeFrame: period === "week" ? 0 : period === "month" ? 1 : 2,
+        date,
+        restaurantId: resId,
+      }),
+    refetchOnWindowFocus: false,
+    enabled: !!resList?.data?.results[0].id,
+  });
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center pb-2 space-y-0 justify-center">
-        {/* <Button
-          size={"sm"}
-          onClick={() => {
-            setDate((prevDate) => {
-              const currentDate = new Date(prevDate);
-              if (period === "week") {
-                return format(
-                  startOfWeek(subWeeks(currentDate, 1), { weekStartsOn: 1 }),
-                  "yyyy-MM-dd",
-                  {
-                    locale: vi,
-                  }
-                );
-              } else if (period === "month") {
-                return format(
-                  startOfMonth(subMonths(currentDate, 1)),
-                  "yyyy-MM-dd",
-                  { locale: vi }
-                );
-              } else {
-                return format(
-                  startOfYear(subYears(currentDate, 1)),
-                  "yyyy-MM-dd",
-                  { locale: vi }
-                );
-              }
-            });
-          }}
-          disabled={isFetching}
-        >
-          Trước
-        </Button> */}
         <CardTitle>
           <div className="text-xl font-bold  flex items-center gap-2 justify-center">
-            Top 10 món ăn hoàn tiền bán chạy
+            Top 10 món ăn bán chạy
             <Crown className="w-4 h-4 text-yellow-500" /> (
             {period === "week"
               ? `${format(date, "dd/MM/yyy", { locale: vi })} - ${format(
@@ -133,53 +115,21 @@ function TopRefundDish({ restaurantId }: { restaurantId: string }) {
             )
           </div>
         </CardTitle>
-        {/* <Button
-          size={"sm"}
-          onClick={() => {
-            setDate((prevDate) => {
-              const currentDate = new Date(prevDate);
-              if (period === "week") {
-                return format(
-                  startOfWeek(addWeeks(currentDate, 1), { weekStartsOn: 1 }),
-                  "yyyy-MM-dd",
-                  {
-                    locale: vi,
-                  }
-                );
-              } else if (period === "month") {
-                return format(
-                  startOfMonth(addMonths(currentDate, 1)),
-                  "yyyy-MM-dd",
-                  { locale: vi }
-                );
-              } else {
-                return format(
-                  startOfYear(addYears(currentDate, 1)),
-                  "yyyy-MM-dd",
-                  { locale: vi }
-                );
-              }
-            });
-          }}
-          disabled={
-            (() => {
-              const currentDate = new Date(date);
-              const now = new Date();
-
-              if (period === "week") {
-                return isSameWeek(currentDate, now, { weekStartsOn: 1 });
-              } else if (period === "month") {
-                return isSameMonth(currentDate, now);
-              } else {
-                return isSameYear(currentDate, now);
-              }
-            })() || isFetching
-          }
-        >
-          Sau
-        </Button> */}
       </CardHeader>
       <div className="float-right flex items-center justify-center space-x-2 mr-2">
+        <Select value={resId} onValueChange={setResId}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Chọn nhà hàng" />
+          </SelectTrigger>
+          <SelectContent>
+            {resList?.data?.results.map((restaurant: any) => (
+              <SelectItem value={restaurant.id} key={restaurant.id}>
+                {restaurant.restaurantName}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
         <Select
           disabled={isFetching}
           value={period}
@@ -296,7 +246,7 @@ function TopRefundDish({ restaurantId }: { restaurantId: string }) {
         </Button>
       </div>
       <CardContent>
-        {isFetching ? (
+        {isFetching || isFetchingResList ? (
           <div className="w-full flex items-center justify-center h-[400px]">
             <Loader2 className="animate-spin h-8 w-8" />
           </div>
@@ -313,19 +263,17 @@ function TopRefundDish({ restaurantId }: { restaurantId: string }) {
                 </TableRow>
               </TableHeader>
               <TableBody className="text-lg">
-                {data?.data?.topRefundableDish.map(
-                  (dish: any, index: number) => (
-                    <TableRow key={index}>
-                      <TableCell className="font-medium text-center">
-                        {index + 1}
-                      </TableCell>
-                      <TableCell>{dish.dishName}</TableCell>
-                      <TableCell className="text-right">
-                        {dish.quantity}
-                      </TableCell>
-                    </TableRow>
-                  )
-                )}
+                {data?.data?.topDishes.map((dish: any, index: number) => (
+                  <TableRow key={index}>
+                    <TableCell className="font-medium text-center">
+                      {index + 1}
+                    </TableCell>
+                    <TableCell>{dish.dishName}</TableCell>
+                    <TableCell className="text-right">
+                      {dish.quantity}
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </ScrollArea>
@@ -335,4 +283,4 @@ function TopRefundDish({ restaurantId }: { restaurantId: string }) {
   );
 }
 
-export default TopRefundDish;
+export default TopDishAdmin;

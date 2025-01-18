@@ -9,6 +9,10 @@ import TopRefundDish from "./TopRefundDish";
 import TopUnpopularDish from "./TopUnpopularDish";
 import TopUnpopularRefundDish from "./TopUnpopularRefundDish";
 import TopUnpopularCombo from "./TopUnpopularCombo";
+import TopDishAdmin from "./TopDishAdmin";
+import TopUnpopularDishAdmin from "./TopUnpopularDishAdmin";
+import TopRefundDishAdmin from "./TopRefundDishAdmin";
+import TopUnpopularRefundDishAdmin from "./TopUnpopularRefundDishAdmin";
 export {
   RevenueChart,
   OrderChart,
@@ -21,4 +25,8 @@ export {
   TopUnpopularDish,
   TopUnpopularRefundDish,
   TopUnpopularCombo,
+  TopDishAdmin,
+  TopUnpopularDishAdmin,
+  TopRefundDishAdmin,
+  TopUnpopularRefundDishAdmin,
 };

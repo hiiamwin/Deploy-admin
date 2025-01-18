@@ -59,7 +59,7 @@ function TopDish({ restaurantId }: { restaurantId: string }) {
   );
 
   const { data, isFetching } = useQuery({
-    queryKey: ["topDish", { timeFrame: 1, date: date }],
+    queryKey: ["topDish", { timeFrame: period, date: date }],
     queryFn: () =>
       getTopDishAction({
         timeFrame: period === "week" ? 0 : period === "month" ? 1 : 2,
@@ -68,41 +68,10 @@ function TopDish({ restaurantId }: { restaurantId: string }) {
       }),
     refetchOnWindowFocus: false,
   });
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center pb-2 space-y-0 justify-center">
-        {/* <Button
-          size={"sm"}
-          onClick={() => {
-            setDate((prevDate) => {
-              const currentDate = new Date(prevDate);
-              if (period === "week") {
-                return format(
-                  startOfWeek(subWeeks(currentDate, 1), { weekStartsOn: 1 }),
-                  "yyyy-MM-dd",
-                  {
-                    locale: vi,
-                  }
-                );
-              } else if (period === "month") {
-                return format(
-                  startOfMonth(subMonths(currentDate, 1)),
-                  "yyyy-MM-dd",
-                  { locale: vi }
-                );
-              } else {
-                return format(
-                  startOfYear(subYears(currentDate, 1)),
-                  "yyyy-MM-dd",
-                  { locale: vi }
-                );
-              }
-            });
-          }}
-          disabled={isFetching}
-        >
-          Trước
-        </Button> */}
         <CardTitle>
           <div className="text-xl font-bold  flex items-center gap-2 justify-center">
             Top 10 món ăn bán chạy
@@ -133,51 +102,6 @@ function TopDish({ restaurantId }: { restaurantId: string }) {
             )
           </div>
         </CardTitle>
-        {/* <Button
-          size={"sm"}
-          onClick={() => {
-            setDate((prevDate) => {
-              const currentDate = new Date(prevDate);
-              if (period === "week") {
-                return format(
-                  startOfWeek(addWeeks(currentDate, 1), { weekStartsOn: 1 }),
-                  "yyyy-MM-dd",
-                  {
-                    locale: vi,
-                  }
-                );
-              } else if (period === "month") {
-                return format(
-                  startOfMonth(addMonths(currentDate, 1)),
-                  "yyyy-MM-dd",
-                  { locale: vi }
-                );
-              } else {
-                return format(
-                  startOfYear(addYears(currentDate, 1)),
-                  "yyyy-MM-dd",
-                  { locale: vi }
-                );
-              }
-            });
-          }}
-          disabled={
-            (() => {
-              const currentDate = new Date(date);
-              const now = new Date();
-
-              if (period === "week") {
-                return isSameWeek(currentDate, now, { weekStartsOn: 1 });
-              } else if (period === "month") {
-                return isSameMonth(currentDate, now);
-              } else {
-                return isSameYear(currentDate, now);
-              }
-            })() || isFetching
-          }
-        >
-          Sau
-        </Button> */}
       </CardHeader>
       <div className="float-right flex items-center justify-center space-x-2 mr-2">
         <Select

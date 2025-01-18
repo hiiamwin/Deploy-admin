@@ -59,7 +59,7 @@ function TopCombo({ restaurantId }: { restaurantId: string }) {
   );
 
   const { data, isFetching } = useQuery({
-    queryKey: ["topCombo", { timeFrame: 1, date: date }],
+    queryKey: ["topCombo", { timeFrame: period, date: date }],
     queryFn: () =>
       getTopComboAction({
         timeFrame: period === "week" ? 0 : period === "month" ? 1 : 2,
