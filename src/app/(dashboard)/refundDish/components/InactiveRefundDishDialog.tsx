@@ -28,8 +28,9 @@ function InactiveRefundDishDialog({
       toast.success(data);
       handleOpen(false);
     },
-    onError: () => {
-      toast.error("Có lỗi xảy ra ");
+    onError: ({ error }) => {
+      toast.error(error.serverError);
+      handleOpen(false);
     },
   });
   const handleInactive = () => {

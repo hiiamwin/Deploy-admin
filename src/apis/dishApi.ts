@@ -78,8 +78,7 @@ export async function inactiveDish(id: string, token: string) {
   });
   if (!res.ok) {
     const data = await res.json();
-    console.log(data);
-    throw new Error("Something went wrong");
+    throw new MyError(data.statusCode, data.errors[0].message);
   }
   const data = await res.json();
   return data.message;
@@ -121,7 +120,6 @@ export async function changeDishPrice(
     throw new MyError(data.statusCode, data.message);
   }
   const data = await res.json();
-  console.log(data);
 
   return data.message;
 }
