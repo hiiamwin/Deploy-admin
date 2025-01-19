@@ -69,6 +69,7 @@ function TopUnpopularDish({ restaurantId }: { restaurantId: string }) {
 
     refetchOnWindowFocus: false,
   });
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center pb-2 space-y-0 justify-center">

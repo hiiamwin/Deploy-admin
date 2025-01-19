@@ -57,13 +57,17 @@ export async function inactiveCombo(id: string, token: string) {
     }
   );
   if (!response.ok) {
-    throw Error("Something went wrong");
+    const data = await response.json();
+    throw new MyError(data.statusCode, data.errors[0].message);
   }
   const data = await response.json();
+
   return data.message;
 }
 
 export async function activeCombo(id: string, token: string) {
+  console.log(id);
+
   const response = await fetch(`${process.env.API_URL}/v1/Combo/${id}/active`, {
     method: "PATCH",
     headers: {
@@ -71,7 +75,9 @@ export async function activeCombo(id: string, token: string) {
     },
   });
   if (!response.ok) {
-    throw Error("Something went wrong");
+    const data = await response.json();
+
+    throw new MyError(data.statusCode, data.message);
   }
   const data = await response.json();
   return data.message;

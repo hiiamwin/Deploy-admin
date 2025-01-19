@@ -26,13 +26,12 @@ function ActiveComboDialog({
       toast.success(data);
       handleOpen(false);
     },
-    onError: () => {
-      toast.error("Có lỗi xảy ra ");
+    onError: ({ error }) => {
+      toast.error(error.serverError);
+      handleOpen(false);
     },
   });
   const handleInactive = () => {
-    console.log("activeComboAction");
-
     execute({ id });
   };
   const handleOpen = (value: boolean) => {
